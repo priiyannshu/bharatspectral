@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperspectral Remote Sensing & Geoinformatics: Data Sources & Ingestion Scoping</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        fontSize: '16px',
+        primaryColor: '#e0f2fe',
+        primaryBorderColor: '#0284c7',
+        primaryTextColor: '#0f172a',
+        lineColor: '#475569',
+        secondaryColor: '#f1f5f9',
+        tertiaryColor: '#ffffff',
+        nodeBorder: '#64748b',
+        clusterBkg: '#f8fafc',
+        clusterBorder: '#cbd5e1'
+      },
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 55,
+        rankSpacing: 65,
+        padding: 24
+      }
+    });
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-light: #64748b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --emerald: #059669;
+      --emerald-light: #d1fae5;
+      --border: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.75;
+      padding: 48px 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* Hero Header */
+    header.hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0284c7, #0d9488, #10b981);
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-blue { background: var(--primary-light); color: var(--primary-dark); }
+    .tag-teal { background: var(--teal-light); color: var(--teal); }
+    .tag-emerald { background: var(--emerald-light); color: var(--emerald); }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    p.lead {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 960px;
+      font-weight: 400;
+    }
+
+    /* Section styling */
+    section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-subtitle {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .source-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .source-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .source-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .source-title {
+      font-size: 1.28rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .source-meta {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      background: var(--bg-subtle);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .spec-value {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .source-desc {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      flex-grow: 1;
+      line-height: 1.65;
+    }
+
+    .portal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-decoration: none;
+      background: var(--primary-light);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s ease;
+      width: fit-content;
+    }
+
+    .portal-link:hover {
+      background: #bae6fd;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.94rem;
+    }
+
+    th {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: #fcfdfe;
+    }
+
+    .code-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* Diagram containers */
+    .diagram-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+
+    .mermaid {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Explicit Mermaid Overrides for High Contrast & Readability */
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon {
+      stroke-width: 2px !important;
+    }
+
+    .mermaid .node .label {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      fill: #0f172a !important;
+      color: #0f172a !important;
+    }
+
+    .mermaid .edgePath path {
+      stroke: #64748b !important;
+      stroke-width: 2px !important;
+    }
+
+    /* Ingestion Stages */
+    .pipeline-step {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .pipeline-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 54px;
+      left: 27px;
+      bottom: -20px;
+      width: 3px;
+      background: #cbd5e1;
+    }
+
+    .step-badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #0284c7;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      border: 4px solid #bae6fd;
+      box-shadow: var(--shadow-sm);
+      z-index: 1;
+    }
+
+    .step-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      flex-grow: 1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .step-technical-details {
+      background: var(--bg-subtle);
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .step-technical-details ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .step-technical-details li {
+      margin-bottom: 6px;
+    }
+
+    .compute-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    /* Compute Resource Allocation Box */
+    .compute-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid #bae6fd;
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-top: 36px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .compute-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .compute-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0369a1;
+    }
+
+    /* Callout */
+    .callout {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 36px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .callout-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .callout-body h4 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #1e40af;
+      margin-bottom: 8px;
+    }
+
+    .callout-body p {
+      font-size: 0.95rem;
+      color: #1e3a8a;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 36px 0 16px;
+      color: var(--text-light);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border);
+      margin-top: 56px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="hero-tags">
+      <span class="tag tag-blue">Capstone Engineering Scope</span>
+      <span class="tag tag-teal">Geoinformatics & Remote Sensing</span>
+      <span class="tag tag-emerald">Indian Citizen Impact</span>
+    </div>
+    <h1>Hyperspectral Data Sources & Ingestion Scoping</h1>
+    <p class="lead">
+      A comprehensive directory of free, open-access spaceborne and airborne hyperspectral datasets available for India, their acquisition portals, compute requirements, and the 5-step data ingestion pipeline to generate analysis-ready datacubes.
+    </p>
+  </header>
+
+  <!-- Section 1: Overview & Data Scope Tree -->
+  <section>
+    <div class="section-title">
+      <span>1. Landscape & Taxonomy of Available Data</span>
+    </div>
+    <div class="section-subtitle">
+      All datasets below are 100% open-access and legally free to acquire as Indian engineering students.
+    </div>
+
+    <div class="diagram-card">
+      <div class="mermaid">
+        flowchart TD
+          classDef root fill:#0284c7,stroke:#0369a1,stroke-width:3px,color:#ffffff,font-weight:bold,font-size:16px;
+          classDef category fill:#dbeafe,stroke:#1d4ed8,stroke-width:2.5px,color:#1e3a8a,font-weight:bold,font-size:15px;
+          classDef indian fill:#f0f9ff,stroke:#0284c7,stroke-width:2px,color:#0f172a,font-size:14px;
+          classDef global fill:#f0fdfa,stroke:#0d9488,stroke-width:2px,color:#0f172a,font-size:14px;
+          classDef bench fill:#fffbeb,stroke:#d97706,stroke-width:2px,color:#0f172a,font-size:14px;
+
+          Root["Hyperspectral Data Ecosystem"]:::root
+
+          Root --> Indian["Indian Airborne & National Sensors"]:::category
+          Root --> Global["Global Spaceborne (India Coverage)"]:::category
+          Root --> Benchmarks["Reference & ML Benchmarks"]:::category
+
+          Indian --> IND1["<b>AVIRIS-NG India</b><br/>425 bands | 4–8m GSD<br/>80+ Target Sites"]:::indian
+          Indian --> IND2["<b>ISRO HySIS</b><br/>316 bands | 30m GSD<br/>Full India Landmass"]:::indian
+          Indian --> IND3["<b>EOS-06 / OCM-3</b><br/>13 VNIR bands | 360m<br/>Coastal & Ocean Waters"]:::indian
+
+          Global --> G1["<b>NASA EMIT (ISS)</b><br/>285 bands | 60m GSD<br/>Frequent Weekly Passes"]:::global
+          Global --> G2["<b>DLR EnMAP</b><br/>242 bands | 30m GSD<br/>Global Science Archive"]:::global
+          Global --> G3["<b>ASI PRISMA</b><br/>239 bands HSI + 5m PAN<br/>Academic Research Archive"]:::global
+
+          Benchmarks --> B1["<b>HySpecNet-11k</b><br/>11,483 EnMAP Patches<br/>Pre-training Foundation Models"]:::bench
+          Benchmarks --> B2["<b>USGS Spectral Lib v7</b><br/>4,845 Lab Signatures<br/>Endmember Unmixing Prior"]:::bench
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Detailed Source Profiles -->
+  <section>
+    <div class="section-title">
+      <span>2. Target Data Sources & Access Portals</span>
+    </div>
+    <div class="section-subtitle">
+      Specifications, coverage details, and direct access points for each candidate dataset.
+    </div>
+
+    <!-- Category A: Indian National Datasets -->
+    <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary-dark); margin: 28px 0 16px 0;">
+      A. Indian Airborne & National Missions
+    </h3>
+    <div class="card-grid">
+
+      <!-- Source 1: AVIRIS-NG India -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">AVIRIS-NG India</div>
+            <span class="tag tag-blue">Airborne High-Res</span>
+          </div>
+          <div class="source-meta">ISRO Space Applications Centre (SAC) & NASA JPL</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Spectral Bands</span>
+              <span class="spec-value">425 continuous</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">380 – 2510 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">4 – 8 meters</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Format</span>
+              <span class="spec-value">ENVI Binary + .hdr</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            Ultra high-resolution airborne flights covering <strong>80+ research sites across India</strong>: Cauvery agricultural delta, Punjab crop-residue/stubble zones, Jharia coalfields (mining/fires), Sundarbans mangroves, and Ahmedabad.
+          </p>
+        </div>
+
+        <a href="https://avirisng.jpl.nasa.gov/dataportal/" target="_blank" class="portal-link">
+          Open JPL / VEDAS Data Portal &rarr;
+        </a>
+      </div>
+
+      <!-- Source 2: HySIS -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">ISRO HySIS</div>
+            <span class="tag tag-blue">National Satellite</span>
+          </div>
+          <div class="source-meta">National Remote Sensing Centre (NRSC) / ISRO</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Spectral Bands</span>
+              <span class="spec-value">316 continuous</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">400 – 2500 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">30 meters</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Swath</span>
+              <span class="spec-value">30 km</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            India's dedicated full-spectrum Earth observation satellite. Provides spaceborne coverage over Indian agro-climatic zones, river basins, and mineral belts for district-scale mapping.
+          </p>
+        </div>
+
+        <a href="https://bhoonidhi.nrsc.gov.in" target="_blank" class="portal-link">
+          Open ISRO Bhoonidhi Portal &rarr;
+        </a>
+      </div>
+
+      <!-- Source 3: EOS-06 / OCM-3 -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">EOS-06 (OCM-3)</div>
+            <span class="tag tag-blue">Ocean / Coastal</span>
+          </div>
+          <div class="source-meta">ISRO Space Applications Centre & MOSDAC</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Spectral Bands</span>
+              <span class="spec-value">13 VNIR + 2 Thermal</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">400 – 1010 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">360 m / 1080 m</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Format</span>
+              <span class="spec-value">HDF5 / NetCDF-4</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            Launched in 2022. Provides dedicated ocean color and coastal water quality observations (chlorophyll, turbidity, sediment plumes) around the Indian coastline and major estuaries.
+          </p>
+        </div>
+
+        <a href="https://mosdac.gov.in" target="_blank" class="portal-link">
+          Open ISRO MOSDAC Portal &rarr;
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Category B: Global Open Spaceborne Sensors -->
+    <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--teal); margin: 36px 0 16px 0;">
+      B. Global Spaceborne Satellites (Continuous Indian Passes)
+    </h3>
+    <div class="card-grid">
+
+      <!-- Source 4: NASA EMIT -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">NASA EMIT (ISS)</div>
+            <span class="tag tag-teal">Open Global</span>
+          </div>
+          <div class="source-meta">NASA JPL / LP DAAC (International Space Station)</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Spectral Bands</span>
+              <span class="spec-value">285 continuous</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">381 – 2493 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">~60 meters</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">API Access</span>
+              <span class="spec-value">STAC & earthaccess</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            Instant global open access via NASA Earthdata login. Continuous passes over North and Central India. Ideal for soil minerals, crop stress, and greenhouse gas (methane) plume detection.
+          </p>
+        </div>
+
+        <a href="https://search.earthdata.nasa.gov/" target="_blank" class="portal-link">
+          Open NASA Earthdata Search &rarr;
+        </a>
+      </div>
+
+      <!-- Source 5: DLR EnMAP -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">DLR EnMAP</div>
+            <span class="tag tag-teal">Spaceborne Science</span>
+          </div>
+          <div class="source-meta">German Aerospace Center (DLR) & GFZ Potsdam</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Spectral Bands</span>
+              <span class="spec-value">242 continuous</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">420 – 2450 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">30 meters</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Format</span>
+              <span class="spec-value">GeoTIFF + XML</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            High signal-to-noise spaceborne spectrometer. Free for students/academic research (Category 1). Archive includes extensive multi-temporal tiles over Indian agro-ecological zones.
+          </p>
+        </div>
+
+        <a href="https://planning.enmap.org/" target="_blank" class="portal-link">
+          Open EnMAP Planning Portal &rarr;
+        </a>
+      </div>
+
+      <!-- Source 6: ASI PRISMA -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">ASI PRISMA</div>
+            <span class="tag tag-teal">Hyperspectral + Pan</span>
+          </div>
+          <div class="source-meta">Italian Space Agency (ASI)</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">HSI + PAN</span>
+              <span class="spec-value">239 Bands + 5m Pan</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">400 – 2505 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Spatial (GSD)</span>
+              <span class="spec-value">30m HSI / 5m PAN</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Format</span>
+              <span class="spec-value">HDF5 (.he5)</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            Unique sensor combining 239 hyperspectral bands with a co-registered 5-meter panchromatic camera, enabling super-resolution and pansharpening research over Indian cities and farms.
+          </p>
+        </div>
+
+        <a href="https://prisma.asi.it/" target="_blank" class="portal-link">
+          Open ASI PRISMA Portal &rarr;
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Category C: ML & Foundation Benchmarks -->
+    <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--amber); margin: 36px 0 16px 0;">
+      C. Deep Learning Benchmarks & Pure Reference Libraries
+    </h3>
+    <div class="card-grid">
+
+      <!-- Benchmark 1: HySpecNet-11k -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">HySpecNet-11k</div>
+            <span class="tag" style="background: var(--amber-light); color: var(--amber);">ML Foundation</span>
+          </div>
+          <div class="source-meta">TU Berlin RSiM Group (Demir et al.)</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Patches</span>
+              <span class="spec-value">11,483 tiles</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Patch Dimensions</span>
+              <span class="spec-value">128 × 128 × 224</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Source</span>
+              <span class="spec-value">EnMAP BOA L2A</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Integration</span>
+              <span class="spec-value">torchgeo native</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            The premier benchmark for training Self-Supervised Foundation Models (Spectral-MAE, ViTs) before fine-tuning on Indian target scenes. Available via Dryad.
+          </p>
+        </div>
+
+        <a href="https://doi.org/10.5061/dryad.fttdz08zh" target="_blank" class="portal-link">
+          Open Dryad Benchmark Repo &rarr;
+        </a>
+      </div>
+
+      <!-- Benchmark 2: USGS Spectral Library -->
+      <div class="source-card">
+        <div>
+          <div class="source-header">
+            <div class="source-title">USGS Spectral Lib v7</div>
+            <span class="tag" style="background: var(--amber-light); color: var(--amber);">Reference Signatures</span>
+          </div>
+          <div class="source-meta">US Geological Survey Spectroscopy Lab</div>
+          
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Signatures</span>
+              <span class="spec-value">4,845 spectra</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Wavelength</span>
+              <span class="spec-value">200 – 200,000 nm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Categories</span>
+              <span class="spec-value">Minerals, Crops, Soils</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Format</span>
+              <span class="spec-value">ASCII CSV / ENVI .sli</span>
+            </div>
+          </div>
+
+          <p class="source-desc">
+            High-precision laboratory reference curves. Used as the mathematical ground truth for spectral unmixing, autoencoder regularization, and endmember identification.
+          </p>
+        </div>
+
+        <a href="https://dx.doi.org/10.5066/F7RR1WDJ" target="_blank" class="portal-link">
+          Open USGS ScienceBase &rarr;
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 3: Summary Matrix Table -->
+  <section>
+    <div class="section-title">
+      <span>3. Portal Access & Eligibility Comparison Matrix</span>
+    </div>
+    <div class="section-subtitle">
+      Quick-reference summary for data acquisition and authorization terms.
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset / Sensor</th>
+            <th>Operating Agency</th>
+            <th>Bands & Wavelength</th>
+            <th>Spatial Resolution</th>
+            <th>Eligibility & Access Terms</th>
+            <th>Primary Format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AVIRIS-NG India</strong></td>
+            <td>ISRO SAC / NASA JPL</td>
+            <td>425 bands (380–2510 nm)</td>
+            <td>4 – 8 m GSD</td>
+            <td><strong>100% Free</strong> (Open on NASA JPL / Academic registration on VEDAS)</td>
+            <td><span class="code-chip">ENVI .dat + .hdr</span></td>
+          </tr>
+          <tr>
+            <td><strong>ISRO HySIS</strong></td>
+            <td>ISRO / NRSC</td>
+            <td>316 bands (400–2500 nm)</td>
+            <td>30 m GSD</td>
+            <td><strong>Free</strong> for Indian citizens & students (OTP & institutional signup)</td>
+            <td><span class="code-chip">GeoTIFF / HDF5</span></td>
+          </tr>
+          <tr>
+            <td><strong>NASA EMIT</strong></td>
+            <td>NASA JPL / LP DAAC</td>
+            <td>285 bands (381–2493 nm)</td>
+            <td>~60 m GSD</td>
+            <td><strong>100% Free & Open</strong> (Instant NASA Earthdata login, STAC API)</td>
+            <td><span class="code-chip">NetCDF-4 / COG</span></td>
+          </tr>
+          <tr>
+            <td><strong>DLR EnMAP</strong></td>
+            <td>DLR Germany / GFZ</td>
+            <td>242 bands (420–2450 nm)</td>
+            <td>30 m GSD</td>
+            <td><strong>Free</strong> for Science/Education (Institutional email registration)</td>
+            <td><span class="code-chip">GeoTIFF + XML</span></td>
+          </tr>
+          <tr>
+            <td><strong>ASI PRISMA</strong></td>
+            <td>ASI (Italy)</td>
+            <td>239 bands HSI + 5m PAN</td>
+            <td>30 m HSI / 5 m PAN</td>
+            <td><strong>Free</strong> for research projects (Brief proposal form, 2-day approval)</td>
+            <td><span class="code-chip">HDF5 (.he5)</span></td>
+          </tr>
+          <tr>
+            <td><strong>HySpecNet-11k</strong></td>
+            <td>TU Berlin (EnMAP)</td>
+            <td>224 bands (Cleaned)</td>
+            <td>30 m (128x128 px)</td>
+            <td><strong>100% Open Access</strong> via Dryad Repository & TorchGeo</td>
+            <td><span class="code-chip">PyTorch / NumPy</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 4: Data Ingestion & Preprocessing Workflow -->
+  <section>
+    <div class="section-title">
+      <span>4. The 5-Step Ingestion & Preprocessing Workflow</span>
+    </div>
+    <div class="section-subtitle">
+      Detailed technical execution of how raw downloaded multi-format data is systematically transformed into standardized, analysis-ready cubes.
+    </div>
+
+    <!-- Visual Flow Diagram -->
+    <div class="diagram-card">
+      <div class="mermaid">
+        flowchart LR
+          classDef raw fill:#fee2e2,stroke:#b91c1c,stroke-width:2px,color:#7f1d1d,font-weight:bold,font-size:14px;
+          classDef stage fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0f172a,font-weight:bold,font-size:14px;
+          classDef out fill:#d1fae5,stroke:#059669,stroke-width:2.5px,color:#064e3b,font-weight:bold,font-size:14px;
+
+          subgraph S1["1. Raw Ingestion"]
+            R1["ENVI .hdr/.dat<br/>(AVIRIS-NG)"]:::raw
+            R2["NetCDF-4 .nc<br/>(NASA EMIT)"]:::raw
+            R3["HDF5 .he5<br/>(ASI PRISMA)"]:::raw
+            R4["GeoTIFF + XML<br/>(EnMAP)"]:::raw
+          end
+
+          subgraph S2["2. Atmospheric & Quality Filtering"]
+            P1["Parse & Align<br/>Wavelength Vectors"]:::stage
+            P2["Bad Band Removal<br/>1350–1420 & 1800–1950nm"]:::stage
+            P3["Bitwise Quality Masking<br/>& Float32 Rescaling"]:::stage
+          end
+
+          subgraph S3["3. Spatial Structuring"]
+            T1["Sliding Window Tiling<br/>128x128 Spatial Patches"]:::stage
+            T2["Metadata Stamping<br/>(EPSG / Affine Transforms)"]:::stage
+          end
+
+          subgraph S4["4. Standardized Output Artifacts"]
+            O1["<b>Zarr Datacubes (.zarr)</b><br/>(Time, Band, Y, X)"]:::out
+            O2["<b>Cloud-Optimized GeoTIFF</b><br/>(Internal Pyramids / COG)"]:::out
+            O3["<b>Spectral Signatures CSV</b><br/>(Wavelengths x Refl)"]:::out
+          end
+
+          R1 --> P1
+          R2 --> P1
+          R3 --> P1
+          R4 --> P1
+
+          P1 --> P2 --> P3 --> T1 --> T2
+          T2 --> O1
+          T2 --> O2
+          T2 --> O3
+      </div>
+    </div>
+
+    <!-- Step by step details with exhaustive technical depth -->
+    <div class="pipeline-step">
+      <div class="step-badge">1</div>
+      <div class="step-content">
+        <div class="step-title">
+          <span>Step 1: Multi-Format Ingestion & Coordinate Reference Standardization</span>
+          <span class="code-chip">Python: rasterio, spectral, h5py, netCDF4</span>
+        </div>
+        <p class="step-desc">
+          Raw downloads arrive in disparate formats with different axis interleaving (BIL/BIP/BSQ) and projection systems. This step unifies all inputs into standard in-memory arrays with geodetic coordinates.
+        </p>
+        <div class="step-technical-details">
+          <strong>Key Operations & Technical Parameters:</strong>
+          <ul>
+            <li><strong>Axis Re-ordering:</strong> Standardize array dimensions to <code>(Channels, Height, Width)</code> regardless of whether the source is Band Interleaved by Line (BIL) or Band Sequential (BSQ).</li>
+            <li><strong>Coordinate Standardization:</strong> Reproject spatial bounding boxes from local UTM zones (e.g., UTM 43N / 44N across India) to standard <code>EPSG:4326</code> (WGS84) and <code>EPSG:3857</code> (Web Mercator for web rendering).</li>
+            <li><strong>Memory Optimization:</strong> Use memory-mapped I/O (<code>numpy.memmap</code>) and chunked windows via <code>rioxarray</code> to ensure 2–4 GB raw scenes load in &lt;1.5 GB RAM without full-file decompression.</li>
+          </ul>
+        </div>
+        <div>
+          <span class="compute-pill">💻 Runs on: Local Laptop or AIRAWAT CPU</span>
+          <span class="compute-pill">⏱ Execution Time: ~45–60 sec per flight line</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-step">
+      <div class="step-badge">2</div>
+      <div class="step-content">
+        <div class="step-title">
+          <span>Step 2: Physics-Based Bad Band Removal (BBR) & Sensor Edge Truncation</span>
+          <span class="code-chip">Radiometric Calibration</span>
+        </div>
+        <p class="step-desc">
+          Solar radiation is heavily absorbed by atmospheric gases ($\text{H}_2\text{O}$ and $\text{CO}_2$), leaving zero-SNR "blind zones". Retaining these noisy bands introduces extreme variance into downstream AI models.
+        </p>
+        <div class="step-technical-details">
+          <strong>Spectral Filtering Rules:</strong>
+          <ul>
+            <li><strong>Water Vapor Absorption Windows (Removed):</strong>
+              <ul>
+                <li>$\alpha$-band: <code>1350 nm – 1420 nm</code> (Deep atmospheric moisture opacity)</li>
+                <li>$\rho\sigma\tau$-band: <code>1800 nm – 1950 nm</code> (Water vapor + atmospheric $\text{CO}_2$)</li>
+              </ul>
+            </li>
+            <li><strong>Detector Edge Artifacts (Removed):</strong> Strip noisy channels at extreme limits: <code>&lt; 400 nm</code> (low sensor quantum efficiency) and <code>&gt; 2450 nm</code> (thermal noise).</li>
+            <li><strong>Channel Dimension Reduction:</strong> Reduces raw 425 bands (AVIRIS-NG) or 285 bands (NASA EMIT) down to <strong>200–224 clean, high-SNR scientific channels</strong>.</li>
+          </ul>
+        </div>
+        <div>
+          <span class="compute-pill">💻 Runs on: Local Laptop or AIRAWAT CPU</span>
+          <span class="compute-pill">⏱ Execution Time: ~15 sec per scene</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-step">
+      <div class="step-badge">3</div>
+      <div class="step-content">
+        <div class="step-title">
+          <span>Step 3: Bitwise Quality Masking, Radiometric Scaling & Anomaly Cleaning</span>
+          <span class="code-chip">Quality Control & Normalization</span>
+        </div>
+        <p class="step-desc">
+          Spaceborne sensors provide companion quality assurance (QA) rasters containing bitwise flags for clouds, cirrus, cloud shadows, and detector saturation.
+        </p>
+        <div class="step-technical-details">
+          <strong>Quality & Normalization Rules:</strong>
+          <ul>
+            <li><strong>Bitmask Application:</strong> Evaluate bit flags in <code>EMITL2AMASK</code> or EnMAP QA layers to set cloud-covered and shadow pixels to <code>NaN</code>.</li>
+            <li><strong>Bad Pixel Handling:</strong> Identify dead detector pixels (values &le; 0 or &gt; 10,000) and perform spatial neighborhood median interpolation.</li>
+            <li><strong>Dynamic Range Normalization:</strong> Convert 16-bit integer Digital Numbers (DN scaled $\times 10,000$) to continuous 32-bit floating point surface reflectance $\rho \in [0.0, 1.0]$.</li>
+          </ul>
+        </div>
+        <div>
+          <span class="compute-pill">💻 Runs on: Local Laptop or AIRAWAT CPU</span>
+          <span class="compute-pill">⏱ Execution Time: ~20 sec per scene</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-step">
+      <div class="step-badge">4</div>
+      <div class="step-content">
+        <div class="step-title">
+          <span>Step 4: Spatial-Spectral Patching & Sliding Window Structuring</span>
+          <span class="code-chip">Deep Learning Tiling</span>
+        </div>
+        <p class="step-desc">
+          Full hyperspectral scenes (e.g. 10,000 &times; 800 pixels) cannot fit in GPU VRAM during training. They are decomposed into standardized spatial-spectral patches.
+        </p>
+        <div class="step-technical-details">
+          <strong>Patching & Geometry Rules:</strong>
+          <ul>
+            <li><strong>Tile Dimensions:</strong> Decompose continuous flight strips into non-overlapping or 50%-strided $128 \times 128 \times 224$ or $64 \times 64 \times 224$ sub-cubes.</li>
+            <li><strong>Background Filtering:</strong> Automatically discard tiles where $>30\%$ of pixels contain clouds, water (unless studying water quality), or nodata padding.</li>
+            <li><strong>Spatial Metadata Stamping:</strong> Every patch preserves its unique affine transform matrix and corner bounding box for seamless reassembly after inference.</li>
+          </ul>
+        </div>
+        <div>
+          <span class="compute-pill">💻 Runs on: Local Laptop or AIRAWAT CPU</span>
+          <span class="compute-pill">⏱ Execution Time: ~1–2 min per flight line</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-step">
+      <div class="step-badge">5</div>
+      <div class="step-content">
+        <div class="step-title">
+          <span>Step 5: Output Serialization into Analysis-Ready Datacubes</span>
+          <span class="code-chip">Final Storage Artifacts</span>
+        </div>
+        <p class="step-desc">
+          The pipeline terminates at three standardized, cloud-native storage artifacts that decouple data preparation from AI modeling and web serving.
+        </p>
+        <div class="step-technical-details">
+          <strong>The 3 Output Artifacts Produced:</strong>
+          <ul>
+            <li><strong>1. Standardized Zarr Datacubes (<code>.zarr</code>):</strong> Compressed multi-dimensional N-D arrays chunked along <code>(chunk_y=128, chunk_x=128, chunk_b=32)</code> with Blosc/Zstandard compression. Enables lightning-fast distributed parallel reads during AIRAWAT training.</li>
+            <li><strong>2. Cloud-Optimized GeoTIFFs (COGs):</strong> Geotagged rasters with internal overview pyramids (downsampled zoom levels) optimized for HTTP Range requests on Cloudflare R2.</li>
+            <li><strong>3. Tabular Spectral Signature Reference (<code>.parquet</code> / <code>.csv</code>):</strong> Calibrated pure-pixel reflectance curves mapped to known field coordinates for baseline spectral angle mapping (SAM) and unmixing priors.</li>
+          </ul>
+        </div>
+        <div>
+          <span class="compute-pill">💻 Output Location: Local Storage / Cloudflare R2 / Scratch Disk</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Section 5: Compute Strategy & Resource Planning -->
+  <section>
+    <div class="section-title">
+      <span>5. Compute Strategy & Resource Allocation</span>
+    </div>
+    <div class="section-subtitle">
+      How to strategically partition workloads across your Laptop, AIRAWAT CPU/GPU allocations, and Cloudflare.
+    </div>
+
+    <div class="compute-card">
+      <div class="compute-header">
+        <div style="font-size: 2rem;">⚡</div>
+        <div>
+          <div class="compute-title">Workload Partitioning: Where Does Each Step Execute?</div>
+          <div style="font-size: 0.94rem; color: var(--text-muted);">
+            Optimizing the use of your <strong>AIRAWAT 7GB / 3.2-Core CPU</strong> and <strong>4-Hour GPU (5GB VRAM)</strong> allocation.
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container" style="margin: 20px 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Pipeline Phase</th>
+              <th>Primary Operations</th>
+              <th>Recommended Compute Environment</th>
+              <th>RAM & Resource Footprint</th>
+              <th>GPU Window Required?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1: Ingestion & Preprocessing</strong> (Steps 1–5)</td>
+              <td>Downloading scenes, parsing .hdr/NetCDF, bad band removal, quality filtering, tiling into Zarr/COGs.</td>
+              <td><strong>Local Laptop OR AIRAWAT 7GB CPU Node</strong><br/><em>(Pure CPU & Disk I/O bound array processing)</em></td>
+              <td><strong>1.5 GB – 3.0 GB RAM</strong><br/>(Handled easily via chunked streaming)</td>
+              <td><span class="code-chip" style="background:#fef2f2; color:#991b1b;">NO (0% GPU needed)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Phase 2: Baseline Model Training</strong></td>
+              <td>Training initial 1D/2D CNNs, Random Forests, and Spectral Angle Mappers.</td>
+              <td><strong>Local Laptop (CPU/GPU) OR AIRAWAT 4-hr GPU</strong></td>
+              <td><strong>2.0 GB – 4.0 GB VRAM</strong></td>
+              <td><span class="code-chip" style="background:#fefce8; color:#854d0e;">Optional / Fast Test</span></td>
+            </tr>
+            <tr>
+              <td><strong>Phase 3: Heavy Foundation AI & Distillation</strong></td>
+              <td>Training Spectral-MAE (Masked Autoencoder), 3D Spatial-Spectral ViT, and Teacher-Student Knowledge Distillation.</td>
+              <td><strong>AIRAWAT 4-hour GPU Windows (5GB VRAM)</strong><br/><em>& Future 20GB GPU allocation</em></td>
+              <td><strong>4.5 GB – 16.0 GB VRAM</strong><br/>(Distributed PyTorch DDP / Mixed Precision FP16)</td>
+              <td><span class="code-chip" style="background:#ecfdf5; color:#065f46;">YES (Crucial for GPU)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Phase 4: Edge Model Quantization & Compilation</strong></td>
+              <td>Quantization-Aware Training (QAT), Post-Training INT8 Quantization, and <code>edgetpu_compiler</code> execution.</td>
+              <td><strong>Local Laptop (Linux / PCIe)</strong></td>
+              <td><strong>&lt; 2.0 GB RAM</strong></td>
+              <td><span class="code-chip" style="background:#fef2f2; color:#991b1b;">NO (Runs on CPU/TPU)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Phase 5: Public Web Serving & Visualizer</strong></td>
+              <td>Serving COGs, dynamic spectral charts, and citizen WebGIS map queries.</td>
+              <td><strong>Cloudflare Ecosystem (Pages + Workers + R2)</strong></td>
+              <td><strong>Serverless Edge (Zero idle compute cost)</strong></td>
+              <td><span class="code-chip" style="background:#fef2f2; color:#991b1b;">NO (Edge Serverless)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 20px; font-size: 0.93rem; color: var(--text-muted); line-height: 1.7;">
+        <strong>💡 Key Strategic Takeaway for the Team:</strong><br/>
+        Data downloading and the 5 preprocessing steps are strictly <strong>CPU and Disk I/O bound</strong>. They do not require GPUs at all. Because we stream and chunk data using <code>rioxarray</code> and <code>zarr</code>, the memory footprint never exceeds ~2.5 GB. 
+        <br/><br/>
+        Therefore, you can run all data preprocessing on your local laptop or on the basic AIRAWAT 7GB CPU environment immediately. <strong>Save your 4-hour GPU windows (and the upcoming 20GB tier) exclusively for training the heavy Deep Learning Transformer / 3D-CNN models.</strong>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">📍</div>
+      <div class="callout-body">
+        <h4>The Processed Data Handoff Point</h4>
+        <p>
+          This completes the data sourcing, compute resource scoping, and ingestion boundary. Once these standardized <strong>Zarr cubes</strong> and <strong>COGs</strong> are created, they serve as the single source of truth for all downstream AI training on <strong>AIRAWAT</strong>, hosting on <strong>Cloudflare R2</strong>, and offline distillation onto the <strong>Google Coral Edge TPU</strong>.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Hyperspectral Geoinformatics Capstone Scoping &bull; Prepared for Engineering Capstone Review &bull; 2026</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperspectral Intelligence System: Team Workflow & Tech Stack</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        fontSize: '16px',
+        primaryColor: '#e0f2fe',
+        primaryBorderColor: '#0284c7',
+        primaryTextColor: '#0f172a',
+        lineColor: '#475569',
+        secondaryColor: '#f1f5f9',
+        tertiaryColor: '#ffffff',
+        nodeBorder: '#64748b',
+        clusterBkg: '#f8fafc',
+        clusterBorder: '#cbd5e1'
+      },
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 55,
+        rankSpacing: 65,
+        padding: 24
+      }
+    });
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-light: #64748b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --emerald: #059669;
+      --emerald-light: #d1fae5;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
+      --border: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.75;
+      padding: 48px 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* Hero Header */
+    header.hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0284c7, #0d9488, #7c3aed);
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-blue { background: var(--primary-light); color: var(--primary-dark); }
+    .tag-teal { background: var(--teal-light); color: var(--teal); }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    p.lead {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 960px;
+      font-weight: 400;
+    }
+
+    /* Section styling */
+    section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .section-subtitle {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* Code & Details */
+    .code-block {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      overflow-x: auto;
+      line-height: 1.5;
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    .code-comment { color: #64748b; }
+    .code-keyword { color: #38bdf8; }
+    .code-string { color: #a7f3d0; }
+    .code-function { color: #c084fc; }
+
+    /* Diagram containers */
+    .diagram-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+
+    .mermaid {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Overrides for High Contrast */
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon { stroke-width: 2px !important; }
+    .mermaid .node .label {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      fill: #0f172a !important;
+      color: #0f172a !important;
+    }
+    .mermaid .edgePath path { stroke: #64748b !important; stroke-width: 2px !important; }
+
+    /* Callouts */
+    .callout {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 36px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .callout-icon { font-size: 1.8rem; line-height: 1; }
+    .callout-body h4 { font-size: 1.12rem; font-weight: 800; color: #1e40af; margin-bottom: 8px; }
+    .callout-body p { font-size: 0.95rem; color: #1e3a8a; line-height: 1.7; }
+    
+    .callout-purple {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+    }
+    .callout-purple .callout-body h4 { color: #4c1d95; }
+    .callout-purple .callout-body p { color: #5b21b6; }
+
+    footer {
+      text-align: center;
+      padding: 36px 0 16px;
+      color: var(--text-light);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border);
+      margin-top: 56px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="hero-tags">
+      <span class="tag tag-blue">Team Onboarding</span>
+      <span class="tag tag-teal">HPC & Notebooks</span>
+      <span class="tag tag-purple">AI Agent Tooling</span>
+    </div>
+    <h1>Team Handbook: Engineering Workflow & Tech Stack</h1>
+    <p class="lead">
+      Welcome to the Hyperspectral Intelligence System project. This handbook outlines our deterministic computing environment on IndiaAI AIRAWAT, the stateful agentic code harness that will act as your interactive tutor, and the pedagogical roadmap leading us through Phase 5.
+    </p>
+  </header>
+
+  <!-- Section 1: The Master Architecture & Workflow -->
+  <section>
+    <h2 class="section-title">1. The Session Lifecycle & Architecture</h2>
+    <p class="section-subtitle">Understanding how our ephemeral web sessions persist your work.</p>
+    
+    <div class="diagram-card">
+      <div class="mermaid">
+        flowchart TD
+            subgraph R2["Cloudflare R2 (Persistent Storage Backend)"]
+                G[Golden Env Archive] 
+                D[Pre-Ingested Datasets / Zarr]
+                U[User State & Memory Stores]
+            end
+
+            subgraph AWS["AIRAWAT Web Portal (Ephemeral Session)"]
+                direction TB
+                Start([Open Jupyter Notebook]) --> Cell1[Run Cell 1: btp_session.init]
+                Cell1 -->|Mounts Env & Pulls State| Env[Golden Environment Active]
+                
+                Env --> Work[Interactive Work & Learning]
+                Work -->|Uses Socratic AI Tutor| AGY[agy CLI Terminal]
+                
+                Work --> CellN[Run Last Cell: btp_session.snapshot]
+                CellN -->|Pushes Notebooks & Agent Memories| End([Close Session])
+            end
+
+            G -.->|Injected instantly| Cell1
+            D -.->|Zero-egress stream| Work
+            Cell1 <-->|Sync State| U
+            CellN -->|Backup State| U
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>Why this architecture?</h3>
+      <p style="margin-top: 12px; color: var(--text-muted);">
+        AIRAWAT sessions are <strong>ephemeral</strong>. When you request a CPU/GPU web session, you are assigned a clean container. If we relied on manual setup, you would spend hours installing PyTorch and GDAL dependencies every session. 
+        <br><br>
+        Instead, the project lead has built a <strong>Golden Environment</strong>. By running a single initialization command at the top of your notebook, your environment is perfectly configured, your previous code is restored from R2, and your AI tutor's memory is synced. When you are done, one command saves everything safely back to the cloud.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 2: Frameworks and the Golden Environment -->
+  <section>
+    <h2 class="section-title">2. Languages, Frameworks & Data Pipeline</h2>
+    <p class="section-subtitle">A unified stack for hyperspectral machine learning.</p>
+    
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="color: var(--primary-dark); margin-bottom: 8px;">🐍 Core ML & Geospatial</h3>
+        <ul style="color: var(--text-muted); padding-left: 20px; line-height: 1.8;">
+          <li><strong>Python 3.10</strong> (Strict pinned dependencies)</li>
+          <li><strong>PyTorch 2.x</strong> (with AMP / bfloat16 for A100 Tensor Cores)</li>
+          <li><strong>Rasterio & RioXarray</strong> (Windowed geospatial raster reading)</li>
+          <li><strong>Spectral Python (SPy)</strong> (Hyperspectral algorithms)</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3 style="color: var(--teal); margin-bottom: 8px;">☁️ Storage & Big Data</h3>
+        <ul style="color: var(--text-muted); padding-left: 20px; line-height: 1.8;">
+          <li><strong>Cloudflare R2</strong> ($0 Egress S3-compatible object storage)</li>
+          <li><strong>s3fs / fsspec</strong> (Direct filesystem hooks to R2)</li>
+          <li><strong>Zarr & Xarray</strong> (Chunked N-dimensional datacubes)</li>
+          <li><strong>Dask</strong> (Out-of-core calculations to prevent RAM crashes)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: The Code Harness (Your AI Tutor) -->
+  <section>
+    <h2 class="section-title">3. The Code Harness: <code>agy cli</code></h2>
+    <p class="section-subtitle">Your personalized, stateful AI tutor for navigating the codebase.</p>
+    
+    <div class="card">
+      <p style="color: var(--text-muted); margin-bottom: 20px;">
+        As you work through notebooks in your browser, you will also open a <strong>Web Terminal</strong> tab inside JupyterLab. Here, you will run <code>agy</code>, our custom Antigravity CLI agent harness.
+      </p>
+      
+      <p style="color: var(--text-muted); margin-bottom: 20px;">
+        <strong>Socratic Custom Skills:</strong> The agent has been pre-configured with project-specific skills (e.g., <code>hyperspectral-tutor</code>, <code>r2-data-streamer</code>). It is designed to act as your tutor. If you don't understand <em>why</em> we remove certain atmospheric bands, ask the agent. It knows the context of our project and will guide you step-by-step.
+      </p>
+
+      <div class="code-block">
+        <span class="code-comment"># In your Jupyter Web Terminal, simply type:</span><br>
+        $ agy<br><br>
+        <span class="code-comment"># The agent is loaded with our project's context. Try asking:</span><br>
+        > "Explain why we drop the 1350–1420 nm bands in Phase 1, and check my tensor shape."
+      </div>
+      
+      <p style="color: var(--text-muted); margin-top: 20px;">
+        Because of our <code>btp_session.snapshot()</code> pipeline, the agent <strong>remembers</strong> your conversations across sessions. It knows what you learned yesterday and will adapt its guidance accordingly.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 4: Operating the Notebooks -->
+  <section>
+    <h2 class="section-title">4. Anatomy of a Session</h2>
+    <p class="section-subtitle">The standard protocol for opening and closing your work.</p>
+
+    <div class="card">
+      <h3 style="margin-bottom: 12px;">Start of Session (Cell 1)</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">Run this cell the moment you open a notebook to mount the environment and pull your latest codebase and agent memories.</p>
+      <div class="code-block" style="margin-top: 0;">
+<span class="code-comment"># ---------------------------------------------------------</span>
+<span class="code-comment"># STEP 1: INITIALIZE YOUR SESSION & RESTORE YOUR AGENT MEMORY</span>
+<span class="code-comment"># ---------------------------------------------------------</span>
+<span class="code-keyword">import</span> sys, os
+!curl -s -O https://raw.githubusercontent.com/.../btp_session.py
+<span class="code-keyword">import</span> btp_session
+
+<span class="code-comment"># Mounts environment and pulls your state from R2</span>
+btp_session.<span class="code-function">init</span>(member_id=<span class="code-string">"your_name"</span>)
+      </div>
+
+      <h3 style="margin-bottom: 12px; margin-top: 32px;">End of Session (Final Cell)</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">Never close the browser window without running the snapshot cell, or your day's work and agent memories will be lost with the ephemeral container.</p>
+      <div class="code-block" style="margin-top: 0;">
+<span class="code-comment"># ---------------------------------------------------------</span>
+<span class="code-comment"># STEP LAST: BACK UP YOUR PROGRESS & AGENT SESSIONS</span>
+<span class="code-comment"># ---------------------------------------------------------</span>
+btp_session.<span class="code-function">snapshot</span>()
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: The Roadmap -->
+  <section>
+    <h2 class="section-title">5. The Pedagogical Roadmap</h2>
+    <p class="section-subtitle">How we build up to the core intelligence of the system.</p>
+
+    <div class="card">
+      <h3 style="color: var(--primary-dark); margin-bottom: 12px;">🌱 Phases 1 & 2: Independent Hands-On Learning</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        You will complete these phases on your own, guided by the interactive notebooks and the <code>agy</code> tutor. You will learn to stream AVIRIS-NG datasets from R2, apply Bad Band Removal (BBR), map spectral signatures (like the chlorophyll red-edge), and build baseline 1D/2D PyTorch classifiers. By the end, hyperspectral data formats and dimensions $(H \times W \times B)$ will become second nature to you.
+      </p>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 24px 0;">
+
+      <h3 style="color: var(--purple); margin-bottom: 12px;">🧠 Phase 3: The Creative Core (Foundation Models)</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Once the team is fluent in the basics, we unite for the heaviest and most critical phase: <strong>Phase 3</strong>. Here, we move beyond tutorials. We will collaboratively design a novel <strong>Spatial-Spectral Masked Autoencoder (Spectral-MAE)</strong>. This involves 3D patch tokenization, attention mechanisms across hundreds of bands, and Knowledge Distillation to compress heavy models. This is where the true innovation of the project is forged.
+      </p>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 24px 0;">
+
+      <h3 style="color: var(--teal); margin-bottom: 12px;">🚀 Phases 4 & 5: Platform Engineering & Edge Deployment</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        With the intelligence artifacts forged in Phase 3, the final phases transition into heavy software engineering (Cloudflare WebGIS platforms, R2 tile streaming APIs, and Google Coral INT8 edge deployments). <strong>The project lead will take primary ownership of the Phase 4 & 5 deployment execution</strong>, allowing the rest of the team to focus purely on the machine learning research outcomes.
+      </p>
+    </div>
+
+    <div class="callout callout-purple">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <h4>The Goal of this Workflow</h4>
+        <p>
+          By automating environment setup and state management, we eliminate "DevOps fatigue." You can focus 100% of your energy on learning hyperspectral ML concepts, leaning heavily on the custom agent harness to guide you, so we are all operating at peak capability when the demanding Phase 3 begins.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Hyperspectral Intelligence System &bull; Engineering Capstone &bull; IndiaAI AIRAWAT HPC</p>
+</footer>
+
+</body>
+</html>

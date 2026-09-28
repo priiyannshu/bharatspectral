@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Satellite Intelligence to Citizen Action</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        fontFamily: "Plus Jakarta Sans, sans-serif",
+        fontSize: "15px",
+        primaryColor: "#e0f2fe",
+        primaryBorderColor: "#0284c7",
+        primaryTextColor: "#0f172a",
+        lineColor: "#475569",
+        secondaryColor: "#f1f5f9",
+        tertiaryColor: "#ffffff",
+        nodeBorder: "#64748b",
+        clusterBkg: "#f8fafc",
+        clusterBorder: "#cbd5e1"
+      },
+      flowchart: {
+        curve: "basis",
+        nodeSpacing: 45,
+        rankSpacing: 55,
+        padding: 20
+      }
+    });
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-light: #64748b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --emerald: #059669;
+      --emerald-light: #d1fae5;
+      --purple: #7c3aed;
+      --purple-dark: #6d28d9;
+      --purple-light: #ede9fe;
+      --indigo: #4f46e5;
+      --indigo-light: #e0e7ff;
+      --border: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header.hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+    
+    .hero-tags {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    
+    .tag-blue { background: var(--primary-light); color: var(--primary-dark); }
+    .tag-teal { background: var(--teal-light); color: var(--teal); }
+    .tag-purple { background: var(--purple-light); color: var(--purple-dark); }
+    .tag-emerald { background: var(--emerald-light); color: var(--emerald); }
+    .tag-amber { background: var(--amber-light); color: var(--amber); }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+    
+    .hero p.lead {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-light);
+      max-width: 700px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon.purple { background: var(--purple-light); color: var(--purple-dark); }
+    .feature-icon.blue { background: var(--primary-light); color: var(--primary-dark); }
+    .feature-icon.teal { background: var(--teal-light); color: var(--teal); }
+    .feature-icon.amber { background: var(--amber-light); color: var(--amber); }
+    .feature-icon.emerald { background: var(--emerald-light); color: var(--emerald); }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      flex-grow: 1;
+      margin-bottom: 20px;
+    }
+
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .diagram-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+      margin: 40px 0;
+      overflow-x: auto;
+    }
+    
+    .diagram-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    
+    .diagram-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    
+    .diagram-desc {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .callout {
+      padding: 20px 24px;
+      border-radius: var(--radius-sm);
+      margin: 24px 0;
+      border-left: 4px solid;
+    }
+    
+    .callout h4 {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+    
+    .callout p {
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .callout-blue { background: var(--primary-light); border-color: var(--primary); color: var(--text-main); }
+    .callout-purple { background: var(--purple-light); border-color: var(--purple); color: var(--text-main); }
+    .callout-teal { background: var(--teal-light); border-color: var(--teal); color: var(--text-main); }
+    .callout-amber { background: var(--amber-light); border-color: var(--amber); color: var(--text-main); }
+    .callout-emerald { background: var(--emerald-light); border-color: var(--emerald); color: var(--text-main); }
+
+    .step-card {
+      display: flex;
+      gap: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .step-content {
+      flex-grow: 1;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .step-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg-subtle);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .vision-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      border-radius: var(--radius);
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vision-header { margin-bottom: 32px; }
+    
+    .vision-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--primary-light);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .vision-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .vision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .vision-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px;
+      border-radius: var(--radius-sm);
+    }
+
+    .vision-item h4 {
+      font-size: 1.1rem;
+      color: var(--primary-light);
+      margin-bottom: 8px;
+    }
+    
+    .vision-item p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .checklist {
+      list-style: none;
+    }
+    
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius-sm);
+    }
+    
+    .check-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 700;
+    }
+    
+    .check-icon.done {
+      background: var(--emerald);
+      color: white;
+    }
+    
+    .check-icon.pending {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .check-text {
+      color: #f8fafc;
+      font-weight: 500;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    
+    th, td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    th {
+      background: var(--bg-subtle);
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    tr:last-child td { border-bottom: none; }
+
+    /* New Classes */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    
+    .stat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+    
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .scenario-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+    }
+    
+    .journey-card {
+      border-left: 4px solid var(--primary);
+      padding-left: 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+    
+    .journey-card::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 4px solid var(--bg-body);
+    }
+
+    .comparison-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin: 24px 0;
+    }
+    
+    .comparison-item {
+      flex: 1;
+      min-width: 300px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .section-title { font-size: 1.75rem; }
+      .step-card { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-tags">
+        <span class="tag tag-blue">Phase 4 & 5 Combined</span>
+        <span class="tag tag-teal">Cloudflare WebGIS</span>
+        <span class="tag tag-purple">Edge AI</span>
+        <span class="tag tag-emerald">Citizen Platform</span>
+        <span class="tag tag-amber">Final Deliverable</span>
+      </div>
+      <h1>From Satellite Intelligence<br>to Citizen Action</h1>
+      <p class="lead">Building India's first end-to-end hyperspectral geospatial platform. Transforming raw AVIRIS-NG and EMIT data into actionable intelligence for farmers, officers, and policymakers.</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- SECTION 1: THE GAP -->
+    <section id="gap">
+      <div class="section-header">
+        <h2 class="section-title">🌍 The Gap That Shouldn't Exist</h2>
+        <p class="section-subtitle">India generates some of the richest hyperspectral data on Earth — but none of it reaches the people who need it most.</p>
+      </div>
+
+      <p>Every year, ISRO's AVIRIS-NG airborne campaigns fly over the agricultural belts of Punjab, Haryana, Gujarat, and Madhya Pradesh, capturing the land surface in <strong>425 continuous spectral bands</strong> — from visible light through the shortwave infrared. NASA's EMIT sensor aboard the International Space Station continuously streams <strong>200+ band imagery</strong> over the Indian subcontinent. This data captures the precise molecular absorption signatures of nitrogen in soil, chlorophyll stress in wheat canopies, cellulose dryness in post-harvest stubble, and cyanobacterial pigments in inland water bodies.</p>
+
+      <p>The science is proven. The data is publicly available. But today:</p>
+
+      <div class="card-grid-3">
+        <div class="feature-card">
+          <div class="feature-icon emerald">🌾</div>
+          <h3>The Farmer in Ludhiana</h3>
+          <p>Cannot look up whether their wheat plot has a <strong>nitrogen deficiency</strong> — even though AVIRIS-NG flew directly over their district last Rabi season and the spectral signature for nitrogen stress is well-documented.</p>
+          <div class="feature-pills">
+            <span class="pill">Soil Organic Carbon</span>
+            <span class="pill">Micronutrient Mapping</span>
+            <span class="pill">Fertilizer Guidance</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">🔥</div>
+          <h3>The District Collector in Karnal</h3>
+          <p>Cannot see which <strong>specific plots are most likely to burn stubble</strong> next week — despite SWIR moisture-absorption features being able to distinguish dry combustible residue from damp soil with high accuracy.</p>
+          <div class="feature-pills">
+            <span class="pill">Pre-burn Risk Heatmaps</span>
+            <span class="pill">Proactive Intervention</span>
+            <span class="pill">IGP Air Quality</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon blue">💧</div>
+          <h3>The Water Inspector in Varanasi</h3>
+          <p>Cannot proactively check <strong>cyanobacterial bloom risk</strong> in their reservoir — even though narrow VNIR channels can isolate Chlorophyll-a and CDOM with laboratory-grade specificity from orbit.</p>
+          <div class="feature-pills">
+            <span class="pill">Chlorophyll-a</span>
+            <span class="pill">Algal Bloom Alerts</span>
+            <span class="pill">Namami Gange</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-purple">
+        <h4>🧩 The Data Availability Paradox</h4>
+        <p>India ranks among the top 5 nations globally in hyperspectral remote sensing data generation. But the pipeline from <em>raw satellite dump</em> to <em>actionable citizen insight</em> simply does not exist as a public service. The data flows from satellite → research lab → academic paper → conference proceedings — and never reaches the farmer, the district officer, or the water quality board. <strong>We are building the missing link.</strong></p>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">The Status Quo vs. What We're Building</h3>
+          <p class="diagram-desc">Moving from siloed research to live, accessible intelligence for every citizen.</p>
+        </div>
+        <div class="mermaid">
+          flowchart LR
+            subgraph TODAY["Today: The Broken Pipeline"]
+              direction LR
+              SAT1["🛰️ Satellite Data"] -->|Raw files| LAB["🔬 Research Lab"]
+              LAB -->|6-12 months| PAPER["📄 Academic Paper"]
+              PAPER -->|Archived| SHELF["📚 Journal Archive"]
+            end
+
+            subgraph OURS["Our Platform: The Direct Pipeline"]
+              direction LR
+              SAT2["🛰️ Satellite Data"] -->|Automated Ingestion| ENGINE["🧠 AI Engine"]
+              ENGINE -->|Milliseconds| MAP["🗺️ Live Map"]
+              MAP --> FARMER["👨‍🌾 Farmer's Phone"]
+              MAP --> OFFICER["👮 Officer Dashboard"]
+              MAP --> ALERT["🔔 SMS Alerts"]
+            end
+            
+            style TODAY fill:#fef2f2,stroke:#ef4444,stroke-width:2px
+            style OURS fill:#f0fdf4,stroke:#22c55e,stroke-width:2px
+            style SHELF fill:#fee2e2,stroke:#ef4444
+            style MAP fill:#d1fae5,stroke:#059669,stroke-width:2px
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE INTELLIGENCE PIPELINE -->
+    <section id="recap">
+      <div class="section-header">
+        <h2 class="section-title">🔬 The Intelligence Pipeline We Built</h2>
+        <p class="section-subtitle">Three phases of engineering that turned raw satellite light into a deployable AI engine — explained without the jargon.</p>
+      </div>
+
+      <div class="journey-card">
+        <h3>Phase 1: Taming the Data</h3>
+        <p>Hyperspectral data arrives in enormous, messy formats — ENVI binary files, NetCDF-4, HDF5 archives — each with different coordinate systems, band orderings, and metadata conventions. Phase 1 built the ingestion pipeline that <strong>standardizes all of this into clean, analysis-ready datacubes</strong>. We also strip out the spectral bands where Earth's atmosphere absorbs too much light (water vapor around 1350–1420 nm and 1800–1950 nm), leaving us with approximately 200 pristine, information-rich channels per pixel. The output: tiled, cloud-optimized GeoTIFFs and Zarr arrays ready for any downstream model.</p>
+      </div>
+
+      <div class="journey-card">
+        <h3>Phase 2: The Baseline — And Why It Wasn't Enough</h3>
+        <p>We built traditional classifiers — 1D spectral CNNs, 2D spatial CNNs, and 3D hybrid networks — that examine a pixel's spectral signature and identify what's on the ground: <em>"this is wheat", "this is fallow", "this soil is nitrogen-poor"</em>. On carefully curated academic benchmarks (Indian Pines, Salinas Valley), these models achieved up to <strong>94.8% accuracy</strong>. But when applied to real-world Indian agriculture — where high-quality ground-truth labels cover less than 0.1% of the landscape — they collapsed, dropping by <strong>20 to 35 percentage points</strong>.</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <h4>⚠️ The Label Scarcity Problem</h4>
+        <p>In India's agricultural context, getting accurate field-level labels (soil samples, crop type surveys, ground-truth moisture readings) is extremely expensive and logistically difficult across millions of smallholder plots. Any AI system that requires thousands of labeled examples per district is dead on arrival for national-scale deployment. We needed a fundamentally different approach.</p>
+      </div>
+
+      <div class="journey-card">
+        <h3>Phase 3: The Engine — Foundation AI & Distillation</h3>
+        <p>This is where the breakthrough happens. Instead of relying on human labels, we trained a <strong>foundation model called Spectral-MAE</strong> (Masked Autoencoder for hyperspectral data). The idea is deceptively simple: hide 75% of the spectral information from the model and ask it to reconstruct what's missing. By doing this across millions of unlabeled pixels from AVIRIS-NG and EMIT scenes, the model learns the <em>fundamental physics</em> of how light interacts with chlorophyll molecules, soil minerals, water chemistry, and cellulose fibers — without a single human annotation.</p>
+        <p>The result: a model that achieves <strong>94.8% accuracy even when only 5% of pixels are labeled</strong> — a 20-point improvement over the best baseline. But this "teacher" model is massive (86 million parameters, 4 GB of memory). You can't run it on a phone or at the edge.</p>
+        <p>So we compressed it. Through <strong>knowledge distillation</strong> — training a tiny "student" network to mimic the teacher's output patterns — we produced a model that is <strong>48× smaller (1.78 million parameters, 2.1 MB)</strong>, runs in under 5 milliseconds, and retains over 96% of the teacher's accuracy. <em>This student model is the engine that powers everything in Phase 4 & 5.</em></p>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">The Phase 1–3 Progression</h3>
+          <p class="diagram-desc">How raw satellite light becomes lightweight, deployable intelligence.</p>
+        </div>
+        <div class="mermaid">
+          flowchart TD
+            subgraph P1["Phase 1: Data Engineering"]
+              RAW["Raw AVIRIS-NG / EMIT Files"] --> CLEAN["Clean Datacubes"]
+              CLEAN --> BBR["Bad Band Removal"]
+              BBR --> CUBE["Analysis-Ready Cubes"]
+            end
+
+            subgraph P2["Phase 2: Baselines"]
+              CUBE --> BASE["1D / 2D / 3D CNN Classifiers"]
+              BASE -.->|"Failed at scale"| LIMIT["Label Scarcity Wall"]
+            end
+
+            subgraph P3["Phase 3: Foundation AI"]
+              CUBE -->|"Millions of unlabeled pixels"| MAE["Spectral-MAE Pre-training"]
+              MAE --> TEACHER["Teacher Model (86M params)"]
+              TEACHER -->|"Knowledge Distillation"| STUDENT["Student Model (1.78M params)"]
+            end
+
+            STUDENT --> DEPLOY["Ready for Deployment"]
+
+            style LIMIT fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+            style MAE fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+            style STUDENT fill:#d1fae5,stroke:#059669,stroke-width:2px
+            style DEPLOY fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+        </div>
+      </div>
+
+      <div class="callout callout-emerald">
+        <h4>🎯 The Key Takeaway</h4>
+        <p>Baseline models need thousands of labeled samples and collapse on real Indian data. The foundation model needs almost zero labels and maintains >94% accuracy. And the distilled version is small enough to run on a phone, a web server, or an edge device in a farmer's field. <strong>That's the engine we're deploying.</strong></p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-value">2.1 MB</div>
+          <div class="stat-label">Student Model Size (INT8)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">&lt;5 ms</div>
+          <div class="stat-label">Inference Latency</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">96.8%</div>
+          <div class="stat-label">Classification Accuracy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Labels Needed for Pre-training</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CLOUDFLARE WEBGIS PLATFORM -->
+    <section id="webgis">
+      <div class="section-header">
+        <h2 class="section-title">🌐 The Primary Deployment: Cloudflare WebGIS Citizen Platform</h2>
+        <p class="section-subtitle">A live, interactive mapping platform where anyone in India can access hyperspectral agricultural intelligence — for free.</p>
+      </div>
+
+      <p>This is the core product. A public web application where a farmer in Ludhiana, a district agricultural officer in Karnal, a researcher at IARI, or a journalist investigating stubble burning can open their browser and instantly see what hyperspectral intelligence reveals about any region in India.</p>
+
+      <div class="callout callout-blue">
+        <h4>💡 Why Cloudflare — And Why It Changes Everything</h4>
+        <p>Serving satellite imagery through traditional cloud providers (AWS S3, Google Cloud Storage) incurs massive <strong>egress fees</strong> — the cost of sending data from storage to users. For a geospatial platform serving terabytes of raster imagery, this becomes cost-prohibitive. Cloudflare R2 offers <strong>zero egress costs</strong>, meaning we can serve unlimited satellite tile requests to unlimited users with only storage costs (~$15/TB/month). This is what makes a <em>free, public</em> geospatial platform economically viable for the first time.</p>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">Platform Architecture</h3>
+          <p class="diagram-desc">How the Cloudflare ecosystem powers the entire platform stack.</p>
+        </div>
+        <div class="mermaid">
+          flowchart TD
+            subgraph Frontend["Cloudflare Pages (Frontend)"]
+              direction LR
+              NEXT["Next.js Application"] --> MAPLIB["MapLibre GL Map"]
+              MAPLIB --> DECK["Deck.gl Overlays"]
+            end
+
+            subgraph Edge["Cloudflare Workers (Edge API)"]
+              direction LR
+              TILE["Tile Server"] --> INFER["ONNX Runtime Inference"]
+              INFER --> CACHE["Edge Cache"]
+            end
+
+            subgraph Storage["Cloudflare Storage"]
+              direction LR
+              R2[("R2: COG Rasters")] 
+              D1DB[("D1: User Data")]
+            end
+
+            Frontend <-->|"Tile Requests"| Edge
+            Edge <-->|"HTTP Range Reads"| R2
+            Edge <-->|"Sessions / Alerts"| D1DB
+
+            style Frontend fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+            style Edge fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+            style Storage fill:#fef3c7,stroke:#d97706,stroke-width:2px
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 48px;">
+        <h3 style="font-size: 1.4rem; font-weight: 700;">How a Single Tile Request Becomes a Map Pixel</h3>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-header">
+            <div class="step-title">User pans to their district</div>
+            <span class="step-badge">Frontend</span>
+          </div>
+          <div class="step-desc">A farmer in Punjab opens the platform, selects "Crop Health" layer, and zooms into their block. MapLibre GL calculates which map tiles are needed for the current viewport and fires HTTP tile requests to the Cloudflare Workers API.</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-header">
+            <div class="step-title">Worker fetches the right spectral bands</div>
+            <span class="step-badge">Edge API</span>
+          </div>
+          <div class="step-desc">The Cloudflare Worker receives the tile coordinates and uses <strong>HTTP Range requests</strong> to read only the specific spatial tile and spectral bands needed from the Cloud-Optimized GeoTIFF stored in R2. No full-file download — just the bytes that matter.</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-header">
+            <div class="step-title">Student model runs inference</div>
+            <span class="step-badge">AI Engine</span>
+          </div>
+          <div class="step-desc">The extracted spectral data is fed into the distilled student model (running via ONNX Runtime within the Worker). In under 5 milliseconds, the model produces a classification: crop type, nitrogen stress level, soil organic carbon estimate, or stubble burn risk score for every pixel in the tile.</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-header">
+            <div class="step-title">Classified overlay streams back to the map</div>
+            <span class="step-badge">Render</span>
+          </div>
+          <div class="step-desc">The classification result is encoded as a color-mapped raster tile and streamed back to the browser, where Deck.gl renders it as a semi-transparent overlay on the base map. The farmer sees their plot colored by nitrogen status — green for healthy, yellow for moderate stress, red for severe deficiency.</div>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">The Inference Flow: From Tile Request to Map Pixel</h3>
+          <p class="diagram-desc">What happens in the ~50ms between clicking the map and seeing the result.</p>
+        </div>
+        <div class="mermaid">
+          flowchart LR
+            REQ["Tile Request (x, y, z)"] --> RANGE["R2 Range Read"]
+            RANGE --> BANDS["Extract Spectral Bands"]
+            BANDS --> MODEL["Student Model (ONNX)"]
+            MODEL --> CLASS["Classification Map"]
+            CLASS --> ENCODE["Color-encode Tile"]
+            ENCODE --> RENDER["Render on MapLibre"]
+
+            style MODEL fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+            style RENDER fill:#d1fae5,stroke:#059669,stroke-width:2px
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 48px;">
+        <h3 style="font-size: 1.4rem; font-weight: 700;">Platform Capabilities</h3>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="feature-icon emerald">🗺️</div>
+          <h3>Interactive Crop Health Map</h3>
+          <p>Full-screen MapLibre GL map with smooth zoom across Indian districts. Deck.gl renders raster classification overlays — crop vigor, growth stage, and stress indicators — with click-to-inspect spectral profiles for any pixel on the map.</p>
+          <div class="feature-pills">
+            <span class="pill">MapLibre GL</span>
+            <span class="pill">Deck.gl Raster</span>
+            <span class="pill">Click-to-Inspect</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">📊</div>
+          <h3>Soil Nutrient Dashboard</h3>
+          <p>Click on any agricultural plot to reveal estimated <strong>Soil Organic Carbon, Nitrogen, Zinc, and Iron</strong> status. Dashboard panels display the spectrally-derived nutrient indices alongside historical trend charts across growing seasons.</p>
+          <div class="feature-pills">
+            <span class="pill">SOC Index</span>
+            <span class="pill">Micronutrient Panels</span>
+            <span class="pill">Seasonal Trends</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon purple">⚠️</div>
+          <h3>Stubble Burn Early Warning</h3>
+          <p>Heatmaps displaying <strong>pre-burn risk scores</strong> across Indo-Gangetic Plain districts. Uses SWIR-derived crop senescence and moisture features to predict which specific plots are most likely to be burned — days before ignition.</p>
+          <div class="feature-pills">
+            <span class="pill">SWIR Moisture Index</span>
+            <span class="pill">Risk Heatmap</span>
+            <span class="pill">District Alerts</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon teal">🌊</div>
+          <h3>Water Quality Monitor</h3>
+          <p>Track <strong>Chlorophyll-a, CDOM, and Total Suspended Matter</strong> for rivers, reservoirs, and urban lakes. Designed for Namami Gange monitoring officers and municipal water quality boards with per-waterbody trend dashboards.</p>
+          <div class="feature-pills">
+            <span class="pill">Chlorophyll-a</span>
+            <span class="pill">Algal Bloom Alerts</span>
+            <span class="pill">Namami Gange</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: EDGE AI FIELD SCANNER -->
+    <section id="edge">
+      <div class="section-header">
+        <h2 class="section-title">⚡ The Secondary Target: Edge AI Field Scanner</h2>
+        <p class="section-subtitle">The same intelligence, but running offline on portable hardware — for when there's no internet, no cloud, no connectivity.</p>
+      </div>
+
+      <p>Not every agricultural field in India has reliable 4G coverage. Extension workers visiting remote mandals in Telangana, disaster response teams assessing flood-damaged crops in Bihar, or drone operators surveying fire-prone fields in Sangrur district need real-time spectral analysis <strong>without any internet dependency</strong>.</p>
+
+      <p>This is where the second deployment target comes in. We take the exact same 1.78M-parameter distilled student model, quantize it to full INT8 precision (reducing it to just 2.1 MB), and compile it for the <strong>Google Coral Edge TPU</strong> — a dedicated AI accelerator that plugs into any standard M.2 PCIe slot in a ruggedized laptop or single-board computer.</p>
+
+      <div class="callout callout-teal">
+        <h4>🔧 What "Edge AI" Actually Means Here</h4>
+        <p>Edge AI means the model runs <em>on the device itself</em> — not on a remote server. The Coral Edge TPU processes 4 trillion integer operations per second (4 TOPS) at extremely low power. A field scanner equipped with this hardware can classify every pixel in a hyperspectral scan in under 12 milliseconds, directly on the device, with no network connection required. When the operator returns to base with connectivity, results sync to the cloud platform.</p>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">Edge AI Compilation Pipeline</h3>
+          <p class="diagram-desc">How the trained student model becomes a Coral Edge TPU binary.</p>
+        </div>
+        <div class="mermaid">
+          flowchart LR
+            PT["PyTorch Checkpoint"] -->|"torch.onnx.export"| ONNX["ONNX Model"]
+            ONNX -->|"onnx-tf + TFLite Converter"| TFL["TFLite (INT8)"]
+            TFL -->|"edgetpu_compiler"| CORAL["Coral Edge TPU Binary"]
+            CORAL --> DEVICE["M.2 PCIe Slot"]
+            DEVICE --> SCAN["Field Scanner / Drone"]
+
+            style TFL fill:#fef3c7,stroke:#d97706,stroke-width:2px
+            style CORAL fill:#d1fae5,stroke:#059669,stroke-width:2px
+            style SCAN fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="feature-icon purple">🔌</div>
+          <h3>Fully Offline Operation</h3>
+          <p>Zero internet required at any stage of the inference pipeline. The entire model, preprocessing logic, and classification output run locally on the device. Perfect for <strong>remote mandals</strong> where cellular coverage is sparse.</p>
+          <div class="feature-pills">
+            <span class="pill">Zero Network</span>
+            <span class="pill">Local Inference</span>
+            <span class="pill">Self-Contained</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon teal">⚡</div>
+          <h3>Real-Time Speed</h3>
+          <p>Each hyperspectral tile classification completes in <strong>under 12 milliseconds</strong> on the Coral TPU. Fast enough for continuous real-time scanning as a drone flies over agricultural plots or a field worker walks a transect.</p>
+          <div class="feature-pills">
+            <span class="pill">&lt;12ms Latency</span>
+            <span class="pill">4 TOPS INT8</span>
+            <span class="pill">Continuous Scan</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">💻</div>
+          <h3>Portable Hardware</h3>
+          <p>The Coral M.2 Accelerator is a tiny card that fits into any standard PCIe M.2 slot. It can be installed in a <strong>ruggedized field laptop, a Raspberry Pi compute module, or a drone payload</strong> — drawing minimal power while delivering dedicated AI inference.</p>
+          <div class="feature-pills">
+            <span class="pill">M.2 PCIe</span>
+            <span class="pill">Low Power</span>
+            <span class="pill">Drone-Ready</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon emerald">📡</div>
+          <h3>Field Telemetry & Sync</h3>
+          <p>Results are logged locally with GPS coordinates and timestamps. When the operator returns to an area with connectivity, all field data <strong>syncs automatically</strong> to the Cloudflare WebGIS platform, enriching the central map with ground-truth observations.</p>
+          <div class="feature-pills">
+            <span class="pill">GPS Tagging</span>
+            <span class="pill">Local Logging</span>
+            <span class="pill">Cloud Sync</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-emerald">
+        <h4>🌾 Real-World Use Case: Krishi Vigyan Kendra Field Visit</h4>
+        <p>A soil scientist from a district KVK drives out to a remote cluster of villages in Chhattisgarh. They carry a ruggedized laptop with a Coral Edge TPU card. Using a portable hyperspectral sensor (or pre-loaded AVIRIS-NG scene data), they scan plots in real-time — getting instant readouts of soil organic carbon levels, nitrogen deficiency severity, and crop health status. No internet. No cloud dependency. The results are stored locally and uploaded to the WebGIS platform when they return to the office.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: END-TO-END DATA JOURNEY -->
+    <section id="journey">
+      <div class="section-header">
+        <h2 class="section-title">🛰️ The End-to-End Data Journey</h2>
+        <p class="section-subtitle">The complete path from satellite photons to a farmer's screen — one diagram that tells the whole story.</p>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <h3 class="diagram-title">Satellite to Citizen: The Complete System Flow</h3>
+          <p class="diagram-desc">Every phase of the Hyperspectral Intelligence System, from raw light capture to real-time citizen delivery.</p>
+        </div>
+        <div class="mermaid">
+          flowchart TD
+            subgraph SOURCE["Data Sources"]
+              AVIRIS["AVIRIS-NG (425 bands, 4-8m)"]
+              EMIT["NASA EMIT (285 bands, ISS)"]
+              USGS["USGS Spectral Library v7"]
+            end
+
+            subgraph PHASE1["Phase 1: Ingestion"]
+              PARSE["Multi-format Parsing"]
+              BBR["Bad Band Removal"]
+              COG["Zarr / COG Datacubes"]
+              AVIRIS --> PARSE
+              EMIT --> PARSE
+              PARSE --> BBR
+              BBR --> COG
+            end
+
+            subgraph PHASE2["Phase 2: Baselines"]
+              BASE["CNN Classifiers"]
+              FAIL["Limited by Label Scarcity"]
+              COG --> BASE
+              BASE -.-> FAIL
+            end
+
+            subgraph PHASE3["Phase 3: Foundation AI"]
+              MAE["Spectral-MAE Pre-training"]
+              TEACHER["Teacher Model (86M)"]
+              KD["Knowledge Distillation"]
+              STUDENT["Student Model (1.78M)"]
+              COG -->|"Unlabeled Data"| MAE
+              MAE --> TEACHER
+              USGS -.->|"Spectral Priors"| TEACHER
+              TEACHER --> KD
+              KD --> STUDENT
+            end
+
+            subgraph PHASE45["Phase 4 and 5: Deployment"]
+              ONNX["ONNX Export"]
+              INT8["INT8 TFLite Export"]
+              WEB["Cloudflare WebGIS"]
+              CORAL["Coral Edge TPU"]
+              CITIZEN["Citizens and Officers"]
+              FIELD["Field Workers and Drones"]
+              STUDENT --> ONNX
+              STUDENT --> INT8
+              ONNX --> WEB
+              INT8 --> CORAL
+              WEB --> CITIZEN
+              CORAL --> FIELD
+            end
+
+            style SOURCE fill:#f1f5f9,stroke:#64748b
+            style PHASE1 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+            style PHASE2 fill:#fef2f2,stroke:#ef4444
+            style PHASE3 fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+            style PHASE45 fill:#d1fae5,stroke:#059669,stroke-width:2px
+            style FAIL fill:#fee2e2,stroke:#ef4444
+            style STUDENT fill:#ccfbf1,stroke:#0d9488,stroke-width:2px
+        </div>
+      </div>
+
+      <div class="callout callout-purple">
+        <h4>🔑 The Critical Insight</h4>
+        <p>Notice how the <strong>same student model</strong> — trained once, distilled once — powers both the cloud platform and the edge device. There's no separate model for each deployment target. This is the entire point of knowledge distillation: build one universal intelligence engine that's small and fast enough to run anywhere.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 6: WHO THIS SERVES -->
+    <section id="personas">
+      <div class="section-header">
+        <h2 class="section-title">👥 Who This Platform Serves</h2>
+        <p class="section-subtitle">The three primary user personas — and what they see when they open the platform.</p>
+      </div>
+
+      <div class="card-grid-3">
+        <div class="feature-card">
+          <div class="feature-icon emerald">👨‍🌾</div>
+          <h3>The Smallholder Farmer</h3>
+          <p><strong>Location:</strong> Punjab, Haryana, MP, Gujarat<br>
+          <strong>Needs:</strong> "Is my wheat getting enough nitrogen? Should I apply more DAP this week?"<br>
+          <strong>Sees:</strong> A simple color-coded map of their block showing nutrient status — green (healthy), yellow (watch), red (deficient). Tap any plot for specific nutrient panel with recommended action.</p>
+          <div class="feature-pills">
+            <span class="pill">Hindi / Punjabi</span>
+            <span class="pill">Mobile-First</span>
+            <span class="pill">Simple UI</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">👮</div>
+          <h3>The District Agricultural Officer</h3>
+          <p><strong>Location:</strong> Karnal, Sangrur, Fatehabad, Kaithal<br>
+          <strong>Needs:</strong> "Which specific plots in my district are most likely to burn stubble this week?"<br>
+          <strong>Sees:</strong> A district-wide heatmap with risk-ranked plots. Alert subscriptions notify via SMS when risk exceeds threshold. Dashboard shows aggregate statistics for reporting to the state.</p>
+          <div class="feature-pills">
+            <span class="pill">District Dashboard</span>
+            <span class="pill">SMS Alerts</span>
+            <span class="pill">Export Reports</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon blue">🔬</div>
+          <h3>The Water Quality Inspector</h3>
+          <p><strong>Location:</strong> Varanasi, Kanpur, Allahabad (Ganga basin)<br>
+          <strong>Needs:</strong> "Are cyanobacterial levels rising in the Varanasi stretch? Is it safe for the upcoming festival bathing?"<br>
+          <strong>Sees:</strong> Per-waterbody Chlorophyll-a trends, CDOM levels, and bloom risk indices with historical comparison charts.</p>
+          <div class="feature-pills">
+            <span class="pill">Waterbody Profiles</span>
+            <span class="pill">Trend Analysis</span>
+            <span class="pill">Regulatory Reports</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: PLATFORM UI VISION -->
+    <section id="uiux">
+      <div class="section-header">
+        <h2 class="section-title">🖥️ What the Platform Looks Like</h2>
+        <p class="section-subtitle">Designing for clarity, accessibility, and immediate insight — even for users who've never seen a GIS tool.</p>
+      </div>
+
+      <p>The platform is built with <strong>Next.js on Cloudflare Pages</strong>, using MapLibre GL for the base map and Deck.gl for raster overlays. The design language follows principles that make complex geospatial data accessible to non-technical users.</p>
+
+      <div class="card-grid-3">
+        <div class="feature-card">
+          <div class="feature-icon blue">🔍</div>
+          <h3>Intuitive Navigation</h3>
+          <p>A simple <strong>district selector, date range picker, and layer toggle</strong> (Crop Health, Soil Nutrients, Stubble Risk, Water Quality) ensures that a first-time user can find what they need within seconds. No GIS expertise required.</p>
+          <div class="feature-pills">
+            <span class="pill">District Selector</span>
+            <span class="pill">Layer Toggle</span>
+            <span class="pill">Date Range</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon emerald">📈</div>
+          <h3>Dashboard Panels</h3>
+          <p>Summary statistics per district and <strong>trend charts tracking changes</strong> over multiple growing seasons (Rabi/Kharif). Sidebar panels display aggregate nutrient health, burn risk scores, and water quality indices alongside the interactive map.</p>
+          <div class="feature-pills">
+            <span class="pill">Seasonal Trends</span>
+            <span class="pill">District Stats</span>
+            <span class="pill">Sidebar Panels</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">🔔</div>
+          <h3>Alert & Notification System</h3>
+          <p>District authorities can subscribe to <strong>SMS and email notifications</strong> when stubble burn risk exceeds a critical threshold for their jurisdiction. Farmers can set alerts for specific plots when nitrogen levels drop below recommended values.</p>
+          <div class="feature-pills">
+            <span class="pill">SMS Alerts</span>
+            <span class="pill">Email Digest</span>
+            <span class="pill">Threshold Config</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="feature-icon purple">🔬</div>
+          <h3>Click-to-Inspect Spectral Profiles</h3>
+          <p>Advanced users (researchers, agronomists) can click any pixel on the map to see its <strong>full spectral reflectance curve</strong> — the 200-band signature that the model uses for classification. This transparency builds trust and enables ground-truth validation by domain experts.</p>
+          <div class="feature-pills">
+            <span class="pill">Reflectance Curve</span>
+            <span class="pill">Band Explorer</span>
+            <span class="pill">Expert Mode</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon teal">📱</div>
+          <h3>Mobile Responsive Design</h3>
+          <p>The entire platform is responsive and functional on smartphones — critical for Indian farmers who primarily access the internet via mobile. <strong>Touch-optimized map controls, swipeable dashboard panels, and lightweight tile loading</strong> for low-bandwidth connections.</p>
+          <div class="feature-pills">
+            <span class="pill">Touch-First</span>
+            <span class="pill">Low Bandwidth</span>
+            <span class="pill">PWA-Ready</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: ECONOMICS OF ZERO-EGRESS -->
+    <section id="economics">
+      <div class="section-header">
+        <h2 class="section-title">💰 The Economics of Zero-Egress Delivery</h2>
+        <p class="section-subtitle">Why Cloudflare R2 is the key enabler that makes a free public geospatial platform financially sustainable.</p>
+      </div>
+
+      <p>Hyperspectral imagery is massive. A single AVIRIS-NG flight line can be several gigabytes. Serving this data as map tiles to thousands of concurrent users through a traditional cloud provider quickly becomes cost-prohibitive due to <strong>egress fees</strong> — the cost charged every time data leaves the storage bucket and travels to a user's browser.</p>
+
+      <p>By architecting the entire platform around <strong>Cloudflare R2</strong>, we fundamentally change the economics of satellite data delivery:</p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Storage (1 TB/month)</th>
+              <th>Egress (Serving 1 TB/month)</th>
+              <th>Total Monthly Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AWS S3 (Standard)</td>
+              <td>~$23.00</td>
+              <td>~$90.00</td>
+              <td><strong>~$113.00</strong></td>
+            </tr>
+            <tr>
+              <td>Google Cloud Storage</td>
+              <td>~$20.00</td>
+              <td>~$120.00</td>
+              <td><strong>~$140.00</strong></td>
+            </tr>
+            <tr>
+              <td>Azure Blob Storage</td>
+              <td>~$21.00</td>
+              <td>~$87.00</td>
+              <td><strong>~$108.00</strong></td>
+            </tr>
+            <tr style="background-color: var(--primary-light);">
+              <td><strong>Cloudflare R2</strong></td>
+              <td><strong>~$15.00</strong></td>
+              <td><strong style="color: var(--emerald);">$0.00</strong></td>
+              <td><strong style="color: var(--primary-dark);">~$15.00</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-emerald">
+        <h4>📊 What This Means at Scale</h4>
+        <p>If the platform serves 10 TB of tile data per month to users across India (a realistic projection for a national agricultural monitoring service), the monthly egress bill on AWS would be <strong>~$900</strong>. On Cloudflare R2, it's <strong>$0</strong>. Over a year, that's a savings of nearly <strong>$10,800</strong> — enough to make the difference between a sustainable public service and an abandoned prototype.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 9: CAPSTONE — WHAT EXISTS AT THE END -->
+    <section id="capstone">
+      <div class="vision-card">
+        <div class="vision-header">
+          <span class="vision-tag">The Capstone</span>
+          <h2 class="vision-title">What Exists at the End of the Trajectory</h2>
+          <p style="color: #94a3b8; font-size: 1.05rem;">Five phases. One complete intelligence pipeline. Two deployment targets. A new kind of geospatial public service for India.</p>
+        </div>
+        
+        <div class="vision-grid" style="margin-bottom: 32px;">
+          <div class="vision-item">
+            <h4>🧠 Foundation Intelligence</h4>
+            <p>A trained Spectral-MAE foundation model that understands hyperspectral physics — the molecular absorption of nitrogen, chlorophyll, cellulose, and water chemistry — learned without human labels.</p>
+          </div>
+          <div class="vision-item">
+            <h4>📦 Universal Student Engine</h4>
+            <p>A 2.1 MB distilled student model that runs in under 5ms on any target — cloud, browser, phone, or dedicated edge hardware. One model, deployed everywhere.</p>
+          </div>
+          <div class="vision-item">
+            <h4>🌐 Live Public Platform</h4>
+            <p>A Cloudflare-powered WebGIS dashboard serving real-time crop health, soil nutrients, stubble burn risk, and water quality maps to any Indian citizen with a browser.</p>
+          </div>
+        </div>
+
+        <ul class="checklist">
+          <li class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="check-text"><strong>Phase 1:</strong> Multi-format data ingestion pipeline with atmospheric bad band removal — producing clean, standardized datacubes from AVIRIS-NG and EMIT.</div>
+          </li>
+          <li class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="check-text"><strong>Phase 2:</strong> Baseline spatial-spectral classifiers (1D-CNN, 2D-CNN, 3D HybridSN) establishing performance benchmarks and identifying the label scarcity bottleneck.</div>
+          </li>
+          <li class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="check-text"><strong>Phase 3:</strong> Self-supervised Spectral-MAE foundation model pre-trained on AIRAWAT DGX A100, achieving 98.4% OA. Teacher-to-student distillation producing the 1.78M-parameter universal engine.</div>
+          </li>
+          <li class="checklist-item">
+            <div class="check-icon pending">⚙</div>
+            <div class="check-text"><strong>Phase 4:</strong> Cloudflare WebGIS Citizen Platform — R2 tile storage, Workers inference API, Next.js + MapLibre frontend, D1 user state, and SMS/email alert system.</div>
+          </li>
+          <li class="checklist-item">
+            <div class="check-icon pending">⚙</div>
+            <div class="check-text"><strong>Phase 5:</strong> Google Coral Edge TPU deployment — INT8 quantization, edgetpu_compiler integration, offline field scanner prototype with GPS-tagged telemetry and cloud sync.</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <p><strong>Hyperspectral Intelligence System: Final Combined Deliverable (Phases 4 & 5)</strong></p>
+      <p>Cloudflare WebGIS Citizen Platform & Optional Google Coral Edge TPU Deployment</p>
+      <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-light);">Geoinformatics & Remote Sensing Capstone &bull; Document Version 1.0 &bull; 2026</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

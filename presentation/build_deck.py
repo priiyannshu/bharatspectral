@@ -1166,7 +1166,7 @@ def create_presentation():
 
     print("Created Slide 16")
 
-    output_path = "/data/data/com.termux/files/home/btp/BharatSpectral_MidTerm_Presentation.pptx"
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "BharatSpectral_MidTerm_Presentation.pptx")
     prs.save(output_path)
     print(f"Successfully generated PowerPoint presentation at: {output_path}")
 

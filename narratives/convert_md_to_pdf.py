@@ -304,7 +304,7 @@ def md_to_pdf(md_path: Path, out_path: Path):
 if __name__ == "__main__":
     gn_dir = Path(__file__).parent
 
-    md_files = sorted(gn_dir.glob("*.md"))
+    md_files = sorted([p for p in gn_dir.glob("*.md") if not p.name.lower().startswith("readme")])
     if not md_files:
         print("No .md files found in gn/")
         sys.exit(1)

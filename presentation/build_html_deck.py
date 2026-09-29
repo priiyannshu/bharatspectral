@@ -1167,7 +1167,9 @@ html_content = """<!DOCTYPE html>
 </html>
 """
 
-with open('/data/data/com.termux/files/home/btp/presentation.html', 'w') as f:
+import os
+out_html_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'presentation.html')
+with open(out_html_path, 'w') as f:
     f.write(html_content)
 
-print("Generated /data/data/com.termux/files/home/btp/presentation.html successfully!")
+print(f"Generated {out_html_path} successfully!")

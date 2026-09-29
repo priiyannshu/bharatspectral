@@ -50,15 +50,37 @@ When editing model code or describing the system, preserve these 7 named archite
 
 ```text
 /data/data/com.termux/files/home/btp/
-├── project_synopsis.md                        # Master Capstone Synopsis & Formal Proposal
-├── midterm_defense_grounding_and_gis_analysis.md # Defense grounding, GIS vs AI analysis & baseline proofs
-├── BharatSpectral_MidTerm_Presentation.pptx   # Compiled PPTX Mid-Semester Slide Deck (16:9 Widescreen)
-├── build_deck.py                              # Python script using python-pptx to assemble PPTX deck
-├── build_html_deck.py                         # Python script to generate interactive web HTML slide deck
-├── presentation.html                          # Compiled interactive HTML presentation
-├── workflow-handbook.html                     # Full workflow handbook for project phases
-├── phase1.html ... phase4&5.html               # Phase-specific documentation HTMLs
-└── AGENTS.md                                  # This agent instruction file
+├── README.md                                  # Top-Level Repository Overview & Directory Map
+├── AGENTS.md                                  # Developer & AI Agent Context
+├── .gitignore                                 # Git Ignore Rules
+│
+├── docs/                                      # Research Documentation, Proposals & Roadmaps
+│   ├── README.md                              # Docs directory guide
+│   ├── project_synopsis.md                    # Master Capstone Synopsis & Formal Proposal
+│   ├── midterm_defense_grounding_and_gis_analysis.md # Defense grounding, GIS vs AI analysis & baseline proofs
+│   ├── MASTER_PLAN.md                         # Master execution roadmap & milestones
+│   ├── workflow-handbook.html                 # Interactive workflow handbook
+│   ├── references_pinboard.html               # Interactive visual references pinboard
+│   └── phase1.html ... phase4&5.html          # Interactive phase-specific deep dive reports
+│
+├── presentation/                              # Slide Decks & Generation Scripts
+│   ├── README.md                              # Presentation guide & regeneration manual
+│   ├── build_deck.py                          # Python script (python-pptx) to assemble 16:9 PPTX deck
+│   ├── build_html_deck.py                     # Python script to compile interactive HTML web slide deck
+│   ├── presentation.html                      # Compiled interactive HTML presentation
+│   └── BharatSpectral_MidTerm_Presentation.pptx # Compiled PowerPoint slide deck
+│
+├── narratives/                                # "Grand Narrative" 7-Chapter Foundational Primer
+│   ├── README.md                              # Chapter curriculum & reading guide
+│   ├── 00_master_narrative_overview.md ... 06_literature_references_and_reading_guide.md
+│   ├── convert_md_to_pdf.py                   # ReportLab Markdown-to-PDF generator
+│   └── pdfs/                                  # Pre-rendered publication PDFs (00 through 06)
+│
+└── outputs/                                   # Experimental Artifacts, Baselines & Benchmarks
+    ├── README.md                              # Experimental summary & benchmarks guide
+    ├── checkpoints/                           # Model weights (SVM, RF, 3D-CNN, HybridSN, Transformer)
+    ├── figures/                               # Benchmark comparison plots & domain shift diagrams
+    └── tables/                                # Benchmark CSVs, cross-scene evaluation & GIS metrics JSONs
 ```
 
 ---
@@ -69,11 +91,17 @@ When editing model code or describing the system, preserve these 7 named archite
 If you modify slides, update python scripts, or add presentation content:
 *   To regenerate PPTX slides:
     ```bash
-    python3 build_deck.py
+    python3 presentation/build_deck.py
     ```
 *   To regenerate interactive HTML presentation:
     ```bash
-    python3 build_html_deck.py
+    python3 presentation/build_html_deck.py
+    ```
+
+### Regenerating Grand Narrative PDFs
+*   To rebuild PDFs from markdown chapters:
+    ```bash
+    python3 narratives/convert_md_to_pdf.py
     ```
 
 ### Code & Documentation Standards

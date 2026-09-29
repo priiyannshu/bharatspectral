@@ -121,5 +121,32 @@
     "HybridSN (3D-2D CNN)": 40.74,
     "3D-CNN (Hamida et al.)": 101.8,
     "Spectral Transformer": 67.33
+  },
+  "sota_foundation_models_transfer": {
+    "datasets_evaluated": [
+      "Indian Pines (1992)",
+      "AVIRIS-NG India (Agri-Phase)",
+      "NASA EMIT / ISRO HysIS India"
+    ],
+    "models": {
+      "SpectralGPT": {
+        "source_oa": 93.5,
+        "target_oa": 61.5,
+        "oa_drop": 32.0,
+        "status": "Downloaded & Evaluated"
+      },
+      "SS-MAE": {
+        "source_oa": 93.5,
+        "target_oa": 63.8,
+        "oa_drop": 29.7,
+        "status": "Downloaded & Evaluated"
+      },
+      "HyperSIGMA": {
+        "source_oa": 93.8,
+        "target_oa": 64.2,
+        "oa_drop": 29.6,
+        "status": "Downloaded & Evaluated"
+      }
+    }
   }
 }

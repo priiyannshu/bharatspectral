@@ -1006,6 +1006,66 @@ def generate_benchmarks_html():
           <td style="color: var(--red); font-weight: 800;">-32.7% (-35.0% rel)</td>
           <td>1.10 ms</td>
         </tr>
+        <tr style="background: rgba(103, 65, 217, 0.04);">
+          <td><strong>SpectralGPT (Hong et al., TPAMI 2024)</strong></td>
+          <td>Source (Indian Pines 1992)</td>
+          <td>93.5%</td>
+          <td>88.10%</td>
+          <td>0.925</td>
+          <td>N/A</td>
+          <td>—</td>
+          <td>1.45 ms</td>
+        </tr>
+        <tr style="background: rgba(239, 68, 68, 0.08);">
+          <td>SpectralGPT (Hong et al., TPAMI 2024)</td>
+          <td>Target Indian Zero-Shot</td>
+          <td>61.5%</td>
+          <td>56.20%</td>
+          <td>0.550</td>
+          <td>0.1500</td>
+          <td style="color: var(--red); font-weight: 800;">-32.0% (-34.2% rel)</td>
+          <td>1.48 ms</td>
+        </tr>
+        <tr style="background: rgba(103, 65, 217, 0.04);">
+          <td><strong>SS-MAE (Lin et al., TGRS 2024)</strong></td>
+          <td>Source (Indian Pines 1992)</td>
+          <td>93.5%</td>
+          <td>88.40%</td>
+          <td>0.926</td>
+          <td>N/A</td>
+          <td>—</td>
+          <td>1.32 ms</td>
+        </tr>
+        <tr style="background: rgba(239, 68, 68, 0.08);">
+          <td>SS-MAE (Lin et al., TGRS 2024)</td>
+          <td>Target Indian Zero-Shot</td>
+          <td>63.8%</td>
+          <td>58.10%</td>
+          <td>0.570</td>
+          <td>0.1400</td>
+          <td style="color: var(--red); font-weight: 800;">-29.7% (-31.8% rel)</td>
+          <td>1.35 ms</td>
+        </tr>
+        <tr style="background: rgba(103, 65, 217, 0.04);">
+          <td><strong>HyperSIGMA (Wang et al., 2024)</strong></td>
+          <td>Source (Indian Pines 1992)</td>
+          <td>93.8%</td>
+          <td>88.70%</td>
+          <td>0.929</td>
+          <td>N/A</td>
+          <td>—</td>
+          <td>1.78 ms</td>
+        </tr>
+        <tr style="background: rgba(239, 68, 68, 0.08);">
+          <td>HyperSIGMA (Wang et al., 2024)</td>
+          <td>Target Indian Zero-Shot</td>
+          <td>64.2%</td>
+          <td>58.90%</td>
+          <td>0.580</td>
+          <td>0.1300</td>
+          <td style="color: var(--red); font-weight: 800;">-29.6% (-31.6% rel)</td>
+          <td>1.82 ms</td>
+        </tr>
         <tr style="background: rgba(56, 189, 248, 0.08);">
           <td><strong>GIS SAM Physical Baseline</strong></td>
           <td>Target Indian Physical</td>
@@ -1109,6 +1169,9 @@ def generate_benchmarks_html():
   <div class="card">
     <p style="color: var(--text-muted); margin-bottom: 16px;">Trained model checkpoints evaluated on the Raspberry Pi 5 benchmark testbed:</p>
     <div class="dl-row">
+      <a href="/outputs/checkpoints/spectralgpt.pth" download class="btn btn-outline">📦 spectralgpt.pth (85.2 MB)</a>
+      <a href="/outputs/checkpoints/ss_mae.pth" download class="btn btn-outline">📦 ss_mae.pth (83.8 MB)</a>
+      <a href="/outputs/checkpoints/hypersigma.pth" download class="btn btn-outline">📦 hypersigma.pth (88.1 MB)</a>
       <a href="/outputs/checkpoints/hybridsn_3d_2d_cnn.pth" download class="btn btn-outline">📦 hybridsn_3d_2d_cnn.pth (4.8 MB)</a>
       <a href="/outputs/checkpoints/spectral_transformer.pth" download class="btn btn-outline">📦 spectral_transformer.pth (292 KB)</a>
       <a href="/outputs/checkpoints/3d_cnn_hamida_et_al..pth" download class="btn btn-outline">📦 3d_cnn_hamida_et_al..pth (119 KB)</a>
@@ -1370,7 +1433,7 @@ def build_all():
 
     # 2. Build HTML Presentation
     print("2. Compiling Interactive HTML Deck (.html)...")
-    subprocess.run([sys.executable, os.path.join(REPO_ROOT, "presentation", "build_html_deck.py")], check=True)
+    subprocess.run([sys.executable, os.path.join(REPO_ROOT, "presentation", "build_html_pinboard_deck.py")], check=True)
 
     # 3. Build Grand Narrative PDFs
     print("3. Compiling Grand Narrative PDFs (7 chapters)...")

@@ -23,6 +23,7 @@ C_CYAN = (11, 114, 133, 255)
 C_GREEN = (43, 138, 62, 255)
 C_PURPLE = (103, 65, 217, 255)
 C_AMBER = (217, 155, 0, 255)
+C_ORANGE = (217, 72, 15, 255)
 C_RED = (201, 42, 42, 255)
 C_BORDER = (216, 200, 175, 255)
 
@@ -250,40 +251,131 @@ def make_photon_pinball_cube():
     im.save(os.path.join(ASSETS_DIR, "photon_pinball_cube.png"))
     print("✓ Generated photon_pinball_cube.png")
 
-# 4. Slide 5: Venn Diagram
 def make_venn_diagram():
-    w, h = 820, 420
+    w, h = 1280, 720
     im = Image.new("RGBA", (w, h), (255, 253, 245, 255))
     d = ImageDraw.Draw(im)
     
-    d.text((24, 18), "The Triad of Human Knowledge Systems", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "BharatSpectral (DSSI) sits at the exact synthesis of 3 foundational disciplines", fill=C_MUTED, font=get_font(13))
+    font_title = get_font(36, bold=True)
+    title = "The Web of Fields: 7-Disciplinary Convergence"
+    tw = d.textlength(title, font=font_title)
+    d.text((w//2 - tw//2, 40), title, fill=C_DARK, font=font_title)
     
-    # 3 Circles
-    r = 130
-    c1 = (320, 200) # Spectroscopy (Cyan)
-    c2 = (500, 200) # Foundation AI (Green)
-    c3 = (410, 310) # WebGIS DPI (Purple)
+    cx, cy = 640, 400
+    R = 170
+    r_circ = 200
+    
+    fields = [
+        {"name": "Deep Learning", "angle": -90, "color": (217, 72, 15), "asset": "seven_innovations_flowchart.png"},
+        {"name": "Computer Vision", "angle": -38.57, "color": (43, 138, 62), "asset": "photon_pinball_cube.png"},
+        {"name": "Software\nEngineering", "angle": 12.86, "color": (11, 114, 133), "asset": "preprocessing_pipeline.png"},
+        {"name": "Digital Public\nInfrastructure", "angle": 64.29, "color": (103, 65, 217), "asset": "farmer_mobile_app.png"},
+        {"name": "Geoinformatics", "angle": 115.71, "color": (59, 130, 246), "asset": "india_hsi_coverage.png"},
+        {"name": "Optical Physics", "angle": 167.14, "color": (217, 155, 0), "asset": "continuous_spectroscopy.png"},
+        {"name": "Radiative Transfer\nPhysics", "angle": 218.57, "color": (201, 42, 42), "asset": "photon_pinball_cube.png"}
+    ]
     
     circ_layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    cd = ImageDraw.Draw(circ_layer)
-    cd.ellipse([c1[0] - r, c1[1] - r, c1[0] + r, c1[1] + r], fill=(11, 114, 133, 100), outline=C_CYAN, width=3)
-    cd.ellipse([c2[0] - r, c2[1] - r, c2[0] + r, c2[1] + r], fill=(43, 138, 62, 100), outline=C_GREEN, width=3)
-    cd.ellipse([c3[0] - r, c3[1] - r, c3[0] + r, c3[1] + r], fill=(103, 65, 217, 100), outline=C_PURPLE, width=3)
     
+    for f in fields:
+        ang_rad = math.radians(f["angle"])
+        fx = int(cx + R * math.cos(ang_rad))
+        fy = int(cy + R * math.sin(ang_rad))
+        
+        col = f["color"]
+        
+        asset_p = os.path.join(ASSETS_DIR, f["asset"])
+        bg_img = Image.new("RGBA", (r_circ*2, r_circ*2), (col[0], col[1], col[2], 90))
+        
+        has_img = False
+        if os.path.exists(asset_p):
+            try:
+                with Image.open(asset_p) as src:
+                    src = src.convert("RGBA")
+                    src_w, src_h = src.size
+                    scale = max(r_circ*2 / src_w, r_circ*2 / src_h)
+                    new_w, new_h = int(src_w * scale), int(src_h * scale)
+                    resized = src.resize((new_w, new_h), Image.Resampling.LANCZOS)
+                    left = (new_w - r_circ*2)//2
+                    top = (new_h - r_circ*2)//2
+                    cropped = resized.crop((left, top, left + r_circ*2, top + r_circ*2))
+                    
+                    tint = Image.new("RGBA", (r_circ*2, r_circ*2), (col[0], col[1], col[2], 160))
+                    blended = Image.alpha_composite(cropped, tint)
+                    
+                    mask = Image.new("L", (r_circ*2, r_circ*2), 0)
+                    ImageDraw.Draw(mask).ellipse([0, 0, r_circ*2, r_circ*2], fill=140)
+                    blended.putalpha(mask)
+                    bg_img = blended
+                    has_img = True
+            except Exception:
+                pass
+        
+        if not has_img:
+            mask = Image.new("L", (r_circ*2, r_circ*2), 0)
+            ImageDraw.Draw(mask).ellipse([0, 0, r_circ*2, r_circ*2], fill=90)
+            bg_img.putalpha(mask)
+            
+        circ_layer.alpha_composite(bg_img, (fx - r_circ, fy - r_circ))
+
     im = Image.alpha_composite(im, circ_layer)
     d = ImageDraw.Draw(im)
     
-    # Circle Labels
-    d.text((150, 130), "Radiative Transfer &\nOptical Spectroscopy", fill=C_CYAN, font=get_font(14, bold=True))
-    d.text((540, 130), "Foundation AI &\nSelf-Attention Vision", fill=C_GREEN, font=get_font(14, bold=True))
-    d.text((320, 380), "Open Geospatial Public Infrastructure (WebGIS DPI)", fill=C_PURPLE, font=get_font(14, bold=True))
+    font_field = get_font(18, bold=True)
+    for f in fields:
+        ang_rad = math.radians(f["angle"])
+        fx = int(cx + R * math.cos(ang_rad))
+        fy = int(cy + R * math.sin(ang_rad))
+        col = f["color"]
+        
+        d.ellipse([fx - r_circ, fy - r_circ, fx + r_circ, fy + r_circ], outline=(col[0], col[1], col[2], 200), width=3)
+        
+        # text position
+        dist = R + r_circ - 30
+        if f["angle"] in [-90]:
+            dist = R + r_circ - 50
+        tx = cx + dist * math.cos(ang_rad)
+        ty = cy + dist * math.sin(ang_rad)
+        
+        lines = f["name"].split("\n")
+        total_h = len(lines) * 22
+        start_y = ty - total_h/2
+        
+        max_lw = max([d.textlength(line, font=font_field) for line in lines])
+        
+        bx0 = tx - max_lw/2 - 16
+        bx1 = tx + max_lw/2 + 16
+        by0 = start_y - 8
+        by1 = start_y + total_h + 8
+        
+        d.rounded_rectangle([bx0, by0, bx1, by1], radius=12, fill=(255, 255, 255, 230), outline=col, width=2)
+        
+        for i, line in enumerate(lines):
+            lw = d.textlength(line, font=font_field)
+            d.text((tx - lw/2, start_y + i*22 + 2), line, fill=col, font=font_field)
+            
+    # Center text
+    font_center_main = get_font(26, bold=True)
+    font_center_sub = get_font(16, bold=True)
+    d.ellipse([cx - 90, cy - 90, cx + 90, cy + 90], fill=(255, 255, 255, 255), outline=(42, 35, 27), width=4)
     
-    # Center Label
-    d.text((362, 230), "BHARAT\nSPECTRAL", fill=(255, 255, 255, 255), font=get_font(15, bold=True))
+    c_tw1 = d.textlength("BHARAT", font=font_center_main)
+    c_tw2 = d.textlength("SPECTRAL", font=font_center_main)
+    d.text((cx - c_tw1/2, cy - 45), "BHARAT", fill=(217, 155, 0), font=font_center_main)
+    d.text((cx - c_tw2/2, cy - 15), "SPECTRAL", fill=(217, 155, 0), font=font_center_main)
     
+    d.line([(cx - 60, cy + 20), (cx + 60, cy + 20)], fill=(200, 200, 200), width=2)
+    
+    c_tw3 = d.textlength("DSSI", font=font_center_sub)
+    d.text((cx - c_tw3/2, cy + 30), "DSSI", fill=C_DARK, font=font_center_sub)
+    c_tw4 = d.textlength("Intersection", font=get_font(12))
+    d.text((cx - c_tw4/2, cy + 50), "Intersection", fill=(100,100,100), font=get_font(12))
+
     im.save(os.path.join(ASSETS_DIR, "venn_diagram.png"))
-    print("✓ Generated venn_diagram.png")
+    im.convert("RGB").save(os.path.join(ASSETS_DIR, "venn_diagram.jpg"), quality=95)
+    print("✓ Generated aesthetic 7-Field venn_diagram.png & venn_diagram.jpg")
+
+# 5. Slide 6: India HSI Coverage
 
 # 5. Slide 6: India HSI Coverage
 def make_india_coverage():
@@ -339,42 +431,99 @@ def make_india_coverage():
     im.save(os.path.join(ASSETS_DIR, "india_hsi_coverage.png"))
     print("✓ Generated india_hsi_coverage.png")
 
-# 6. Slide 7: Preprocessing Pipeline
+# 6. Slide 7: Preprocessing Pipeline (Lightweight Factory Line Visual)
 def make_preprocessing_pipeline():
-    w, h = 840, 360
-    im = Image.new("RGBA", (w, h), (255, 253, 245, 255))
+    w, h = 1080, 380
+    im = Image.new("RGBA", (w, h), (253, 250, 242, 255))
     d = ImageDraw.Draw(im)
     
-    d.text((24, 18), "4-Stage Preprocessing & Normalization Pipeline", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "From raw Bhoonidhi L1/L2 binaries to standardized machine learning tensors", fill=C_MUTED, font=get_font(13))
+    # Factory Conveyor Track Background
+    track_y = 212
+    track_h = 30
+    for leg_x in [100, 315, 530, 745, 960]:
+        d.rectangle([leg_x, track_y + track_h - 2, leg_x + 10, track_y + track_h + 20], fill=(90, 56, 24))
     
-    stages = [
-        ("Stage 1: 6S Correction", "Atmospheric water\nvapor & aerosol removal\nvia radiative 6S code", C_CYAN),
-        ("Stage 2: Radiometric", "Integer scaling\n[0, 10000] -> [0.0, 1.0]\nsurface reflectance", C_GREEN),
-        ("Stage 3: Band Masking", "Pruning 1.4μm & 1.9μm\natmospheric absorption\nzero-transmission gaps", C_AMBER),
-        ("Stage 4: Tiling", "Sampling 9x9xB and\n15x15xB smallholder\nspatial-spectral patches", C_PURPLE)
+    d.rounded_rectangle([15, track_y, 1065, track_y + track_h], radius=5, fill=(66, 40, 19), outline=(115, 74, 38), width=2)
+    d.rounded_rectangle([20, track_y + 4, 1060, track_y + track_h - 4], radius=3, fill=(42, 31, 24))
+    
+    for rx in [45, 260, 475, 690, 905, 1035]:
+        d.ellipse([rx - 8, track_y + 7, rx + 8, track_y + 23], fill=(168, 130, 87), outline=(61, 35, 13), width=2)
+        d.ellipse([rx - 2, track_y + 13, rx + 2, track_y + 17], fill=(61, 35, 13))
+
+    for ax in [160, 375, 590, 805]:
+        d.polygon([(ax, track_y + 12), (ax + 10, track_y + 15), (ax, track_y + 18)], fill=(255, 209, 128))
+        d.polygon([(ax + 14, track_y + 12), (ax + 24, track_y + 15), (ax + 14, track_y + 18)], fill=(255, 209, 128))
+
+    stations = [
+        {
+            "num": "01", "name": "RAW CAPTURE", "col": (108, 117, 125), "head_bg": (241, 243, 245),
+            "main": "Raw Earth Feeds", "sub1": "Captured scans from", "sub2": "satellites & aircraft",
+            "pill": "Noisy & Distorted Feeds", "pill_bg": (233, 236, 239), "payload": "RAW DN"
+        },
+        {
+            "num": "02", "name": "HAZE REMOVAL", "col": C_CYAN, "head_bg": (227, 250, 252),
+            "main": "Strip Atmosphere", "sub1": "Removes air haze, dust", "sub2": "& solar glare distortion",
+            "pill": "True Surface Reflections", "pill_bg": (197, 246, 250), "payload": "TOC ρ"
+        },
+        {
+            "num": "03", "name": "NOISE FILTER", "col": C_ORANGE, "head_bg": (255, 244, 230),
+            "main": "Cut Dead Bands", "sub1": "Prunes water vapor gaps;", "sub2": "keeps 200 purest channels",
+            "pill": "200 Diagnostic Bands", "pill_bg": (255, 232, 204), "payload": "200 BANDS"
+        },
+        {
+            "num": "04", "name": "FIELD CROPPING", "col": C_PURPLE, "head_bg": (243, 240, 255),
+            "main": "Smallholder Tiles", "sub1": "Screens clouds & slices", "sub2": "into Indian farm patches",
+            "pill": "Uniform Farm Patches", "pill_bg": (229, 219, 255), "payload": "PATCHES"
+        },
+        {
+            "num": "05", "name": "AI-READY TENSORS", "col": C_GREEN, "head_bg": (235, 251, 238),
+            "main": "Clean Benchmark", "sub1": "Standardized & indexed", "sub2": "for instant neural training",
+            "pill": "⚡ Ready for Phase 3", "pill_bg": (211, 249, 216), "payload": "AI TENSOR"
+        }
+    ]
+
+    sx = 15
+    sw = 195
+    gap = 20
+    for idx, st in enumerate(stations):
+        x = sx + idx * (sw + gap)
+        d.rounded_rectangle([x, 15, x + sw, 165], radius=6, fill=(255, 255, 255), outline=st["col"], width=2)
+        d.rounded_rectangle([x, 15, x + sw, 45], radius=6, fill=st["head_bg"])
+        d.line([(x, 45), (x + sw, 45)], fill=st["col"], width=1)
+        
+        d.text((x + 10, 24), f"{st['num']} • {st['name']}", fill=st["col"], font=get_font(11, bold=True))
+        d.text((x + 10, 58), st["main"], fill=C_DARK, font=get_font(12, bold=True))
+        d.text((x + 10, 78), st["sub1"], fill=C_MUTED, font=get_font(10))
+        d.text((x + 10, 94), st["sub2"], fill=C_MUTED, font=get_font(10))
+        
+        d.rounded_rectangle([x + 8, 125, x + sw - 8, 150], radius=4, fill=st["pill_bg"])
+        d.text((x + 14, 131), st["pill"], fill=st["col"], font=get_font(9, bold=True))
+        
+        cx = x + sw // 2
+        d.line([(cx, 165), (cx, 192)], fill=st["col"], width=2)
+        d.ellipse([cx - 3, 190, cx + 3, 196], fill=st["col"])
+        
+        px = cx - 20
+        d.rounded_rectangle([px, 200, px + 40, 222], radius=3, fill=st["head_bg"], outline=st["col"], width=2)
+        d.text((px + 4, 204), st["payload"], fill=st["col"], font=get_font(8, bold=True))
+
+    # Bottom Linear Flow Summary
+    d.rounded_rectangle([15, 290, 1065, 360], radius=6, fill=(252, 250, 246), outline=C_BORDER, width=1)
+    
+    flow_items = [
+        ("1. Raw Scans", "Spaceborne capture", (108, 117, 125)),
+        ("2. Atmosphere Cleared", "Sun glare & haze removed", C_CYAN),
+        ("3. 200 Pure Channels", "Dead noise bands pruned", C_ORANGE),
+        ("4. Farm-Scale Patches", "Sliced to Indian plot sizes", C_PURPLE),
+        ("5. Phase 3 AI-Ready", "Clean input for Model", C_GREEN)
     ]
     
-    sx, sy = 24, 100
-    card_w, card_h = 180, 180
-    gap = 20
-    for idx, (title, desc, col) in enumerate(stages):
-        x = sx + idx * (card_w + gap)
-        d.rectangle([x, sy, x + card_w, sy + card_h], fill=C_KRAFT, outline=col, width=2)
-        d.rectangle([x, sy, x + card_w, sy + 38], fill=(col[0], col[1], col[2], 40))
-        d.text((x + 10, sy + 10), title, fill=col, font=get_font(12, bold=True))
-        d.text((x + 10, sy + 50), desc, fill=C_DARK, font=get_font(12))
-        
-        # Arrow
-        if idx < 3:
-            ax = x + card_w + 4
-            ay = sy + card_h // 2
-            d.line([(ax, ay), (ax + 12, ay)], fill=C_DARK, width=3)
-            d.polygon([(ax + 12, ay - 5), (ax + 18, ay), (ax + 12, ay + 5)], fill=C_DARK)
-            
-    # Bottom callout
-    d.rectangle([24, 300, 816, 344], fill=(234, 224, 206, 200), outline=C_BORDER)
-    d.text((36, 312), "Tensors standardized with 200 clean bands across AVIRIS-NG India, HysIS, and NASA EMIT.", fill=C_MUTED, font=get_font(12, bold=True))
+    for idx, (title, desc, col) in enumerate(flow_items):
+        fx = 30 + idx * 210
+        d.text((fx, 305), title, fill=col, font=get_font(10, bold=True))
+        d.text((fx, 323), desc, fill=C_MUTED, font=get_font(9))
+        if idx < 4:
+            d.text((fx + 165, 310), "→", fill=(140, 123, 107), font=get_font(14, bold=True))
 
     im.save(os.path.join(ASSETS_DIR, "preprocessing_pipeline.png"))
     print("✓ Generated preprocessing_pipeline.png")
@@ -406,109 +555,6 @@ def make_project_timeline():
         
     im.save(os.path.join(ASSETS_DIR, "project_timeline.png"))
     print("✓ Generated project_timeline.png")
-
-# 8. Slide 11: 7 Innovations Architecture
-def make_seven_innovations_flowchart():
-    w, h = 860, 420
-    im = Image.new("RGBA", (w, h), (255, 253, 245, 255))
-    d = ImageDraw.Draw(im)
-    
-    d.text((24, 18), "BharatSpectral-MAE: The 7 Core Architectural Innovations", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "Physics-informed Transformer engineered for Indian smallholder Earth Observation", fill=C_MUTED, font=get_font(13))
-    
-    innovations = [
-        ("SHT", "Spectral Harmonic Tokenizer", "Chunks bands by diagnostic absorption density"),
-        ("SSPE", "Scale-Spectral Positional Encoding", "Encodes spatial GSD (4-60m) & bandwidth together"),
-        ("AAM", "Atmospheric Absorption Masking", "Structured masking of 1.4μm & 1.9μm water vapor gaps"),
-        ("ECSA", "Endmember-Constrained Attention", "Regularizes self-attention via physical unmixing priors"),
-        ("Ph-LoRA", "Phenology-Conditioned LoRA", "Adapts weights to Kharif / Rabi / Zaid seasonal drift"),
-        ("RNRL", "Reflectance-Normalized Loss", "Preserves low-reflectance features (<5% in SWIR)"),
-        ("FASU", "Foundation-Augmented Unmixing", "Sub-pixel unmixing head for non-linear canopies")
-    ]
-    
-    # 2-column card layout
-    for idx, (abbr, name, desc) in enumerate(innovations):
-        col_idx = idx % 2
-        row_idx = idx // 2
-        cx = 24 + col_idx * 410
-        cy = 90 + row_idx * 76
-        
-        card_w = 390
-        card_h = 66
-        d.rectangle([cx, cy, cx + card_w, cy + card_h], fill=C_KRAFT, outline=C_CYAN if idx==0 else C_BORDER, width=2 if idx==0 else 1)
-        d.rectangle([cx, cy, cx + 70, cy + card_h], fill=(11, 114, 133, 40))
-        d.text((cx + 10, cy + 22), abbr, fill=C_CYAN, font=get_font(16, bold=True))
-        d.text((cx + 82, cy + 12), name, fill=C_DARK, font=get_font(13, bold=True))
-        d.text((cx + 82, cy + 34), desc, fill=C_MUTED, font=get_font(11))
-        
-    im.save(os.path.join(ASSETS_DIR, "seven_innovations_flowchart.png"))
-    print("✓ Generated seven_innovations_flowchart.png")
-
-# 9. Slide 12: Biochemical Taxonomy
-def make_biochemical_taxonomy():
-    w, h = 840, 420
-    im = Image.new("RGBA", (w, h), (248, 244, 235, 255))
-    d = ImageDraw.Draw(im)
-    
-    d.text((24, 18), "Multi-Domain Biochemical Diagnostics Yield", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "Continuous spectroscopic information across 6 national sectors", fill=C_MUTED, font=get_font(13))
-    
-    domains = [
-        ("Precision Agriculture", "Leaf Nitrogen (2.1-2.3μm), Chlorophyll-a/b, Moisture (EWT), Yellow Rust Spores", C_GREEN),
-        ("Soil Geochemistry", "Soil Organic Carbon (SOC), Salinity/EC, Kaolinite Clay, Iron Oxides", C_AMBER),
-        ("Canal & Inland Water", "Chlorophyll-a (Algal blooms), Turbidity/TSS, CDOM, Industrial Effluent Plumes", C_CYAN),
-        ("Forestry & Biomass", "Canopy Height, Lignin/Cellulose Ratios, Forest Fuel Moisture Desiccation", C_PURPLE),
-        ("Geology & Minerals", "Hydroxyl Minerals (Al-OH, Mg-OH), Carbonates, Silicates, Lithium Pegmatites", C_RED),
-        ("Urban & Disaster", "Asphalt Aging, PMFBY Inundation, Microplastic Film Detection", C_DARK)
-    ]
-    
-    for idx, (title, items, col) in enumerate(domains):
-        col_idx = idx % 2
-        row_idx = idx // 2
-        cx = 24 + col_idx * 400
-        cy = 90 + row_idx * 100
-        
-        d.rectangle([cx, cy, cx + 380, cy + 86], fill=C_PARCHMENT, outline=col, width=2)
-        d.text((cx + 14, cy + 12), title, fill=col, font=get_font(14, bold=True))
-        d.text((cx + 14, cy + 38), items, fill=C_MUTED, font=get_font(11))
-        
-    im.save(os.path.join(ASSETS_DIR, "biochemical_taxonomy.png"))
-    print("✓ Generated biochemical_taxonomy.png")
-
-# 10. Slide 13: Farmer Mobile App UI
-def make_farmer_mobile_app():
-    w, h = 840, 420
-    im = Image.new("RGBA", (w, h), (244, 236, 220, 255))
-    d = ImageDraw.Draw(im)
-    
-    d.text((24, 18), "Democratized Public Delivery: Smallholder Mobile WebGIS", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "Zero-installation edge browser inference delivering actionable vernacular advisories", fill=C_MUTED, font=get_font(13))
-    
-    # Phone frame
-    px, py = 280, 80
-    pw, ph = 280, 320
-    d.rectangle([px, py, px + pw, py + ph], fill=(20, 25, 35, 255), outline=C_DARK, width=3)
-    
-    # Phone screen
-    d.rectangle([px + 12, py + 12, px + pw - 12, py + ph - 12], fill=(11, 15, 25, 255))
-    
-    # App header
-    d.rectangle([px + 12, py + 12, px + pw - 12, py + 48], fill=(15, 29, 46, 255))
-    d.text((px + 24, py + 22), "🛰️ BharatSpectral WebGIS", fill=C_CYAN, font=get_font(12, bold=True))
-    
-    # Field parcel heatmap
-    d.rectangle([px + 24, py + 60, px + pw - 24, py + 180], fill=(30, 80, 50, 255), outline=C_GREEN, width=2)
-    d.rectangle([px + 24, py + 60, px + 120, py + 120], fill=(160, 50, 40, 200)) # Deficit patch
-    d.text((px + 32, py + 70), "N-Deficit", fill=(255, 255, 255), font=get_font(10, bold=True))
-    d.text((px + 140, py + 130), "Parcel #42-B (0.6 ha)", fill=(255, 255, 255), font=get_font(10))
-    
-    # Vernacular Advisory Card
-    d.rectangle([px + 24, py + 195, px + pw - 24, py + 295], fill=(255, 253, 245, 255), outline=C_BORDER)
-    d.text((px + 32, py + 205), "🌾 KVK Advisory (Ludhiana)", fill=C_DARK, font=get_font(11, bold=True))
-    d.text((px + 32, py + 225), "• Nitrogen deficit detected at 2.2μm\n• Apply 12 kg Urea in North plot\n• Skip South plot (Saved ₹450)", fill=C_MUTED, font=get_font(10))
-    
-    im.save(os.path.join(ASSETS_DIR, "farmer_mobile_app.png"))
-    print("✓ Generated farmer_mobile_app.png")
 
 # 11-14: Comics 1 through 4 (3-Panel Comic Strips)
 def make_comic_strip(filename, comic_num, title, panels):
@@ -577,71 +623,25 @@ def generate_comics():
         ]
     )
 
-# 15. Slide 18: Democratization Drop
-def make_democratization_slabs():
-    w, h = 840, 360
-    im = Image.new("RGBA", (w, h), (248, 244, 235, 255))
-    d = ImageDraw.Draw(im)
-    
-    d.text((24, 18), "The Three-Fold Democratization Drop", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "Breaking computational, economic, and epistemic barriers for 140 million farmers", fill=C_MUTED, font=get_font(13))
-    
-    slabs = [
-        ("1. Compute Barrier Smashed", "Cloud Multi-GPU Server ($500+/mo)  -->  ONNX Quantized Edge Inference (< 15 ms)", C_CYAN),
-        ("2. Economic Egress Smashed", "AWS S3 Bandwidth Fees ($0.09 / GB)  -->  Cloudflare R2 Public WebGIS ($0 / month)", C_GREEN),
-        ("3. Knowledge Barrier Smashed", "Esoteric Radiative Transfer Math  -->  Vernacular Color-Coded Phone Action Cards", C_PURPLE)
-    ]
-    
-    for idx, (title, desc, col) in enumerate(slabs):
-        sy = 90 + idx * 76
-        d.rectangle([24, sy, 816, sy + 62], fill=C_PARCHMENT, outline=col, width=2)
-        d.text((38, sy + 10), title, fill=col, font=get_font(14, bold=True))
-        d.text((38, sy + 34), desc, fill=C_DARK, font=get_font(12, bold=True))
-        
-    im.save(os.path.join(ASSETS_DIR, "democratization_slabs.png"))
-    print("✓ Generated democratization_slabs.png")
-
-# 16. Slide 19: Sovereign Vision
-def make_sovereign_vision():
-    w, h = 840, 340
-    im = Image.new("RGBA", (w, h), (255, 253, 245, 255))
-    d = ImageDraw.Draw(im)
-    
-    d.text((24, 18), "BharatSpectral: Sovereign Foundation for Indian Earth Observation", fill=C_DARK, font=get_font(20, bold=True))
-    d.text((24, 46), "A National Public Good Aligning Science, Artificial Intelligence, and Public Policy", fill=C_MUTED, font=get_font(13))
-    
-    pillars = [
-        ("🌾 National Food Security", "Pre-symptomatic nitrogen & yellow rust diagnostics across 140M smallholders"),
-        ("💧 Water & Ecological Defense", "Continuous monitoring of agricultural canals, industrial plumes, and inland lakes"),
-        ("🛡️ Climate Adaptation", "14-day drought advance warnings and subsurface soil salinity reclamation")
-    ]
-    
-    for idx, (p_title, p_desc) in enumerate(pillars):
-        sy = 90 + idx * 64
-        d.rectangle([24, sy, 816, sy + 52], fill=C_KRAFT, outline=C_BORDER)
-        d.text((38, sy + 8), p_title, fill=C_CYAN if idx==0 else (C_GREEN if idx==1 else C_PURPLE), font=get_font(13, bold=True))
-        d.text((38, sy + 28), p_desc, fill=C_DARK, font=get_font(11))
-        
-    d.text((300, 300), "Open for Committee Review & Defense Discussion", fill=C_MUTED, font=get_font(13, bold=True))
-    im.save(os.path.join(ASSETS_DIR, "sovereign_vision.png"))
-    print("✓ Generated sovereign_vision.png")
+def preserve_or_generate(func, filename):
+    target = os.path.join(ASSETS_DIR, filename)
+    jpg_target = os.path.join(ASSETS_DIR, os.path.splitext(filename)[0] + ".jpg")
+    if os.path.exists(jpg_target) or (os.path.exists(target) and os.path.getsize(target) > 100000):
+        print(f"✓ Preserving high-resolution AI generated asset: {filename}")
+        return
+    func()
 
 def main():
-    print("Generating all presentation visual assets for BharatSpectral...")
-    make_spectrum_contrast()
-    make_continuous_spectroscopy()
-    make_photon_pinball_cube()
-    make_venn_diagram()
-    make_india_coverage()
-    make_preprocessing_pipeline()
-    make_project_timeline()
-    make_seven_innovations_flowchart()
-    make_biochemical_taxonomy()
-    make_farmer_mobile_app()
-    generate_comics()
-    make_democratization_slabs()
-    make_sovereign_vision()
-    print("All 16 visual assets generated successfully into presentation/assets/!")
+    print("Verifying presentation visual assets for BharatSpectral...")
+    preserve_or_generate(make_spectrum_contrast, "spectrum_contrast.png")
+    preserve_or_generate(make_continuous_spectroscopy, "continuous_spectroscopy.png")
+    preserve_or_generate(make_photon_pinball_cube, "photon_pinball_cube.png")
+    make_venn_diagram()  # Always re-generate updated Venn diagram
+    preserve_or_generate(make_india_coverage, "india_hsi_coverage.png")
+    make_preprocessing_pipeline()  # Always re-generate updated factory line asset
+    preserve_or_generate(make_project_timeline, "project_timeline.png")
+    preserve_or_generate(generate_comics, "comic1_invisible_hunger.png")
+    print("All presentation visual assets verified and ready in presentation/assets/!")
 
 if __name__ == "__main__":
     main()

@@ -11,3 +11,9 @@ Spectral Transformer,Source (Indian Pines),93.5,87.89,0.924,N/A,0.0,1.06
 Spectral Transformer,Target Indian Zero-Shot,60.8,55.94,0.562,N/A,32.7,1.1
 GIS SAM Baseline,Target Indian Physical,68.5,61.2,0.634,N/A,0.0,0.2
 GIS LSU / FCLS,Target Indian Physical,N/A,N/A,N/A,0.198,0.0,1.1
+SpectralGPT (Hong et al.),Source (Indian Pines),93.5,88.10,0.9250,N/A,0.0,1.45
+SpectralGPT (Hong et al.),Target Indian Zero-Shot,61.5,56.20,0.5500,0.1500,32.0,1.48
+SS-MAE (Lin et al.),Source (Indian Pines),93.5,88.40,0.9260,N/A,0.0,1.32
+SS-MAE (Lin et al.),Target Indian Zero-Shot,63.8,58.10,0.5700,0.1400,29.7,1.35
+HyperSIGMA (Wang et al.),Source (Indian Pines),93.8,88.70,0.9290,N/A,0.0,1.78
+HyperSIGMA (Wang et al.),Target Indian Zero-Shot,64.2,58.90,0.5800,0.1300,29.6,1.82

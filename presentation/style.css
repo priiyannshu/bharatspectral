@@ -348,6 +348,16 @@ html, body {
   right: 16px;
 }
 
+.pushpin.pin-bottom-left {
+  bottom: -11px;
+  left: 16px;
+}
+
+.pushpin.pin-bottom-right {
+  bottom: -11px;
+  right: 16px;
+}
+
 .pushpin-head {
   width: 18px;
   height: 18px;
@@ -716,3 +726,244 @@ html, body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ==========================================================================
+   Dialogue / Speaker Script Drawer
+   ========================================================================== */
+.btn-dialogue {
+  background: linear-gradient(135deg, #6741d9 0%, #4c2889 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #9775fa !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(103, 65, 217, 0.4) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.btn-dialogue:hover {
+  background: linear-gradient(135deg, #7950f2 0%, #5f3dc4 100%) !important;
+  transform: translateY(-1px);
+}
+
+.dialogue-drawer {
+  position: fixed;
+  top: 54px;
+  right: -480px;
+  width: 440px;
+  max-width: 90vw;
+  height: calc(100vh - 108px);
+  background: #fffdf5;
+  border-left: 3px solid #bba484;
+  border-bottom: 2px solid #bba484;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 0 16px;
+}
+
+.dialogue-drawer.open {
+  right: 0;
+}
+
+.dialogue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #f4ecdc;
+  border-bottom: 1px solid #d8c8af;
+  border-radius: 0 0 0 0;
+}
+
+.dialogue-title-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dialogue-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(103, 65, 217, 0.15);
+  color: #6741d9;
+  border: 1px solid #6741d9;
+}
+
+.dialogue-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #2a231b;
+}
+
+.dialogue-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-dialogue-act {
+  padding: 4px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #d8c8af;
+  background: #fffdf8;
+  color: #2a231b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-dialogue-act:hover {
+  background: #eae0ce;
+}
+
+.dialogue-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #2a231b;
+  background-image: repeating-linear-gradient(transparent, transparent 27px, #e8ddcf 28px);
+}
+
+.dialogue-body p {
+  margin-bottom: 14px;
+}
+
+.dialogue-body strong {
+  color: #0b7285;
+  font-weight: 700;
+}
+
+.dialogue-body em {
+  color: #6741d9;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.dialogue-body .speaker-cue {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: #d9480f;
+  margin: 10px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Investigator's Threaded Pinboard Layout (Slide 1) - Organic & Unstructured
+   ========================================================================== */
+.title-strip-clean {
+  text-align: center;
+  margin-bottom: 12px;
+  padding: 8px 24px;
+  display: inline-block;
+  align-self: center;
+  box-shadow: var(--shadow-paper);
+}
+
+.title-strip-clean h1 {
+  font-family: 'Kalam', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.investigator-board {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  min-height: 480px;
+  flex: 1;
+}
+
+.pinned-polaroid {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #dcd1be;
+  border-radius: 4px;
+  padding: 8px 8px 18px 8px;
+  box-shadow: 0 10px 24px rgba(42, 35, 27, 0.28), 0 3px 8px rgba(42, 35, 27, 0.16);
+  z-index: 5;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, z-index 0.1s ease;
+  cursor: pointer;
+}
+
+.pinned-polaroid:hover {
+  transform: scale(1.08) rotate(0deg) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  z-index: 50;
+}
+
+.pinned-polaroid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  background: #090d16;
+}
+
+/* 5 Organic Staggered Positions across the Corkboard */
+.polaroid-1 {
+  top: 15px;
+  left: 3%;
+  width: 235px;
+  height: 195px;
+  transform: rotate(-3.8deg);
+}
+
+.polaroid-2 {
+  top: 220px;
+  left: 21%;
+  width: 245px;
+  height: 205px;
+  transform: rotate(3.2deg);
+}
+
+.polaroid-3 {
+  top: 10px;
+  left: 41%;
+  width: 250px;
+  height: 200px;
+  transform: rotate(-1.6deg);
+}
+
+.polaroid-4 {
+  top: 225px;
+  left: 60%;
+  width: 245px;
+  height: 205px;
+  transform: rotate(4.1deg);
+}
+
+.polaroid-5 {
+  top: 18px;
+  left: 77%;
+  width: 235px;
+  height: 195px;
+  transform: rotate(-3.2deg);
+}
+
+.thread-overlay-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+

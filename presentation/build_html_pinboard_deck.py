@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """
 build_html_pinboard_deck.py
-Builds the 19-Slide Academic Pinboard Presentation Deck for BharatSpectral
-in the exact ~/ppt/vs theme (references_pinboard.html corkboard & pushpins):
-- Pure corkboard surface with beveled wooden frame
-- Parchment & Kraft paper cards with realistic drop shadows
-- Washi tape strips and 3D pushpins
-- High-resolution scientific diagrams and comic strip assets
+Builds the clean 16-Slide Academic Pinboard Presentation Deck for BharatSpectral
+in the exact corkboard pinboard theme:
+- Clean slide title in every header note (no secondary text or clutter)
+- 4-Speaker Defense Sequence:
+    * Speaker 1 (Slides 1-5): Intro, Objectives, Web of Fields, Continuous Spectroscopy, 3D Data Cube & 2D Curve
+    * Speaker 2 (Slides 6-9): India Coverage, Preprocessing Pipeline, Benchmarking, Need for BharatSpectral
+    * Speaker 3 (Slide 10): Project Progression (Phases 1-5 Roadmap)
+    * Speaker 4 (Slides 11-16): 4 Operational Comics, Minimal References, Final Team & Supervisor Thank You
 - Single clean PPTX download button
-- Full keyboard and click navigation via deck.js
+- Full keyboard, touch, and click navigation via deck.js
 """
 
 import os
+import shutil
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
@@ -50,687 +53,685 @@ html_content = """<!DOCTYPE html>
       from { opacity: 0; transform: scale(0.99); }
       to { opacity: 1; transform: scale(1); }
     }
-    .board-header-note {
+    .corkboard-surface {
       position: relative;
-      background: var(--surface-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 22px;
-      margin-bottom: 18px;
-      box-shadow: var(--shadow-paper);
+      width: 100%;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+      background-image: url('assets/cork_bg.png');
+      background-size: cover;
+      background-position: center;
     }
-    .board-header-note h2 {
-      font-family: 'Kalam', cursive;
-      font-size: 1.55rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.25;
-    }
-    .board-header-note p {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-top: 2px;
-    }
-    .grid-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      flex: 1;
-    }
-    .grid-3col {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      flex: 1;
-    }
-    .paper-card {
-      background: var(--surface-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
+    .slides-wrapper {
       position: relative;
-      box-shadow: var(--shadow-paper);
-    }
-    .paper-card.style-kraft {
-      background: var(--surface2);
-      border-color: var(--border-dark);
-    }
-    .paper-card.style-parchment {
-      background: #fffdf5;
-    }
-    .paper-card.style-lined {
-      background-image: repeating-linear-gradient(transparent, transparent 27px, #e8ddcf 28px);
-    }
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 8px;
-      font-family: 'Inter', sans-serif;
+      width: 100%;
+      height: 100%;
     }
     .card-img-box {
-      background: #090d16;
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-      margin: 10px 0;
-      border: 1px solid var(--border);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.02);
     }
     .card-img-box img {
       max-width: 100%;
-      max-height: 250px;
+      max-height: 100%;
       object-fit: contain;
       border-radius: 4px;
     }
-    .badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 6px;
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .grid-2col-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .grid-4col-pinned {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .card-title {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
       margin-bottom: 8px;
     }
-    .badge-cyan { background: rgba(11, 114, 133, 0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
-    .badge-green { background: rgba(43, 138, 62, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
-    .badge-purple { background: rgba(103, 65, 217, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
-    .badge-amber { background: rgba(217, 155, 0, 0.15); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
-    .badge-red { background: rgba(201, 42, 42, 0.15); color: var(--accent-red); border: 1px solid var(--accent-red); }
-    
-    .status-widget {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      background: #e6f4ea;
-      color: #137333;
-      border: 1px solid #ceead6;
-      margin-left: 10px;
-    }
-    .note-badge {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+    .clean-header-title {
+      margin: 0;
+      font-size: 1.45rem;
+      color: var(--accent-cyan);
+      font-family: 'Trebuchet MS', system-ui, sans-serif;
       font-weight: 700;
-      padding: 2px 7px;
-      background: rgba(103, 65, 217, 0.12);
-      border: 1px solid var(--accent-purple);
+      letter-spacing: 0.2px;
+    }
+    .ref-title {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--accent-purple);
-      border-radius: 4px;
-      margin-top: 6px;
+      margin-bottom: 2px;
     }
-    .bullet-list {
-      margin-left: 18px;
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      line-height: 1.55;
-    }
-    .bullet-list li { margin-bottom: 6px; }
-    table.pin-table {
-      width: 100%;
-      border-collapse: collapse;
+    .ref-authors {
       font-size: 0.82rem;
-      margin-top: 8px;
-    }
-    table.pin-table th {
-      background: #eae0ce;
       color: var(--text);
-      font-weight: 700;
-      padding: 6px 10px;
-      text-align: left;
-      border: 1px solid #d8c8af;
+      line-height: 1.35;
     }
-    table.pin-table td {
-      padding: 6px 10px;
-      border: 1px solid #d8c8af;
-      color: var(--text);
+    .ref-venue {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-style: italic;
+      margin-bottom: 10px;
     }
-    table.pin-table tr:nth-child(even) {
-      background: #fbf7ee;
+    .thank-you-svg-box {
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
-<body>
-  <div class="app-container">
-    
-    <!-- Top Control Bar (Only One PPTX Download Option) -->
+<body class="deck-body">
+
+  <div class="deck-container">
+    <!-- Top Deck Control Toolbar -->
     <header class="deck-topbar">
       <div class="topbar-left">
-        <span class="brand-badge">BHARATSPECTRAL DSSI</span>
+        <a href="../" class="btn-ctrl btn-back-hub" title="Return to DSSI Public Ecosystem Portal">
+          <span class="icon">⬵</span>
+          <span class="label">Main Ecosystem</span>
+        </a>
+        <div class="deck-brand">
+          <span class="deck-badge">RESEARCH PILLAR 1</span>
+          <span class="deck-title">BharatSpectral-MAE</span>
+        </div>
+      </div>
+
+      <div class="topbar-center">
         <span class="slide-title-indicator" id="slideTitleIndicator">Slide 1: Beyond Human Sight</span>
       </div>
-      <div class="topbar-center">
-        <a href="BharatSpectral_MidTerm_Presentation.pptx" download class="btn-ctrl btn-download btn-animated" title="Download Official PowerPoint Presentation">
-          📥 <strong>Download PPTX Deck</strong> (16:9 Widescreen)
-        </a>
-      </div>
+
       <div class="topbar-right">
-        <span class="slide-counter" id="slideCounter">01 / 19</span>
+        <a href="BharatSpectral_MidTerm_Presentation.pptx" download class="btn-ctrl btn-download btn-animated" title="Download Official PowerPoint Presentation">
+          <span class="icon">📥</span>
+          <span class="label">Download PPTX</span>
+        </a>
+
+        <button class="btn-ctrl btn-dialogue" id="dialogueBtn" title="Toggle Presenter Dialogue & Speech Notes (Key: D or S)">
+          <span class="icon">🎙️</span>
+          <span class="label">Speech Notes</span>
+        </button>
+        <span class="slide-counter" id="slideCounter">01 / 16</span>
         <button class="btn-ctrl" id="prevBtn" title="Previous Slide (← / P)">◀ Prev</button>
         <button class="btn-ctrl" id="nextBtn" title="Next Slide (→ / Space / N)">Next ▶</button>
         <button class="btn-ctrl" id="fullscreenBtn" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
       </div>
+      <div class="deck-progress" id="progressBar"></div>
     </header>
 
-    <!-- Pinboard Presentation Stage -->
-    <main class="stage-viewport">
+    <!-- Slide Dialogue / Presenter Speech Notes Drawer -->
+    <aside class="dialogue-drawer" id="dialogueDrawer" aria-label="Presenter Dialogue Drawer">
+      <div class="dialogue-header">
+        <div class="dialogue-title-box">
+          <span class="dialogue-badge">SLIDE <span id="dialogueSlideNum">01</span></span>
+          <span class="dialogue-title" id="dialogueTitle">Slide Dialogue</span>
+        </div>
+        <div class="dialogue-actions">
+          <button class="btn-dialogue-act" id="copyDialogueBtn" title="Copy Dialogue to Clipboard">📋 Copy</button>
+          <button class="btn-dialogue-act" id="closeDialogueBtn" title="Close Drawer (D / Esc)">✕ Close</button>
+        </div>
+      </div>
+      <div class="dialogue-body" id="dialogueContent">
+        <!-- Injected via deck.js -->
+      </div>
+    </aside>
+
+    <!-- Main Corkboard Stage -->
+    <main class="deck-stage">
       <div class="corkboard-frame">
         <div class="corkboard-surface">
           <div class="slides-wrapper">
 
-            <!-- SLIDE 1: Title Pinboard -->
+            <!-- ============================================================== -->
+            <!-- SPEAKER 1: SLIDES 1 to 5                                      -->
+            <!-- ============================================================== -->
+
+            <!-- SLIDE 1: Beyond Human Sight (Intro) -->
             <section class="slide active" id="slide-1">
-              <div class="paper-card style-parchment" style="text-align: center; margin-bottom: 16px;">
+              <div class="paper-card style-parchment title-strip-clean">
                 <div class="washi-tape tape-center"></div>
                 <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">B.TECH CAPSTONE PROJECT REVIEW • MID-TERM EVALUATION</span>
-                <h1 style="font-family:'Kalam', cursive; font-size:2.2rem; font-weight:700; color:var(--text); margin:8px 0;">
-                  BharatSpectral: Democratized Spectral-Semantic Intelligence (DSSI)
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h1 class="title-strip-text">
+                  BharatSpectral: Democratized Spectral-Semantic Intelligence
                 </h1>
-                <div style="font-size:0.95rem; font-weight:600; color:var(--accent-cyan);">
-                  Physics-Informed Hyperspectral Foundation Model &amp; Serverless WebGIS Public Infrastructure for Indian Earth Observation
-                </div>
               </div>
-              <div class="grid-2col">
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-yellow pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-amber">ACT I • FOUNDATIONAL MOTIVATION</span>
-                  <div class="card-title">Beyond Human Sight: Continuous Spectroscopy</div>
-                  <div class="card-img-box">
-                    <img src="assets/spectrum_contrast.png" alt="Spectrum Contrast">
-                  </div>
-                  <p style="font-size:0.82rem; color:var(--text-dim); margin-top:6px;">
-                    Human vision is restricted to a 380–700 nm optical sliver (1.4% of solar reflected photons). BharatSpectral captures 400–2500 nm across 425 continuous narrow channels.
-                  </p>
+
+              <!-- Organic Corkboard Pinboard with Red Pushpins & Connecting Red Yarn -->
+              <div class="pinboard-investigator-grid" style="flex: 1; position: relative;">
+                <svg class="yarn-overlay" viewBox="0 0 1200 600">
+                  <path d="M 160 25 C 200 120, 300 280, 480 320" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="8,4" opacity="0.75"/>
+                  <path d="M 480 320 C 600 200, 750 140, 950 120" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="8,4" opacity="0.75"/>
+                  <path d="M 155 25 C 400 320, 650 300, 850 235" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="8,4" opacity="0.75"/>
+                  <path d="M 385 230 C 600 60, 850 60, 1060 28" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="8,4" opacity="0.75"/>
+                </svg>
+
+                <div class="pinned-polaroid polaroid-1" title="Orbital Hyperspectral Sensor">
+                  <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <img src="assets/hero_satellite_earth.png" alt="Hyperspectral Earth Observation Satellite">
                 </div>
-                <div class="paper-card style-kraft">
-                  <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-green">STUDENT INVESTIGATORS &amp; SUPERVISOR</span>
-                  <div class="card-title">Dual-Pillar National Innovation</div>
-                  <ul class="bullet-list" style="margin-top:10px;">
-                    <li><strong>Research Pillar:</strong> BharatSpectral-MAE Foundation Model (SSPE, RNRL, SHT, AAM, ECSA, Ph-LoRA, FASU).</li>
-                    <li><strong>Product Pillar:</strong> Serverless Edge WebGIS on Cloudflare R2 + Workers for 140 million smallholders.</li>
-                    <li><strong>Grounding:</strong> Evaluated on AVIRIS-NG India, ISRO HysIS, and NASA EMIT.</li>
-                  </ul>
-                  <div style="margin-top:16px; padding:10px; background:rgba(11,114,133,0.08); border-radius:8px; border:1px solid var(--accent-cyan); font-size:0.8rem;">
-                    <strong>National Alignment:</strong> IndiaAI Mission &amp; Geospatial Digital Public Infrastructure (DPI).
-                  </div>
+
+                <div class="pinned-polaroid polaroid-2" title="Radiative Transfer & Optical Physics">
+                  <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <img src="assets/photon_pinball_cube.png" alt="Canopy Optical Scattering & Physics">
+                </div>
+
+                <div class="pinned-polaroid polaroid-3" title="Continuous Spectroscopy">
+                  <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <img src="assets/continuous_spectroscopy.png" alt="Continuous Hyperspectral Spectroscopy">
+                </div>
+
+                <div class="pinned-polaroid polaroid-4" title="Indian Agricultural Mosaic">
+                  <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <img src="assets/india_hsi_coverage.png" alt="Indian Hyperspectral Coverage & Agricultural Mosaic">
+                </div>
+
+                <div class="pinned-polaroid polaroid-5" title="Spectral Contrast & Diagnostic Barcode">
+                  <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <img src="assets/spectrum_contrast.png" alt="Multispectral vs Hyperspectral Contrast">
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 2: Engineering Objectives -->
+            <!-- SLIDE 2: Project Objectives -->
             <section class="slide" id="slide-2">
-              <div class="board-header-note">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">SCOPE &amp; MILESTONES</span>
-                <h2>Engineering Objectives: Capstone 7th Semester Scope</h2>
-                <p>Formal deliverable commitments for Phase 1 &amp; Phase 2 evaluated against real Indian agricultural data</p>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Project Objectives</h2>
               </div>
-              <div class="grid-3col">
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-cyan">PILLAR 1: CURATE &amp; STANDARDIZE</span>
-                  <div class="card-title">Indian HSI Corpus Assembly</div>
-                  <ul class="bullet-list">
-                    <li>Ingest heterogeneous cubes: AVIRIS-NG India (425b), ISRO HysIS (220b), NASA EMIT (285b).</li>
-                    <li>Apply 6S radiative atmospheric water vapor correction (1.4μm &amp; 1.9μm masking).</li>
-                    <li>Standardize spatial-spectral patch generator for fragmented smallholders.</li>
-                  </ul>
-                  <div class="status-widget" style="margin-top:12px;">● PHASE 1 COMPLETE</div>
-                </div>
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-amber pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-amber">PILLAR 2: BENCHMARK &amp; DIAGNOSE</span>
-                  <div class="card-title">Empirical Failure Proof</div>
-                  <ul class="bullet-list">
-                    <li>Train baseline architectures: RF, SVM-RBF, HybridSN (3D-2D CNN), 3D-CNN, Spectral Transformer.</li>
-                    <li>Quantify catastrophic 22%–37% OA drop under Indian agricultural domain shift.</li>
-                    <li>Audit GIS physical spectroscopic tools (SAM, LSU/FCLS) under non-linear canopy scattering.</li>
-                  </ul>
-                  <div class="status-widget" style="margin-top:12px;">● PHASE 2 COMPLETE</div>
-                </div>
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-purple">PILLAR 3: ARCHITECT NOVELTY</span>
-                  <div class="card-title">The 7 Named Innovations</div>
-                  <ul class="bullet-list">
-                    <li>Formalize BharatSpectral-MAE: SSPE, RNRL, SHT, AAM, ECSA, Ph-LoRA, and FASU.</li>
-                    <li>Bridge optical quantum physics with self-attention Transformer heads.</li>
-                    <li>Prepare high-performance GPU pretraining pipeline for 8th semester scaling.</li>
-                  </ul>
-                  <div class="note-badge" style="margin-top:12px;">PHASE 3 ACTIVE FRONTIER</div>
+              <div class="paper-card style-parchment" style="flex: 1; padding: 24px 36px; display: flex; flex-direction: column; justify-content: space-around; position: relative;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-yellow pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-green pin-bottom-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-purple pin-bottom-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <ol class="objectives-list" style="font-size: 0.88rem; line-height: 1.55; margin-left: 20px; margin-top: 0; margin-bottom: 0; color: var(--text); padding-left: 8px;">
+                  <li style="margin-bottom: 12px;"><strong style="color: var(--accent-cyan);">Data Acquisition &amp; Benchmark Creation:</strong> Ingest heterogeneous hyperspectral cubes across AVIRIS-NG India (425 bands), ISRO HysIS (220 bands), and NASA EMIT (285 bands) to construct <strong>BharatHSI-Bench</strong> — India's first open, labeled smallholder agricultural benchmark with standardized evaluation protocols.</li>
+                  <li style="margin-bottom: 12px;"><strong style="color: var(--accent-orange);">Empirical Failure Proof:</strong> Rigorously evaluate global Foundation Models (SpectralGPT, HyperSIGMA) and classical baselines directly on BharatHSI-Bench, quantifying severe domain-shift degradation (22%–37% Overall Accuracy drop) over fragmented Indian plots.</li>
+                  <li style="margin-bottom: 12px;"><strong style="color: var(--accent-purple);">Physics-Informed Foundation Model:</strong> Design <strong>BharatSpectral-MAE</strong>, introducing seven named architectural innovations (Scale-Spectral Positional Encoding, Atmospheric Absorption Masking, Reflectance-Normalized Loss) to achieve state-of-the-art representations under Indian agricultural conditions.</li>
+                  <li style="margin-bottom: 12px;"><strong style="color: var(--accent-green);">Multi-Domain Biochemical Adaptation:</strong> Fine-tune foundation representations for downstream diagnostic tasks including nitrogen deficit mapping, soil organic carbon estimation, inland water chlorophyll-a monitoring, and soil salinity/sodicity defense.</li>
+                  <li style="margin-bottom: 0px;"><strong style="color: var(--accent-red);">Democratized Public Delivery:</strong> Deploy an open, zero-cost WebGIS platform with sub-second Serverless Spectral Inference (SSI) via Cloudflare Workers and ONNX edge runtime, translating complex spectral tensors into direct vernacular farmer advisories.</li>
+                </ol>
+              </div>
+            </section>
+
+            <!-- SLIDE 3: The Web of Fields -->
+            <section class="slide" id="slide-3">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">The Web of Fields: Multi-Disciplinary Convergence</h2>
+              </div>
+              <div class="paper-card style-parchment" style="flex: 1; padding: 12px; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="card-img-box" style="background: transparent; border: none; padding: 0; margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                  <img src="assets/venn_diagram.png" alt="The Web of Fields: 7-Field Interdisciplinary Venn Diagram" style="max-width: 100%; max-height: 520px; object-fit: contain;">
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 3: Continuous Spectroscopy -->
-            <section class="slide" id="slide-3">
-              <div class="board-header-note">
+            <!-- SLIDE 4: Continuous Spectroscopy -->
+            <section class="slide" id="slide-4">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-green">SPECTRAL PHYSICS</span>
-                <h2>Continuous Spectroscopy: What Each Spectral Band Captures</h2>
-                <p>Narrow-band molecular absorption physics across VNIR, Red-Edge, NIR, and SWIR regimes</p>
+                <div class="pushpin pin-green pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Continuous Spectroscopy: The Chemical Barcode</h2>
               </div>
               <div class="grid-2col">
                 <div class="paper-card style-parchment">
                   <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">Continuous Reflectance Signature</div>
                   <div class="card-img-box">
-                    <img src="assets/continuous_spectroscopy.png" alt="Continuous Spectroscopy Curve">
-                  </div>
-                </div>
-                <div class="paper-card style-kraft">
-                  <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-cyan">ARCHITECTURAL INNOVATIONS SEEDED</span>
-                  <div class="card-title">Diagnostic Absorption Physics</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>400–700 nm (VNIR):</strong> Plant pigment absorption (Chlorophyll a/b, Carotenoids).</li>
-                    <li><strong>700–750 nm (Red-Edge):</strong> Steep cellular structure cliff. <span class="note-badge">NOTE: SHT</span> (Spectral Harmonic Tokenizer allocates fine tokens here).</li>
-                    <li><strong>970 &amp; 1200 nm (NIR):</strong> Cellular liquid Equivalent Water Thickness (EWT).</li>
-                    <li><strong>1.4 &amp; 1.9 μm:</strong> Atmospheric water vapor zero-transmission gaps. <span class="note-badge">NOTE: AAM</span> (Atmospheric Absorption Masking).</li>
-                    <li><strong>2.1–2.3 μm (SWIR):</strong> Organic protein nitrogen, soil organic carbon (SOC), clay mineral lattices.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 4: Photon Pinball Scattering -->
-            <section class="slide" id="slide-4">
-              <div class="board-header-note">
-                <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-purple">CANOPY RADIATIVE TRANSFER</span>
-                <h2>The 'Pinball Machine' Physics: Non-Linear Scattering &amp; 3D Pixels</h2>
-                <p>Why multi-tier Indian smallholder canopies require 3D tensor foundation representations</p>
-              </div>
-              <div class="grid-2col">
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">Canopy Ricochet vs. 3D Data Cube</div>
-                  <div class="card-img-box">
-                    <img src="assets/photon_pinball_cube.png" alt="Photon Pinball & 3D Cube">
+                    <img src="assets/continuous_spectroscopy.png" alt="Continuous Hyperspectral Spectroscopy">
                   </div>
                 </div>
                 <div class="paper-card style-kraft">
                   <div class="pushpin pin-yellow pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-amber">PHYSICAL BREAKDOWN</span>
-                  <div class="card-title">Why Monoculture Assumptions Collapse</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>Multi-Bounce Scattering:</strong> Sunlight enters intercropped sorghum + pigeon pea and ricochets between leaves and soil before sensor reception.</li>
-                    <li><strong>Failure of Linear Unmixing:</strong> Classical GIS (LSU/FCLS) assumes linear superposition ($r = \sum a_i e_i$). Ricochets cause non-linear cross-talk ($RMSE_A > 0.15$).</li>
-                    <li><span class="note-badge">NOTE: SSPE</span> <strong>Scale-Spectral Positional Encoding:</strong> Jointly encodes GSD ($4–60\,\text{m}$), bandwidth, and mixture entropy.</li>
-                    <li><span class="note-badge">NOTE: FASU</span> <strong>Foundation-Augmented Spectral Unmixing:</strong> Decomposes complex non-linear canopy mixtures using pretrained foundation representations.</li>
+                  <div class="card-title">Diagnostic Absorption Physics</div>
+                  <ul class="bullet-list">
+                    <li><strong>Narrow-Band Continuity:</strong> 425 contiguous 5nm bands capture narrow chemical absorption doublets invisible to 10-band multispectral sensors.</li>
+                    <li><strong>Chlorophyll Red-Edge (680–740nm):</strong> Slope inflection accurately isolates plant vigor from background soil reflectance.</li>
+                    <li><strong>Cellular Water Absorption (970nm &amp; 1200nm):</strong> Quantifies canopy equivalent water thickness before visual wilting occurs.</li>
+                    <li><strong>Protein &amp; Nitrogen (2100–2300nm):</strong> Direct molecular absorption bonds (C-H, N-H) enable precise leaf nitrogen profiling.</li>
                   </ul>
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 5: Interdisciplinary Venn Diagram -->
+            <!-- SLIDE 5: Hyperspectral Data Cube & 2D Spectral Signature Curve -->
             <section class="slide" id="slide-5">
-              <div class="board-header-note">
-                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">RESEARCH FOUNDATIONS</span>
-                <h2>The Intersection of Human Knowledge Systems</h2>
-                <p>Synthesizing optical spectroscopy physics, foundation AI architectures, and open WebGIS public infrastructure</p>
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Hyperspectral Data Cube &amp; Canopy Radiative Transfer</h2>
               </div>
               <div class="grid-2col">
                 <div class="paper-card style-parchment">
-                  <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-img-box">
-                    <img src="assets/venn_diagram.png" alt="Interdisciplinary Venn Diagram">
-                  </div>
-                </div>
-                <div class="paper-card style-kraft">
-                  <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-green">DISCIPLINARY CONVERGENCE</span>
-                  <div class="card-title">Why Pure Computer Science is Insufficient</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>Spectroscopy Physics:</strong> Provides ground truth absorption laws, radiative transfer equations, and atmospheric absorption gap constraints.</li>
-                    <li><strong>Foundation Model AI:</strong> Provides self-attention capacity, masked autoencoding pretraining, and non-linear parameter-efficient adaptation (LoRA).</li>
-                    <li><strong>WebGIS Public Infrastructure:</strong> Eliminates cloud costs through Cloudflare R2 zero-egress storage and browser-edge ONNX WASM inference.</li>
-                    <li><strong>Core Convergence:</strong> <strong>BharatSpectral (DSSI)</strong> delivers democratized biochemical intelligence directly to citizen devices.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 6: Indian Landmass Coverage -->
-            <section class="slide" id="slide-6">
-              <div class="board-header-note">
-                <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-green">DATASET FOUNDATIONS</span>
-                <span class="status-widget">● PHASE 1 COMPLETE</span>
-                <h2>Open Hyperspectral Corpus over the Indian Landmass</h2>
-                <p>Curated heterogeneous dataset harmonizing airborne AVIRIS-NG India, spaceborne ISRO HysIS, and NASA EMIT</p>
-              </div>
-              <div class="grid-2col">
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-img-box">
-                    <img src="assets/india_hsi_coverage.png" alt="India Coverage Map">
-                  </div>
-                </div>
-                <div class="paper-card style-kraft">
                   <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-purple">CORPUS HARMONIZATION</span>
-                  <div class="card-title">Sensor Heterogeneity &amp; Coverage</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>AVIRIS-NG India:</strong> 425 continuous bands (380–2510 nm), 4–8m GSD flightlines over Anand (Gujarat), Godavari Basin (AP), and Punjab tracts.</li>
-                    <li><strong>ISRO HysIS:</strong> 220 bands (VNIR/SWIR), 30m spaceborne GSD.</li>
-                    <li><strong>NASA EMIT:</strong> 285 bands (381–2493 nm), 60m GSD on the International Space Station.</li>
-                    <li><span class="note-badge">NOTE: RNRL</span> <strong>Reflectance-Normalized Reconstruction Loss:</strong> Prevents gradients from collapsing in low-reflectance SWIR bands (&lt;5% reflectance).</li>
+                  <div class="card-img-box">
+                    <img src="assets/photon_pinball_cube.png" alt="Hyperspectral Data Cube & Canopy Radiative Transfer">
+                  </div>
+                </div>
+                <div class="paper-card style-kraft">
+                  <div class="pushpin pin-yellow pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title">2D Continuous Spectral Signature Curve</div>
+                  <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; background: #fffdf5; border-radius: 6px; border: 1px solid var(--border); padding: 8px;">
+                    <svg viewBox="0 0 460 220" width="100%" height="100%">
+                      <defs>
+                        <linearGradient id="sigGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="#38bdf8" />
+                          <stop offset="25%" stop-color="#34d399" />
+                          <stop offset="50%" stop-color="#fbbf24" />
+                          <stop offset="100%" stop-color="#f87171" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Axes -->
+                      <line x1="40" y1="180" x2="440" y2="180" stroke="#8c7865" stroke-width="1.5" />
+                      <line x1="40" y1="20" x2="40" y2="180" stroke="#8c7865" stroke-width="1.5" />
+                      <text x="240" y="205" font-family="'JetBrains Mono', monospace" font-size="10" fill="#6d5f52" text-anchor="middle">Wavelength (nm) • 400 to 2500 nm</text>
+                      <text x="12" y="105" font-family="'JetBrains Mono', monospace" font-size="10" fill="#6d5f52" text-anchor="middle" transform="rotate(-90 12,105)">Reflectance %</text>
+                      
+                      <!-- Spectral Signature Curve -->
+                      <path d="M 40 160 Q 60 162 75 145 T 105 168 T 130 90 T 170 65 T 220 70 T 260 120 T 300 85 T 350 140 T 400 120 T 440 165" fill="none" stroke="url(#sigGrad)" stroke-width="2.5" />
+                      
+                      <!-- Annotations -->
+                      <circle cx="105" cy="168" r="3.5" fill="#e03131" />
+                      <text x="105" y="155" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#c92a2a" text-anchor="middle">Chlorophyll 680nm</text>
+                      
+                      <circle cx="130" cy="90" r="3.5" fill="#2b8a3e" />
+                      <text x="145" y="80" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#2b8a3e">Red-Edge Rise</text>
+                      
+                      <circle cx="260" cy="120" r="3.5" fill="#0b7285" />
+                      <text x="260" y="140" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#0b7285" text-anchor="middle">H₂O Dip 1400nm</text>
+
+                      <circle cx="400" cy="120" r="3.5" fill="#6741d9" />
+                      <text x="400" y="105" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#6741d9" text-anchor="middle">Nitrogen 2200nm</text>
+                    </svg>
+                  </div>
+                  <ul class="bullet-list" style="margin-top: 10px;">
+                    <li><strong>3D Cube Dimension:</strong> Two spatial axes $(X, Y)$ and one dense spectral axis $(\\lambda)$ capture complete radiative physical interactions.</li>
+                    <li><strong>Non-Linear Canopy Ricochet:</strong> Sunlight bouncing between multiple crop tiers invalidates standard linear unmixing.</li>
                   </ul>
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 7: Preprocessing Pipeline -->
-            <section class="slide" id="slide-7">
-              <div class="board-header-note">
-                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">DATA PIPELINE</span>
-                <span class="status-widget">● PHASE 1 DETAIL</span>
-                <h2>Preprocessing &amp; Physical Normalization Pipeline</h2>
-                <p>Converting raw Bhoonidhi/STAC binary radiance files into analysis-ready standardized spatial-spectral patches</p>
-              </div>
-              <div class="paper-card style-parchment" style="margin-bottom:12px;">
-                <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/preprocessing_pipeline.png" alt="4-Stage Preprocessing Pipeline">
-                </div>
+            <!-- ============================================================== -->
+            <!-- SPEAKER 2: SLIDES 6 to 9                                      -->
+            <!-- ============================================================== -->
+
+            <!-- SLIDE 6: Indian Landmass Hyperspectral Coverage -->
+            <section class="slide" id="slide-6">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-green pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Indian Landmass Hyperspectral Coverage</h2>
               </div>
               <div class="grid-2col">
-                <div class="paper-card style-kraft">
-                  <span class="badge badge-green">STAGE 1 &amp; 2: RADIATIVE NORMALIZATION</span>
-                  <p style="font-size:0.84rem; color:var(--text); line-height:1.5;">
-                    Removes atmospheric path radiance ($L_{path}$) via 6S radiative transfer code, then converts raw 16-bit integer Digital Numbers into $[0.0, 1.0]$ Top-of-Canopy surface reflectance tensors.
-                  </p>
+                <div class="paper-card style-parchment">
+                  <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-img-box">
+                    <img src="assets/india_hsi_coverage.png" alt="Indian Hyperspectral Coverage Map">
+                  </div>
                 </div>
                 <div class="paper-card style-kraft">
-                  <span class="badge badge-purple">STAGE 3 &amp; 4: MASKING &amp; SAMPLING</span>
-                  <p style="font-size:0.84rem; color:var(--text); line-height:1.5;">
-                    Prunes zero-transmission water absorption windows (1350–1450 nm and 1800–1950 nm) retaining 200 standardized bands, then generates $9\times 9 \times B$ and $15\times 15 \times B$ smallholder patches.
-                  </p>
+                  <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title">Sensor Heterogeneity &amp; Coverage</div>
+                  <ul class="bullet-list">
+                    <li><strong>AVIRIS-NG India (Airborne):</strong> 425 spectral channels (380–2510nm) at 4–8m GSD across key agro-ecological zones (Punjab, Gujarat, Andhra Pradesh).</li>
+                    <li><strong>NASA EMIT (ISS Spaceborne):</strong> 285 spectral channels (381–2493nm) at 60m GSD providing regional mineral and canopy observations.</li>
+                    <li><strong>ISRO HysIS (Orbital Satellite):</strong> 220 spectral channels across VNIR/SWIR providing national continuous monitoring.</li>
+                    <li><strong>Resolution Harmonization:</strong> Requires specialized handling to bridge Ground Sample Distances from 4m airborne to 60m orbital scales.</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- SLIDE 7: Automated Preprocessing Pipeline -->
+            <section class="slide" id="slide-7">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Automated Preprocessing Pipeline</h2>
+              </div>
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px 16px; position: relative;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/preprocessing_pipeline.png" alt="Preprocessing Pipeline Assembly Line" style="max-height: 520px; object-fit: contain;">
                 </div>
               </div>
             </section>
 
             <!-- SLIDE 8: The Benchmarking Arena -->
             <section class="slide" id="slide-8">
-              <div class="board-header-note">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-red pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-red">EMPIRICAL EVIDENCE</span>
-                <span class="status-widget">● PHASE 2 EVALUATION</span>
-                <h2>Benchmarking Previous Attempts: Empirical Proof of Need</h2>
-                <p>Grounded benchmark proving that Western HSI models suffer catastrophic collapse on Indian smallholder agriculture</p>
+                <div class="pushpin pin-red pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Empirical Baseline Benchmarking &amp; Failure Modes</h2>
               </div>
               <div class="grid-2col">
                 <div class="paper-card style-parchment">
                   <div class="pushpin pin-red pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">Domain Shift Collapse (22%–37% OA Drop)</div>
                   <div class="card-img-box">
-                    <img src="outputs/figures/domain_shift_collapse.png" alt="Domain Shift Collapse Bar Chart">
+                    <img src="../outputs/figures/domain_shift_collapse.png" alt="Domain Shift Collapse Bar Chart" onerror="this.src='../outputs/figures/domain_shift_collapse.png'">
                   </div>
                 </div>
                 <div class="paper-card style-kraft">
-                  <div class="pushpin pin-amber pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">Empirical Benchmark Results Table (Pi 5 Testbed)</div>
-                  <table class="pin-table">
-                    <thead>
-                      <tr>
-                        <th>Architecture</th>
-                        <th>Source OA</th>
-                        <th>Indian Target OA</th>
-                        <th>Collapse</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Random Forest</td><td>85.4%</td><td>57.8%</td><td style="color:var(--accent-red); font-weight:700;">-27.6%</td></tr>
-                      <tr><td>SVM (RBF Kernel)</td><td>84.6%</td><td>62.2%</td><td style="color:var(--accent-red); font-weight:700;">-22.4%</td></tr>
-                      <tr><td><strong>HybridSN (3D-2D CNN)</strong></td><td>92.4%</td><td>55.1%</td><td style="color:var(--accent-red); font-weight:800;">-37.3%</td></tr>
-                      <tr><td><strong>3D-CNN (Hamida et al.)</strong></td><td>90.8%</td><td>56.4%</td><td style="color:var(--accent-red); font-weight:800;">-34.4%</td></tr>
-                      <tr><td><strong>Spectral Transformer</strong></td><td>93.5%</td><td>60.8%</td><td style="color:var(--accent-red); font-weight:800;">-32.7%</td></tr>
-                    </tbody>
-                  </table>
-                  <p style="font-size:0.78rem; color:var(--text-dim); margin-top:8px;">
-                    <strong>The Indian Pines Fallacy:</strong> Models trained on 1992 Indiana monocultures fail in India due to 1.08 ha plot fragmentation, intercropping, and 3-season phenology drift.
-                  </p>
+                  <div class="pushpin pin-yellow pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-red);">Empirical Benchmark Results (Testbed Evaluation)</div>
+                  <div style="font-size: 0.84rem; line-height: 1.5; color: var(--text);">
+                    <p style="margin-bottom: 8px;"><strong>The Indian Pines Fallacy:</strong> Models trained on 40-hectare US monocultures collapse when transferred to fragmented Indian smallholder farms.</p>
+                    <ul class="bullet-list">
+                      <li><strong>Random Forest (100 Trees):</strong> 85.4% → 57.8% <span style="color: var(--accent-red); font-weight:700;">(-27.6%)</span></li>
+                      <li><strong>SVM (RBF Kernel):</strong> 84.6% → 62.2% <span style="color: var(--accent-red); font-weight:700;">(-22.4%)</span></li>
+                      <li><strong>3D-CNN (Hamida et al.):</strong> 90.8% → 56.4% <span style="color: var(--accent-red); font-weight:700;">(-34.4%)</span></li>
+                      <li><strong>HybridSN (3D-2D CNN):</strong> 92.4% → 55.1% <span style="color: var(--accent-red); font-weight:700;">(-37.3%)</span></li>
+                      <li><strong>Spectral Transformer:</strong> 93.5% → 60.8% <span style="color: var(--accent-red); font-weight:700;">(-32.7%)</span></li>
+                      <li><strong>SpectralGPT (Hong et al.):</strong> 93.5% → 61.5% <span style="color: var(--accent-red); font-weight:700;">(-32.0%)</span></li>
+                      <li><strong>HyperSIGMA (Wang et al.):</strong> 93.8% → 64.2% <span style="color: var(--accent-red); font-weight:700;">(-29.6%)</span></li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 6px 12px; background: #fff5f5; border-left: 3px solid var(--accent-red); font-weight: 600; font-size: 0.82rem; color: var(--accent-red);">
+                      Consistent 22%–37% Overall Accuracy drop across all Western architectures.
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 9: Traditional GIS Critique -->
+            <!-- SLIDE 9: The Need for BharatSpectral (Loosely Pinned Notes) -->
             <section class="slide" id="slide-9">
-              <div class="board-header-note">
-                <div class="pushpin pin-amber pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-amber">PHYSICAL CRITIQUE</span>
-                <span class="status-widget">● PHASE 2 COMPLETE</span>
-                <h2>Why Existing Methods Fail in Indian Smallholder Ecosystems</h2>
-                <p>Quantitative audit of physical GIS spectroscopic tools (SAM, LSU in ENVI/QGIS) vs unconstrained deep learning</p>
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-yellow pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-yellow pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">The Need for BharatSpectral</h2>
               </div>
-              <div class="grid-2col">
-                <div class="paper-card style-parchment">
-                  <div class="pushpin pin-amber pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">GIS LSU Residuals &amp; SAM Magnitude Blindness</div>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                    <div class="card-img-box"><img src="outputs/figures/gis_linear_unmixing_residuals.png" alt="LSU Residuals"></div>
-                    <div class="card-img-box"><img src="outputs/figures/sam_magnitude_confusion.png" alt="SAM Magnitude Confusion"></div>
-                  </div>
+              <div class="grid-4col-pinned">
+                <!-- Pinned Note 1: Spatial Fragmentation -->
+                <div class="paper-card style-parchment" style="transform: rotate(-0.7deg); position: relative; padding: 16px 20px;">
+                  <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-cyan); font-size: 1.0rem;">🌾 Sub-Pixel Spatial Fragmentation</div>
+                  <ul class="bullet-list" style="font-size: 0.82rem;">
+                    <li>Indian farm parcels average 0.5 to 2.0 hectares with multi-crop intercropping.</li>
+                    <li>Western models trained on 40-hectare monocultures blur plot boundaries and collapse on mixed pixels.</li>
+                    <li>Demands foundation representations explicitly conditioned on mixture entropy.</li>
+                  </ul>
                 </div>
-                <div class="paper-card style-kraft">
-                  <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-cyan">THE DUAL BREAKDOWN</span>
-                  <div class="card-title">Physical Tool Limitations</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>GIS SAM Baseline:</strong> Cosine angle ignores absolute reflectance magnitude, causing a <strong>36.4% false match rate</strong> (confuses shadow/moisture with crop stress).</li>
-                    <li><strong>GIS Linear Spectral Unmixing (LSU):</strong> Produces high residual error ($RMSE_A = 0.2775$ on boundaries; <strong>54.2% pixels fail threshold</strong>) due to non-linear canopy scattering.</li>
-                    <li><span class="note-badge">NOTE: ECSA</span> <strong>Endmember-Constrained Self-Attention:</strong> Regularizes Transformer attention weights using spectroscopic unmixing priors.</li>
-                    <li><span class="note-badge">NOTE: Ph-LoRA</span> <strong>Phenology-Conditioned LoRA:</strong> Modulates adapter weights by Kharif, Rabi, and Zaid phenological stage embeddings.</li>
+
+                <!-- Pinned Note 2: Multi-Sensor Heterogeneity -->
+                <div class="paper-card style-kraft" style="transform: rotate(0.8deg); position: relative; padding: 16px 20px;">
+                  <div class="pushpin pin-green pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-green); font-size: 1.0rem;">🛰️ Multi-Sensor Heterogeneity</div>
+                  <ul class="bullet-list" style="font-size: 0.82rem;">
+                    <li>Indian EO relies on 425-band AVIRIS-NG, 285-band EMIT, and 220-band HysIS.</li>
+                    <li>Ground Sample Distances vary widely from 4m airborne to 60m satellite imagery.</li>
+                    <li>Requires a sensor-agnostic physical tokenizer rather than rigid single-sensor networks.</li>
+                  </ul>
+                </div>
+
+                <!-- Pinned Note 3: Subtle Biochemical Absorption -->
+                <div class="paper-card style-kraft" style="transform: rotate(-0.6deg); position: relative; padding: 16px 20px;">
+                  <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-purple); font-size: 1.0rem;">🔬 Subtle Biochemical Absorption</div>
+                  <ul class="bullet-list" style="font-size: 0.82rem;">
+                    <li>Critical diagnostic features (leaf nitrogen at 2.2μm, soil carbon, moisture) exhibit &lt; 5% reflectance.</li>
+                    <li>Standard MSE loss functions overlook subtle diagnostic dips in favor of high-reflectance background soil.</li>
+                    <li>Requires reflectance-normalized loss formulations to preserve biochemical depth.</li>
+                  </ul>
+                </div>
+
+                <!-- Pinned Note 4: Democratized Public Accessibility -->
+                <div class="paper-card style-parchment" style="transform: rotate(0.6deg); position: relative; padding: 16px 20px;">
+                  <div class="pushpin pin-yellow pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-orange); font-size: 1.0rem;">🌐 Democratized Edge Accessibility</div>
+                  <ul class="bullet-list" style="font-size: 0.82rem;">
+                    <li>Hyperspectral analytics are currently locked behind $10,000/seat desktop GIS licenses.</li>
+                    <li>Smallholder farmers require zero-cost, sub-second browser inference (SSI).</li>
+                    <li>Bridges the gap between research models and direct vernacular advisories.</li>
                   </ul>
                 </div>
               </div>
             </section>
+
+            <!-- ============================================================== -->
+            <!-- SPEAKER 3: SLIDE 10                                           -->
+            <!-- ============================================================== -->
 
             <!-- SLIDE 10: Master Project Timeline -->
             <section class="slide" id="slide-10">
-              <div class="board-header-note">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">EXECUTION ROADMAP</span>
-                <h2>Project Progression: What is Done and The Road Ahead</h2>
-                <p>Systematic milestone completion across 7th semester and active roadmap for 8th semester scaling</p>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Project Progression: Phases 1 to 5</h2>
               </div>
-              <div class="paper-card style-parchment" style="margin-bottom:12px;">
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px 16px; position: relative;">
                 <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/project_timeline.png" alt="Project Timeline Roadmap">
-                </div>
-              </div>
-              <div class="grid-2col">
-                <div class="paper-card style-kraft">
-                  <span class="badge badge-green">COMPLETED: PHASE 1 &amp; PHASE 2</span>
-                  <p style="font-size:0.82rem; color:var(--text); line-height:1.5;">
-                    Data ingestion pipelines verified across 3 sensors; baseline architectures evaluated on Raspberry Pi 5; 22%–37% domain shift collapse empirically proven; GIS spectroscopic failure modes audited.
-                  </p>
-                </div>
-                <div class="paper-card style-kraft">
-                  <span class="badge badge-red">ACTIVE: PHASE 3 HEAVYWEIGHT FRONTIER</span>
-                  <p style="font-size:0.82rem; color:var(--text); line-height:1.5;">
-                    BharatSpectral-MAE pretraining; LoRA adapter tuning; multi-sensor harmonization; followed by Phase 4 &amp; 5 serverless edge deployment on Cloudflare R2 + Workers WebGIS.
-                  </p>
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/project_timeline.png" alt="Project Timeline Roadmap" style="max-height: 520px; object-fit: contain;">
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 11: The 7 Core Innovations -->
+            <!-- ============================================================== -->
+            <!-- SPEAKER 4: SLIDES 11 to 16                                    -->
+            <!-- ============================================================== -->
+
+            <!-- SLIDE 11: Comic 1 - The Invisible Hunger -->
             <section class="slide" id="slide-11">
-              <div class="board-header-note">
-                <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-purple">RESEARCH NOVELTY</span>
-                <h2>The 7 Architectural Innovations: Physics-Informed Foundation Model</h2>
-                <p>Formalizing BharatSpectral-MAE: Engineered specifically for Indian smallholder Earth Observation</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/seven_innovations_flowchart.png" alt="7 Innovations Master Matrix">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 12: Actionable Yield -->
-            <section class="slide" id="slide-12">
-              <div class="board-header-note">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-green">ANALYTIC TAXONOMY</span>
-                <h2>Actionable Yield: Multi-Domain Biochemical Diagnostics</h2>
-                <p>Translating continuous 425-band narrow spectroscopic signatures into 6 national public sector applications</p>
+                <div class="pushpin pin-green pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Operational Scenario 1: The Invisible Hunger</h2>
               </div>
-              <div class="paper-card style-parchment">
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 10px;">
                 <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/biochemical_taxonomy.png" alt="6-Domain Diagnostic Taxonomy">
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/comic1_invisible_hunger.png" alt="Comic 1: The Invisible Hunger" style="max-height: 520px; object-fit: contain;">
                 </div>
               </div>
             </section>
 
-            <!-- SLIDE 13: Ground-Level Impact (Farmer Mobile) -->
-            <section class="slide" id="slide-13">
-              <div class="board-header-note">
+            <!-- SLIDE 12: Comic 2 - The Canal Lifeline -->
+            <section class="slide" id="slide-12">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
                 <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">PRODUCT PILLAR • DIGITAL PUBLIC INFRASTRUCTURE</span>
-                <h2>From Orbit to Smallholder: Democratized Mobile Delivery</h2>
-                <p>Bridging satellite spectroscopy with citizen smartphones via serverless edge browser inference</p>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Operational Scenario 2: The Canal Lifeline</h2>
               </div>
-              <div class="grid-2col">
-                <div class="paper-card style-parchment">
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 10px;">
+                <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/comic2_canal_lifeline.png" alt="Comic 2: The Canal Lifeline" style="max-height: 520px; object-fit: contain;">
+                </div>
+              </div>
+            </section>
+
+            <!-- SLIDE 13: Comic 3 - 14-Day Drought Warning -->
+            <section class="slide" id="slide-13">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-amber pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-amber pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Operational Scenario 3: 14-Day Drought Warning</h2>
+              </div>
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 10px;">
+                <div class="pushpin pin-amber pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/comic3_drought_warning.png" alt="Comic 3: 14-Day Drought Warning" style="max-height: 520px; object-fit: contain;">
+                </div>
+              </div>
+            </section>
+
+            <!-- SLIDE 14: Comic 4 - Salinity Encroachment -->
+            <section class="slide" id="slide-14">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Operational Scenario 4: Salinity Encroachment</h2>
+              </div>
+              <div class="paper-card style-parchment" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 10px;">
+                <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="card-img-box" style="width: 100%; height: 100%;">
+                  <img src="assets/comic4_salinity_defense.png" alt="Comic 4: Salinity Encroachment" style="max-height: 520px; object-fit: contain;">
+                </div>
+              </div>
+            </section>
+
+            <!-- SLIDE 15: Key Literature References -->
+            <section class="slide" id="slide-15">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">Key Literature References</h2>
+              </div>
+              <div class="grid-2col-equal">
+                <!-- Reference Card 1 -->
+                <div class="paper-card style-parchment" style="padding: 22px 26px;">
                   <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <div class="card-title">Mobile WebGIS Edge Experience</div>
-                  <div class="card-img-box">
-                    <img src="assets/farmer_mobile_app.png" alt="Farmer Mobile Interface">
+                  <div class="card-title" style="color: var(--accent-cyan); font-size: 1.05rem; margin-bottom: 14px;">
+                    Foundational Hyperspectral Transformers
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• SpectralGPT: Spectral Foundation Model</div>
+                    <div class="ref-authors">Hong, D., Zhang, B., Li, X., Chanussot, J., &amp; Zhu, X. X. (2024).</div>
+                    <div class="ref-venue">IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), 46(8), 5412–5427.</div>
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• SS-MAE: Spectral-Spatial Masked Autoencoder</div>
+                    <div class="ref-authors">Lin, Y., Gao, L., Zheng, X., &amp; Zhang, B. (2024).</div>
+                    <div class="ref-venue">IEEE Transactions on Geoscience and Remote Sensing (TGRS), 62, 1–14.</div>
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• HyperSIGMA: Scalable Foundation Model for Remote Sensing</div>
+                    <div class="ref-authors">Wang, X., Zhang, L., &amp; Chanussot, J. (2024).</div>
+                    <div class="ref-venue">IEEE Transactions on Geoscience and Remote Sensing (TGRS), 62, 1–16.</div>
                   </div>
                 </div>
-                <div class="paper-card style-kraft">
-                  <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                  <span class="badge badge-green">PUBLIC CITIZEN ACCESS</span>
-                  <div class="card-title">The Serverless Spectral Inference (SSI) Stack</div>
-                  <ul class="bullet-list" style="margin-top:8px;">
-                    <li><strong>Zero App Install:</strong> 100% web browser execution in mobile Chrome/Safari.</li>
-                    <li><strong>Zero Egress Cost:</strong> Cloudflare R2 stores COG tiles with $0 egress fees.</li>
-                    <li><strong>Edge Inference:</strong> Quantized ONNX WASM model executes sub-pixel unmixing directly inside the farmer's browser in &lt;15 milliseconds.</li>
-                    <li><strong>Plain Language Advisories:</strong> Translates spectral nitrogen deficit into direct KVK advice: <em>"Apply 12 kg Urea in Northern plot; skip Southern plot"</em>.</li>
+
+                <!-- Reference Card 2 -->
+                <div class="paper-card style-kraft" style="padding: 22px 26px;">
+                  <div class="pushpin pin-yellow pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-orange); font-size: 1.05rem; margin-bottom: 14px;">
+                    Scale Invariance &amp; Spectroscopic Unmixing
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• Scale-MAE: High-Resolution Masked Autoencoders Always Assist</div>
+                    <div class="ref-authors">Reed, C. J., Metzger, R., Srinivas, A., Darrell, T., &amp; Keutzer, K. (2023).</div>
+                    <div class="ref-venue">IEEE/CVF Conference on Computer Vision and Pattern Recognition (ICCV), 14288–14299.</div>
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• HybridSN: 3D-2D CNN Feature Hierarchy for HSI</div>
+                    <div class="ref-authors">Roy, S. K., Krishna, G., Dubey, S. R., &amp; Chaudhuri, B. B. (2020).</div>
+                    <div class="ref-venue">IEEE Geoscience and Remote Sensing Letters (GRSL), 17(8), 1352–1356.</div>
+                  </div>
+
+                  <div class="ref-item">
+                    <div class="ref-title">• Spectral Unmixing: Algorithms &amp; Physical Principles</div>
+                    <div class="ref-authors">Keshava, N., &amp; Mustard, J. F. (2002).</div>
+                    <div class="ref-venue">IEEE Signal Processing Magazine, 19(1), 44–57.</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- SLIDE 16: Final Slide (Thank You SVG + Team Members + Supervisor) -->
+            <section class="slide" id="slide-16">
+              <div class="board-header-note" style="margin-bottom: 12px; padding: 10px 24px; text-align: center;">
+                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-cyan pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <h2 class="clean-header-title">BharatSpectral: Democratized Spectral Intelligence</h2>
+              </div>
+
+              <!-- Top Decorative SVG Thank You Banner -->
+              <div class="paper-card style-parchment" style="padding: 10px 20px; margin-bottom: 14px; text-align: center; position: relative;">
+                <div class="washi-tape tape-center"></div>
+                <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                
+                <div class="thank-you-svg-box">
+                  <svg viewBox="0 0 860 140" width="100%" height="110" style="display:block; margin: 0 auto;">
+                    <defs>
+                      <linearGradient id="spectralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0b7285" />
+                        <stop offset="35%" stop-color="#6741d9" />
+                        <stop offset="70%" stop-color="#2b8a3e" />
+                        <stop offset="100%" stop-color="#d9480f" />
+                      </linearGradient>
+                      <filter id="svgGlow" x="-10%" y="-10%" width="120%" height="120%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0b7285" flood-opacity="0.25"/>
+                      </filter>
+                    </defs>
+                    <text x="50%" y="68" text-anchor="middle" font-family="'Kalam', cursive, sans-serif" font-size="52" font-weight="700" fill="url(#spectralGrad)" filter="url(#svgGlow)">
+                      Thank You!
+                    </text>
+                    <text x="50%" y="102" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12.5" font-weight="700" fill="#6d5f52" letter-spacing="2.5">
+                      DEMOCRATIZED SPECTRAL-SEMANTIC INTELLIGENCE (DSSI)
+                    </text>
+                    <path d="M 220,118 Q 430,132 640,118" stroke="url(#spectralGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Bottom 2 Columns: Team Members & Supervision -->
+              <div class="grid-2col-equal">
+                <div class="paper-card style-parchment" style="padding: 18px 24px; position: relative;">
+                  <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-cyan); font-size: 1.05rem; margin-bottom: 8px;">
+                    Project Research Team
+                  </div>
+                  <ul class="bullet-list" style="font-size: 0.86rem; line-height: 1.6;">
+                    <li><strong>Priyanshu</strong> — Lead Researcher &amp; System Architect</li>
+                    <li><strong>[Team Member 2]</strong> — Machine Learning &amp; Preprocessing Pipeline</li>
+                    <li><strong>[Team Member 3]</strong> — Radiative Physics &amp; Empirical Benchmarking</li>
+                    <li><strong>[Team Member 4]</strong> — Geospatial Edge WebGIS &amp; Evaluation</li>
                   </ul>
                 </div>
-              </div>
-            </section>
 
-            <!-- SLIDE 14: Comic 1 - The Invisible Hunger -->
-            <section class="slide" id="slide-14">
-              <div class="board-header-note">
-                <div class="pushpin pin-green pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-green">OPERATIONAL SCENARIO 1</span>
-                <h2>Precision Nutrient Optimization: 'The Invisible Hunger'</h2>
-                <p>3-Panel Field Story: Pre-symptomatic nitrogen deficiency detection saving fertilizer costs</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/comic1_invisible_hunger.png" alt="Comic 1: The Invisible Hunger">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 15: Comic 2 - The Canal Lifeline -->
-            <section class="slide" id="slide-15">
-              <div class="board-header-note">
-                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">OPERATIONAL SCENARIO 2</span>
-                <h2>Canal Water Quality Alert: 'The Canal Lifeline'</h2>
-                <p>3-Panel Field Story: Spaceborne effluent tracking and automated irrigation canal sluice gate diversion</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/comic2_canal_lifeline.png" alt="Comic 2: The Canal Lifeline">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 16: Comic 3 - 14-Day Drought Warning -->
-            <section class="slide" id="slide-16">
-              <div class="board-header-note">
-                <div class="pushpin pin-amber pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-amber">OPERATIONAL SCENARIO 3</span>
-                <h2>Early Drought Resilience: 'The 14-Day Moisture Warning'</h2>
-                <p>3-Panel Field Story: Detecting 970nm &amp; 1200nm cellular water thickness depletion 2 weeks before visual wilting</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-amber pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/comic3_drought_warning.png" alt="Comic 3: 14-Day Drought Warning">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 17: Comic 4 - Salinity Encroachment -->
-            <section class="slide" id="slide-17">
-              <div class="board-header-note">
-                <div class="pushpin pin-purple pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-purple">OPERATIONAL SCENARIO 4</span>
-                <h2>Soil Degradation Defense: 'The Salinity Encroachment'</h2>
-                <p>3-Panel Field Story: Subsurface electrical conductivity and clay mineral lattice tracking before salt crusting</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-purple pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/comic4_salinity_defense.png" alt="Comic 4: Salinity Encroachment">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 18: Three-Fold Democratization Drop -->
-            <section class="slide" id="slide-18">
-              <div class="board-header-note">
-                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">SYSTEMS &amp; ECONOMICS</span>
-                <h2>Breaking the Barriers: Compute, Economics &amp; Accessibility</h2>
-                <p>Democratizing advanced hyperspectral intelligence across computational, economic, and knowledge dimensions</p>
-              </div>
-              <div class="paper-card style-parchment">
-                <div class="pushpin pin-cyan pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/democratization_slabs.png" alt="Three-Fold Democratization Slabs">
-                </div>
-              </div>
-            </section>
-
-            <!-- SLIDE 19: Sovereign Vision & Defense Discussion -->
-            <section class="slide" id="slide-19">
-              <div class="paper-card style-parchment" style="text-align: center; margin-bottom: 16px;">
-                <div class="washi-tape tape-center"></div>
-                <div class="pushpin pin-cyan pin-top-left"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <span class="badge badge-cyan">CAPSTONE VISION • DEFENSE DISCUSSION</span>
-                <h1 style="font-family:'Kalam', cursive; font-size:2.2rem; font-weight:700; color:var(--text); margin:8px 0;">
-                  BharatSpectral: Sovereign Foundation for Indian Earth Observation
-                </h1>
-                <div style="font-size:0.95rem; font-weight:600; color:var(--accent-purple);">
-                  From Closed Scientific Repositories to National Citizen Empowerment
-                </div>
-              </div>
-              <div class="paper-card style-kraft">
-                <div class="pushpin pin-green pin-top-center"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
-                <div class="card-img-box">
-                  <img src="assets/sovereign_vision.png" alt="Sovereign Earth Observation Vision">
-                </div>
-                <div style="margin-top:14px; text-align:center;">
-                  <span class="status-widget" style="font-size:0.85rem; padding:6px 16px;">🌾 Food Security</span>
-                  <span class="status-widget" style="font-size:0.85rem; padding:6px 16px;">💧 Water Security</span>
-                  <span class="status-widget" style="font-size:0.85rem; padding:6px 16px;">🛡️ Climate Adaptation</span>
+                <div class="paper-card style-kraft" style="padding: 18px 24px; position: relative;">
+                  <div class="pushpin pin-purple pin-top-right"><div class="pushpin-head"></div><div class="pushpin-shadow"></div></div>
+                  <div class="card-title" style="color: var(--accent-purple); font-size: 1.05rem; margin-bottom: 8px;">
+                    Project Guidance &amp; Supervision
+                  </div>
+                  <div style="font-size: 0.86rem; line-height: 1.5; color: var(--text);">
+                    <div style="color: var(--text-dim); margin-bottom: 4px;">Under the Esteemed Guidance of:</div>
+                    <div style="font-size: 1.12rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px;">
+                      Dr. / Prof. [Project Supervisor Name]
+                    </div>
+                    <div style="color: var(--text); font-weight: 500;">
+                      Department of Computer Science &amp; Engineering
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.80rem; font-weight: 700; color: var(--accent-green);">
+                      Open-Source DSSI Initiative • Built for Indian Earth Observation
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -739,14 +740,24 @@ html_content = """<!DOCTYPE html>
         </div><!-- .corkboard-surface -->
       </div><!-- .corkboard-frame -->
     </main>
-  </div><!-- .app-container -->
+
+  </div><!-- .deck-container -->
 
   <script src="deck.js"></script>
 </body>
 </html>
 """
 
-with open(OUT_PATH, "w", encoding="utf-8") as f:
-    f.write(html_content)
+def main():
+    print("Compiling interactive 16-Slide HTML presentation...")
+    with open(OUT_PATH, "w", encoding="utf-8") as f:
+        f.write(html_content.strip())
+    print(f"✓ Saved presentation HTML to: {OUT_PATH}")
 
-print(f"Generated {OUT_PATH} successfully!")
+    # Mirror to presentation.html
+    pres_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "presentation.html")
+    shutil.copy(OUT_PATH, pres_path)
+    print(f"✓ Mirrored to: {pres_path}")
+
+if __name__ == "__main__":
+    main()

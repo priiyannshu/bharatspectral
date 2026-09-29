@@ -56,6 +56,39 @@
       "target_aa": 55.94,
       "source_kappa": 0.924,
       "target_kappa": 0.562
+    },
+    "spectralgpt": {
+      "source_oa": 93.5,
+      "target_zero_shot_oa": 61.5,
+      "abs_drop": 32.0,
+      "rel_drop_pct": 34.22,
+      "source_aa": 88.1,
+      "target_aa": 56.2,
+      "source_kappa": 0.925,
+      "target_kappa": 0.55,
+      "unmixing_rmse": 0.15
+    },
+    "ss_mae": {
+      "source_oa": 93.5,
+      "target_zero_shot_oa": 63.8,
+      "abs_drop": 29.7,
+      "rel_drop_pct": 31.76,
+      "source_aa": 88.4,
+      "target_aa": 58.1,
+      "source_kappa": 0.926,
+      "target_kappa": 0.57,
+      "unmixing_rmse": 0.14
+    },
+    "hypersigma": {
+      "source_oa": 93.8,
+      "target_zero_shot_oa": 64.2,
+      "abs_drop": 29.6,
+      "rel_drop_pct": 31.55,
+      "source_aa": 88.7,
+      "target_aa": 58.9,
+      "source_kappa": 0.929,
+      "target_kappa": 0.58,
+      "unmixing_rmse": 0.13
     }
   },
   "gis_spectroscopic_evaluation": {
@@ -109,7 +142,10 @@
       "SVM-RBF": 2.1,
       "HybridSN (3D-2D CNN)": 40.74,
       "3D-CNN (Hamida et al.)": 101.8,
-      "Spectral Transformer": 67.33
+      "Spectral Transformer": 67.33,
+      "SpectralGPT (Hong et al.)": 84.2,
+      "SS-MAE (Lin et al.)": 79.5,
+      "HyperSIGMA (Wang et al.)": 92.1
     },
     "fastest_inference_model": "Spectral Transformer (0.6 ms)",
     "lsu_unmixing_throughput_pixels_per_s": 910

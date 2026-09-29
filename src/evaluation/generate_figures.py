@@ -8,8 +8,8 @@ Verifies and produces the 4 empirical figures in outputs/figures/:
 """
 
 import os
-import json
 import logging
+from src.evaluation.generate_vertical_bar_chart import draw_vertical_bar_chart
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("BharatSpectral.GenerateFigures")
@@ -24,6 +24,10 @@ FIGURE_NAMES = [
 def verify_or_generate_figures(output_dir="outputs/figures"):
     os.makedirs(output_dir, exist_ok=True)
     all_present = True
+    
+    # Always regenerate domain_shift_collapse.png to ensure latest vertical format with SOTA models
+    draw_vertical_bar_chart()
+    
     for fig_name in FIGURE_NAMES:
         path = os.path.join(output_dir, fig_name)
         if os.path.exists(path) and os.path.getsize(path) > 1000:

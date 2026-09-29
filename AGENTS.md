@@ -117,3 +117,42 @@ If you modify slides, update python scripts, or add presentation content:
 When assisting the user with defense preparation, presentations, or thesis writing:
 *   **Emphasize the Dual-Pillar Structure:** Always highlight both the AI research novelty (Pillar 1) and the WebGIS public infrastructure (Pillar 2).
 *   **GIS Tool Baseline:** Remember that GIS spectroscopic tools (SAM, LSU in ENVI/QGIS) serve as a deterministic physical baseline, but fail under non-linear unmixing and magnitude variations. BharatSpectral-MAE bridges deep learning scale with spectroscopic physics to surpass GIS accuracy while running sub-second edge inference.
+
+---
+
+## 6. Presentation Sequence & Speaker Structure (16-Slide Active Deck)
+
+The defense presentation is partitioned across 4 team speakers:
+
+*   **Speaker 1 (Foundation & Spectroscopy Physics):**
+    *   *Slide 1:* Intro / Beyond Human Sight (Democratized Spectral-Semantic Intelligence)
+    *   *Slide 2:* Project Objectives (5 core objectives)
+    *   *Slide 3:* The Web of Fields (7-field intersecting Venn diagram)
+    *   *Slide 4:* Continuous Spectroscopy (Physics vs multispectral & absorption bands)
+    *   *Slide 5:* Hyperspectral Data Cube & 2D Spectral Signature Curve (Radiative transfer & scattering)
+
+*   **Speaker 2 (Data, Benchmarks & Justification):**
+    *   *Slide 6:* Indian Landmass Hyperspectral Coverage (AVIRIS-NG, EMIT, HysIS)
+    *   *Slide 7:* Automated Preprocessing Pipeline (Cleaned, uncluttered factory workflow)
+    *   *Slide 8:* Empirical Baseline Benchmarking & Failure Modes (Domain shift drop & model comparisons)
+    *   *Slide 9:* The Need for BharatSpectral (Concise, loosely pinned notes: spatial fragmentation, multi-sensor mismatch, subtle biochemical absorption, democratized edge access)
+
+*   **Speaker 3 (Execution Timeline & Technical Deep-Dive into Phases 3–5):**
+    *   *Slide 10:* Project Progression: Phases 1 to 5 (Master timeline with Phase 1 & 2 marked completed; sets up the transition to future phases)
+    *   *Future Custom Slides to be Designed from Scratch for Speaker 3:*
+        *   **Phase 3 Deep Dive:** BharatSpectral-MAE pre-training with the 7 Core Innovations (SSPE, RNRL, SHT, AAM, ECSA, Ph-LoRA, FASU).
+        *   **Phase 4 Deep Dive:** Multi-domain biochemical downstream adaptation (Leaf Nitrogen, Chlorophyll, Soil Organic Carbon, Water Algal Blooms, Soil Salinity/Sodicity).
+        *   **Phase 5 Deep Dive:** Knowledge distillation into ONNX student models and Serverless Spectral Inference (SSI) on Cloudflare R2 + Workers.
+
+*   **Speaker 4 (Operational Scenarios, Literature & Defense Conclusion):**
+    *   *Slide 11:* Operational Scenario 1: The Invisible Hunger (Crop Nitrogen Deficit)
+    *   *Slide 12:* Operational Scenario 2: The Canal Lifeline (Inland Water Quality & Toxic Blooms)
+    *   *Slide 13:* Operational Scenario 3: 14-Day Drought Warning (Cellular Water Stress)
+    *   *Slide 14:* Operational Scenario 4: Salinity Encroachment (Subsurface Soil Sodicity & Gypsum)
+    *   *Slide 15:* Key Literature References (Minimal, clean per-paper full title reference cards)
+    *   *Slide 16:* Project Team, Supervision & Thank You (Artistic SVG Thank You, Student Team Members, Supervisor, Open-Source DSSI Initiative)
+
+### Slide Design Rules
+1.  **Clean Slide Title Headers:** All slide heading notes must contain ONLY the clean slide title and no secondary subtitle or noise.
+2.  **Uncluttered Visuals:** Preprocessing and benchmarking slides must maintain high signal-to-noise ratio without redundant text walls.
+

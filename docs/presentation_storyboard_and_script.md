@@ -23,9 +23,9 @@ The presentation unfolds across a cohesive 5-Act narrative arc spanning 19 wides
 │   ACT I: THE HIDDEN SPECTRUM & PHYSICAL FOUNDATIONS (Slides 1–5)       │
 │   · Beyond Human Sight (Intro)                                         │
 │   · Engineering Scope & 7th-Semester Objectives                        │
+│   · Interdisciplinary Web of Fields (Venn Diagram)                     │
 │   · 400–2500nm Continuous Spectroscopy (Notes: AAM, SHT)               │
 │   · 3D Photon Pinball Scattering & Pixel Cube (Notes: SSPE, FASU)      │
-│   · Interdisciplinary Web of Fields (Venn Diagram)                     │
 │                                                                        │
 │   ACT II: GROUNDING & DATA INFRASTRUCTURE (Slides 6–7)                 │
 │   · Geographic Coverage of India (● PHASE 1 COMPLETE · Note: RNRL)     │
@@ -79,11 +79,25 @@ The presentation unfolds across a cohesive 5-Act narrative arc spanning 19 wides
 
 ---
 
-### Slide 3: The Light Spectrum of Hyperspectral Imaging
+### Slide 3: Web of Fields (Interdisciplinary Venn Diagram)
+* **Header Tag:** `[RESEARCH CONVERGENCE]`
+* **Title:** The Web of Fields: Interdisciplinary Convergence
+* **Visual Storyboard:**
+  * Center/Left Visual: High-clarity, non-cluttered 3-Circle Venn Diagram highlighting:
+    * *Circle 1 (Cyan):* Optical Physics & Radiative Transfer (Beer-Lambert Law, PROSAIL, 400–2500nm absorption).
+    * *Circle 2 (Emerald):* Modern Foundation AI & 3D Transformers (MAE pretraining, 3D self-attention, LoRA).
+    * *Circle 3 (Purple):* Geospatial Digital Public Infrastructure (Zero-egress Cloudflare R2, Serverless SSI, edge WASM).
+    * *Pairwise Overlaps:* Physics-Informed Losses (RNRL, AAM, ECSA), Deterministic Physical Grounding (LSU/SAM), Serverless Spectral Inference (SSI).
+    * *Core Intersection:* **BharatSpectral (DSSI — Democratized Spectral-Semantic Intelligence)**.
+  * Right Card: Clean 3-pillar breakdown explaining why physics grounds the AI, AI scales without labels, and DPI makes it a sovereign public utility.
+
+---
+
+### Slide 4: Continuous Spectroscopy
 * **Header Tag:** `[SPECTRAL PHYSICS]`
 * **Title:** Continuous Spectroscopy: What Each Spectral Band Captures
 * **Visual Storyboard:**
-  * Center Visual: High-precision scientific SVG rendering continuous wavelength from 400 nm to 2500 nm with atmospheric transmission curve overlay.
+  * Center Visual: High-precision scientific curve rendering continuous wavelength from 400 nm to 2500 nm with atmospheric transmission curve overlay.
   * Bracket Annotations:
     * *VNIR (400–700 nm):* Pigment absorption, Carotenoids, Anthocyanins.
     * *Red-Edge (700–750 nm):* Chlorophyll absorption cliff, cellular structure.
@@ -95,7 +109,7 @@ The presentation unfolds across a cohesive 5-Act narrative arc spanning 19 wides
 
 ---
 
-### Slide 4: 'Pinball Machine' Physics & 3D Hyperspectral Pixel
+### Slide 5: 'Pinball Machine' Physics & 3D Hyperspectral Pixel
 * **Header Tag:** `[CANOPY RADIATIVE TRANSFER]`
 * **Title:** The "Pinball Machine" Physics: Non-Linear Scattering & 3D Pixels
 * **Visual Storyboard:**
@@ -104,19 +118,6 @@ The presentation unfolds across a cohesive 5-Act narrative arc spanning 19 wides
   * **Architectural Innovation Notes Introduced:**
     * `[NOTE: SSPE]` **Scale-Spectral Positional Encoding:** Jointly encodes GSD ($4–30\,\text{m}$), spectral bandwidth, and mixture entropy.
     * `[NOTE: FASU]` **Foundation-Augmented Spectral Unmixing:** Sub-pixel unmixing head handling non-linear multiple scattering.
-
----
-
-### Slide 5: Web of Fields (Interdisciplinary Venn Diagram)
-* **Header Tag:** `[RESEARCH FOUNDATIONS]`
-* **Title:** The Intersection of Human Knowledge Systems
-* **Visual Storyboard:**
-  * Center Visual: Precision 3-Circle Venn SVG with labeled intersections:
-    * *Circle 1 (Cyan):* Radiative Transfer & Optical Spectroscopy Physics
-    * *Circle 2 (Emerald):* Modern Foundation Architectures & Self-Attention AI
-    * *Circle 3 (Purple):* Open Geospatial Digital Public Infrastructure & WebGIS
-    * *Pairwise Intersections:* Physics-Informed Losses, Serverless SSI, Deterministic GIS Baselines.
-    * *Core Intersection:* **BharatSpectral (DSSI)**.
 
 ---
 

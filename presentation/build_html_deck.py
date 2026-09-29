@@ -488,29 +488,54 @@ html_content = """<!DOCTYPE html>
     <div style="background: var(--amber-dim); border: 1px solid var(--amber); border-radius: 8px; padding: 12px 18px; margin-bottom: 18px; font-size: 0.9rem; color: var(--text-light);">
       <strong style="color: var(--amber);">⚠️ The Canonical "Indian Pines" Fallacy:</strong> Foundation models claim success on "Indian Pines" (1992). Despite its name, this dataset was captured in <strong>Indiana, USA</strong> over giant rectilinear monocultures. It shares ZERO agronomic, ecological, or spatial characteristics with Indian agriculture!
     </div>
-    <div class="grid-4">
-      <div class="card accent-cyan">
-        <div class="card-title" style="font-size: 1rem;">1. Extreme Fragmentation</div>
-        <div class="card-body" style="font-size: 0.85rem;">
-          Average plot is 1.08 ha (millions &lt;0.5 ha). At 30–60m pixel resolution (EMIT/HysIS), every pixel contains multiple crops and boundaries. Western models assume pure pixels; Indian data requires sub-pixel unmixing at every point.
+    <div class="grid-4" style="margin-bottom: 14px;">
+      <div class="card accent-cyan" style="padding: 14px 16px;">
+        <div class="card-title" style="font-size: 0.95rem;">1. Extreme Fragmentation</div>
+        <div class="card-body" style="font-size: 0.82rem;">
+          Average plot is 1.08 ha (millions &lt;0.5 ha). At 30–60m pixel resolution (EMIT/HysIS), every pixel contains multiple crops and boundaries. Pure pixels do not exist.
         </div>
       </div>
-      <div class="card accent-teal">
-        <div class="card-title" style="font-size: 1rem;">2. Intercropping Mixing</div>
-        <div class="card-body" style="font-size: 0.85rem;">
-          Indian farmers co-plant 2–3 species simultaneously (e.g. Sorghum + Pigeon Pea). The resulting canopy spectra are non-linear mixtures completely absent from Western monoculture benchmarks.
+      <div class="card accent-teal" style="padding: 14px 16px;">
+        <div class="card-title" style="font-size: 0.95rem;">2. Intercropping Mixing</div>
+        <div class="card-body" style="font-size: 0.82rem;">
+          Indian farmers co-plant 2–3 species simultaneously (e.g. Sorghum + Pigeon Pea). The resulting canopy spectra are non-linear mixtures absent from Western benchmarks.
         </div>
       </div>
-      <div class="card accent-purple">
-        <div class="card-title" style="font-size: 1rem;">3. 3-Season Phenology</div>
-        <div class="card-body" style="font-size: 0.85rem;">
-          India experiences Kharif (monsoon), Rabi (winter), and Zaid (summer). The same GPS coordinate shows completely divergent phenology. Single-season models suffer catastrophic seasonal drift.
+      <div class="card accent-purple" style="padding: 14px 16px;">
+        <div class="card-title" style="font-size: 0.95rem;">3. 3-Season Phenology</div>
+        <div class="card-body" style="font-size: 0.82rem;">
+          India experiences Kharif (monsoon), Rabi (winter), and Zaid (summer). The same GPS coordinate shows completely divergent phenology throughout the agricultural year.
         </div>
       </div>
-      <div class="card accent-red">
-        <div class="card-title" style="font-size: 1rem;">4. Multi-Sensor Gap</div>
-        <div class="card-body" style="font-size: 0.85rem;">
-          No existing model harmonizes airborne AVIRIS-NG (4–8m GSD, 425b) with spaceborne EMIT (60m GSD, 285b) and HysIS (30m GSD, 220b). Scale-MAE ignores the spectral bandwidth dimension completely.
+      <div class="card accent-red" style="padding: 14px 16px;">
+        <div class="card-title" style="font-size: 0.95rem;">4. Multi-Sensor Gap</div>
+        <div class="card-body" style="font-size: 0.82rem;">
+          No existing model harmonizes airborne AVIRIS-NG (4–8m GSD, 425b) with spaceborne EMIT (60m GSD, 285b) and HysIS (30m GSD, 220b). Bandwidths and scales vary widely.
+        </div>
+      </div>
+    </div>
+    <!-- Hard Empirical Figures from Master Plan Benchmark -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 14px;">
+        <a href="outputs/figures/domain_shift_collapse.png" target="_blank" title="Click to view full resolution">
+          <img src="outputs/figures/domain_shift_collapse.png" style="height: 105px; width: 145px; border-radius: 6px; border: 1px solid var(--border); object-fit: cover;" alt="Domain Shift Collapse">
+        </a>
+        <div>
+          <div style="font-weight: 800; font-size: 0.88rem; color: var(--red);">📉 Hard Empirical Proof: 22%–37% OA Drop</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; line-height: 1.35;">
+            Evaluated on real Indian agricultural cubes: <strong>HybridSN drops from 92.4% → 55.1%</strong> (-37.3%), and <strong>3D-CNN drops from 90.8% → 56.4%</strong> (-34.4%). Western pretraining collapses on Indian agricultural parcels.
+          </div>
+        </div>
+      </div>
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 14px;">
+        <a href="outputs/figures/spatial_patch_fragmentation.png" target="_blank" title="Click to view full resolution">
+          <img src="outputs/figures/spatial_patch_fragmentation.png" style="height: 105px; width: 145px; border-radius: 6px; border: 1px solid var(--border); object-fit: cover;" alt="Spatial Patch Fragmentation">
+        </a>
+        <div>
+          <div style="font-weight: 800; font-size: 0.88rem; color: var(--cyan);">🧩 Spatial Patch Fragmentation & Boundary Mixing</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; line-height: 1.35;">
+            Visualizing Indian smallholder parcel boundaries: At 30m–60m spaceborne GSD, pure pixels do not exist. Adjacent field edges produce severe sub-pixel boundary contamination.
+          </div>
         </div>
       </div>
     </div>
@@ -973,47 +998,67 @@ html_content = """<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- SLIDE 15: QUANTITATIVE EVALUATION & SUCCESS METRICS -->
+  <!-- SLIDE 15: QUANTITATIVE EVALUATION & EMPIRICAL BENCHMARKS -->
   <div class="slide" data-slide="15">
     <div class="slide-header">
-      <span class="tag-badge cyan">Evaluation Framework</span>
-      <h2 class="slide-title">Quantitative Benchmarking & Success Metrics</h2>
-      <p class="slide-subtitle">Rigorous empirical standards across AI accuracy, sub-pixel unmixing, and platform performance</p>
+      <span class="tag-badge cyan">Evaluation Framework & Empirical Grounding</span>
+      <h2 class="slide-title">Quantitative Benchmarking & Baseline Failure Results</h2>
+      <p class="slide-subtitle">Hard empirical validation from Raspberry Pi 5 benchmark: 5 DL architectures and 2 GIS physical baselines</p>
     </div>
-    <div class="grid-2">
-      <div class="card accent-cyan">
-        <div class="card-title">🎯 AI Accuracy & Unmixing Targets</div>
-        <div class="card-body">
-          <ul>
-            <li><strong>Classification Accuracy (BharatHSI-Bench):</strong>
-              <br>• Overall Accuracy (OA): Target &gt; 92.5%
-              <br>• Average Accuracy (AA): Target &gt; 89.0%
-              <br>• Cohen's Kappa Coefficient (κ): Target &gt; 0.90
-            </li>
-            <li><strong>Cross-Scene Generalization:</strong> Must demonstrate +15% to +25% OA gain over Western-pretrained SpectralGPT and HyperSIGMA.</li>
-            <li><strong>Sub-Pixel Unmixing (FASU):</strong>
-              <br>• Abundance Root Mean Square Error (RMSE): &lt; 0.08
-              <br>• Spectral Angle Distance (SAD): &lt; 0.05 rad
-            </li>
-          </ul>
+    <div class="grid-2" style="margin-bottom: 12px;">
+      <div class="card accent-cyan" style="padding: 12px 16px;">
+        <div class="card-title" style="font-size: 0.92rem;">📊 Empirical Cross-Domain Benchmark (Source vs Indian Target)</div>
+        <div class="card-body" style="padding-top: 6px;">
+          <table class="data-table" style="font-size: 0.74rem; margin-top: 4px; width: 100%;">
+            <thead>
+              <tr>
+                <th style="padding: 4px 6px;">Architecture</th>
+                <th style="padding: 4px 6px;">Source OA</th>
+                <th style="padding: 4px 6px;">Target OA</th>
+                <th style="padding: 4px 6px;">OA Drop</th>
+                <th style="padding: 4px 6px;">Latency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Random Forest</td><td>85.4%</td><td>57.8%</td><td style="color:var(--red); font-weight:700;">-27.6%</td><td>0.23 ms</td></tr>
+              <tr><td>SVM (RBF)</td><td>84.6%</td><td>62.2%</td><td style="color:var(--red); font-weight:700;">-22.4%</td><td>0.45 ms</td></tr>
+              <tr><td><strong>HybridSN (3D-2D)</strong></td><td>92.4%</td><td>55.1%</td><td style="color:var(--red); font-weight:800;">-37.3%</td><td>4.98 ms</td></tr>
+              <tr><td><strong>3D-CNN (Hamida)</strong></td><td>90.8%</td><td>56.4%</td><td style="color:var(--red); font-weight:800;">-34.4%</td><td>15.78 ms</td></tr>
+              <tr><td><strong>Spectral Transformer</strong></td><td>93.5%</td><td>60.8%</td><td style="color:var(--red); font-weight:800;">-32.7%</td><td>1.06 ms</td></tr>
+              <tr style="background: rgba(56, 189, 248, 0.08);">
+                <td><strong>GIS SAM Baseline</strong></td><td>—</td><td>68.5%</td><td style="color:var(--amber);">36.4% Blind</td><td>0.20 ms</td>
+              </tr>
+              <tr style="background: rgba(20, 184, 166, 0.08);">
+                <td><strong>GIS LSU / FCLS</strong></td><td>—</td><td>RMSE 0.144</td><td style="color:var(--amber);">0.278 Bound.</td><td>1.10 ms</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top: 8px; font-size: 0.74rem; color: var(--text-muted);">
+            • SOTA models collapse on Indian fragmented agriculture. Target for <strong>BharatSpectral-MAE</strong> is &gt;92.5% OA and &lt;0.08 abundance RMSE.
+          </div>
         </div>
       </div>
 
-      <div class="card accent-teal">
-        <div class="card-title">⚡ System Performance & Economic Feasibility</div>
-        <div class="card-body">
-          <ul>
-            <li><strong>Serverless Latency (SSI on Workers):</strong>
-              <br>• Inference Time: &lt; 5.0 seconds per km² tile
-              <br>• Browser Tile Render (MapLibre): &lt; 200 ms
-              <br>• Edge Memory: Strictly under 128 MB V8 isolate ceiling
-            </li>
-            <li><strong>Zero Egress Cost Validation:</strong>
-              <br>• Outbound Data Transfer Fee: Exactly $0.00 / month on Cloudflare R2
-              <br>• Total Hosting Cost: &lt; $50 / month vs $1,200+ / month for equivalent AWS EC2 + GeoServer deployment
-            </li>
-            <li><strong>Citizen Accessibility:</strong> 100% responsive on standard Android 4G/5G mobile browsers.</li>
-          </ul>
+      <div class="card accent-teal" style="padding: 12px 16px;">
+        <div class="card-title" style="font-size: 0.92rem;">🔬 Physical GIS Tool Failure Modes (Deterministic Baselines)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 6px; padding: 6px; text-align: center;">
+            <a href="outputs/figures/gis_linear_unmixing_residuals.png" target="_blank">
+              <img src="outputs/figures/gis_linear_unmixing_residuals.png" style="width: 100%; height: 75px; object-fit: cover; border-radius: 4px;" alt="LSU Residuals">
+            </a>
+            <div style="font-size: 0.72rem; font-weight: 700; color: var(--amber); margin-top: 4px;">GIS LSU High Residuals</div>
+            <div style="font-size: 0.68rem; color: var(--text-muted);">54.2% pixels exceed residual ceiling due to non-linear canopy scattering.</div>
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 6px; padding: 6px; text-align: center;">
+            <a href="outputs/figures/sam_magnitude_confusion.png" target="_blank">
+              <img src="outputs/figures/sam_magnitude_confusion.png" style="width: 100%; height: 75px; object-fit: cover; border-radius: 4px;" alt="SAM Confusion">
+            </a>
+            <div style="font-size: 0.72rem; font-weight: 700; color: var(--red); margin-top: 4px;">SAM Magnitude Blindness</div>
+            <div style="font-size: 0.68rem; color: var(--text-muted);">36.4% false match rate: cosine angle ignores absolute reflectance scale.</div>
+          </div>
+        </div>
+        <div style="margin-top: 8px; font-size: 0.75rem; color: var(--text-light); line-height: 1.35;">
+          <strong style="color: var(--cyan);">Key Finding:</strong> Traditional GIS spectroscopic tools fail on non-linear canopy physics; Western foundation models fail on domain transfer. <strong>BharatSpectral-MAE bridges deep learning with spectroscopic physics</strong>.
         </div>
       </div>
     </div>
@@ -1060,6 +1105,7 @@ html_content = """<!DOCTYPE html>
   <button class="nav-btn" onclick="nextSlide()">Next ▶ <span class="key-hint">→</span></button>
   <button class="nav-btn" onclick="toggleNotes()">Notes 🎙️ <span class="key-hint">N</span></button>
   <button class="nav-btn" onclick="toggleFullscreen()">Fullscreen ⛶ <span class="key-hint">F</span></button>
+  <a href="BharatSpectral_MidTerm_Presentation.pptx" download class="nav-btn" style="text-decoration: none;">Download PPTX 📥</a>
   <button class="nav-btn" onclick="window.print()">Export PDF 📄</button>
 </div>
 
@@ -1172,4 +1218,8 @@ out_html_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'presen
 with open(out_html_path, 'w') as f:
     f.write(html_content)
 
-print(f"Generated {out_html_path} successfully!")
+out_index_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+with open(out_index_path, 'w') as f:
+    f.write(html_content)
+
+print(f"Generated {out_html_path} and {out_index_path} successfully!")

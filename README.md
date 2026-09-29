@@ -57,15 +57,14 @@ BharatSpectral is a dual-pillar hyperspectral foundation model and geospatial pu
 
 ## 🚀 Quickstart & Workflows
 
-### Generating Presentations
-* **Generate PowerPoint (`.pptx`):**
+### Generating & Deploying Presentations
+* **Rebuild & Deploy to Cloudflare Pages:**
   ```bash
-  python3 presentation/build_deck.py
+  ./deploy.sh
   ```
-* **Generate Web Slides (`.html`):**
-  ```bash
-  python3 presentation/build_html_deck.py
-  ```
+  *(Live presentation hosted at [https://bharatspectral.pages.dev/](https://bharatspectral.pages.dev/))*
+* **Local PowerPoint (`.pptx`):** `python3 presentation/build_deck.py`
+* **Local Web Slides (`.html`):** `python3 presentation/build_html_deck.py`
 
 ### Rebuilding Grand Narrative PDFs
 ```bash

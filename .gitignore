@@ -12,3 +12,6 @@ ENV/
 .DS_Store
 *.swp
 *.swo
+.wrangler/
+dist/
+*.wav

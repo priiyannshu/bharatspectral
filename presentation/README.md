@@ -36,3 +36,17 @@ python3 presentation/build_html_deck.py
 * `←` / `Page Up` : Previous slide
 * `Home` / `End` : Jump to first / last slide
 * `N` : Toggle speaker notes drawer
+* `F` : Toggle fullscreen
+
+---
+
+## 🌐 Cloudflare Pages Deployment
+
+* **Live URL:** [https://bharatspectral.pages.dev/](https://bharatspectral.pages.dev/)
+* **Direct PPTX Download:** [https://bharatspectral.pages.dev/BharatSpectral_MidTerm_Presentation.pptx](https://bharatspectral.pages.dev/BharatSpectral_MidTerm_Presentation.pptx)
+
+To rebuild and deploy latest changes:
+```bash
+./deploy.sh
+```
+*(Can be executed from repository root `~/btp` or `presentation/`)*

@@ -1,4 +1,21 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+build_html_pinboard_deck.py
+Builds the 19-Slide Academic Pinboard Presentation Deck for BharatSpectral
+in the exact ~/ppt/vs theme (references_pinboard.html corkboard & pushpins):
+- Pure corkboard surface with beveled wooden frame
+- Parchment & Kraft paper cards with realistic drop shadows
+- Washi tape strips and 3D pushpins
+- High-resolution scientific diagrams and comic strip assets
+- Single clean PPTX download button
+- Full keyboard and click navigation via deck.js
+"""
+
+import os
+
+OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
+
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -346,7 +363,7 @@
                   <ul class="bullet-list" style="margin-top:8px;">
                     <li><strong>Multi-Bounce Scattering:</strong> Sunlight enters intercropped sorghum + pigeon pea and ricochets between leaves and soil before sensor reception.</li>
                     <li><strong>Failure of Linear Unmixing:</strong> Classical GIS (LSU/FCLS) assumes linear superposition ($r = \sum a_i e_i$). Ricochets cause non-linear cross-talk ($RMSE_A > 0.15$).</li>
-                    <li><span class="note-badge">NOTE: SSPE</span> <strong>Scale-Spectral Positional Encoding:</strong> Jointly encodes GSD ($4–60\,	ext{m}$), bandwidth, and mixture entropy.</li>
+                    <li><span class="note-badge">NOTE: SSPE</span> <strong>Scale-Spectral Positional Encoding:</strong> Jointly encodes GSD ($4–60\,\text{m}$), bandwidth, and mixture entropy.</li>
                     <li><span class="note-badge">NOTE: FASU</span> <strong>Foundation-Augmented Spectral Unmixing:</strong> Decomposes complex non-linear canopy mixtures using pretrained foundation representations.</li>
                   </ul>
                 </div>
@@ -437,7 +454,7 @@
                 <div class="paper-card style-kraft">
                   <span class="badge badge-purple">STAGE 3 &amp; 4: MASKING &amp; SAMPLING</span>
                   <p style="font-size:0.84rem; color:var(--text); line-height:1.5;">
-                    Prunes zero-transmission water absorption windows (1350–1450 nm and 1800–1950 nm) retaining 200 standardized bands, then generates $9	imes 9 	imes B$ and $15	imes 15 	imes B$ smallholder patches.
+                    Prunes zero-transmission water absorption windows (1350–1450 nm and 1800–1950 nm) retaining 200 standardized bands, then generates $9\times 9 \times B$ and $15\times 15 \times B$ smallholder patches.
                   </p>
                 </div>
               </div>
@@ -727,3 +744,9 @@
   <script src="deck.js"></script>
 </body>
 </html>
+"""
+
+with open(OUT_PATH, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"Generated {OUT_PATH} successfully!")

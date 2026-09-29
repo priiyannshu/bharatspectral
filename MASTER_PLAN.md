@@ -84,8 +84,7 @@ The empirical objective is to demonstrate with hard quantitative data that:
   - Implement 1D/3D Spectral Transformer baseline in PyTorch.
 - [ ] **Cross-Domain Evaluation Engine**:
   - Train baselines on Source domain (Indian Pines / Pavia).
-  - Evaluate zero-shot transfer on Target Indian domain (AVIRIS-NG India / EMIT).
-  - Evaluate 5% few-shot fine-tuning on Indian scenes to document sample inefficiency.
+  - Evaluate direct zero-shot transfer on Target Indian domain (AVIRIS-NG India / EMIT) to quantify domain collapse. (Note: 5% fine-tuning is skipped to keep CPU compute fast and focused on zero-shot transfer degradation).
 
 ### Milestone 4: GIS Spectroscopic Physical Baseline Pipeline
 - [ ] **Endmember Extraction**: Implement Vertex Component Analysis (VCA) and Pixel Purity Index (PPI) via `spectral` / `scipy`.

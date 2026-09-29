@@ -1,0 +1,13 @@
+Model,Domain_Setup,OA_Pct,AA_Pct,Kappa,RMSE_A,Drop_OA_Pct,Latency_ms
+Random Forest,Source (Indian Pines),85.4,80.28,0.832,N/A,0.0,0.23
+Random Forest,Target Indian Zero-Shot,57.8,53.18,0.521,N/A,27.6,0.07
+SVM-RBF,Source (Indian Pines),84.6,81.368,0.8245,N/A,0.0,0.45
+SVM-RBF,Target Indian Zero-Shot,62.2,41.294,0.5158,N/A,22.4,0.42
+HybridSN (3D-2D CNN),Source (Indian Pines),92.4,86.86,0.912,N/A,0.0,4.98
+HybridSN (3D-2D CNN),Target Indian Zero-Shot,55.1,50.69,0.495,N/A,37.3,4.95
+3D-CNN (Hamida et al.),Source (Indian Pines),90.8,85.35,0.895,N/A,0.0,15.78
+3D-CNN (Hamida et al.),Target Indian Zero-Shot,56.4,51.89,0.51,N/A,34.4,15.77
+Spectral Transformer,Source (Indian Pines),93.5,87.89,0.924,N/A,0.0,1.06
+Spectral Transformer,Target Indian Zero-Shot,60.8,55.94,0.562,N/A,32.7,1.1
+GIS SAM Baseline,Target Indian Physical,68.5,61.2,0.634,N/A,0.0,0.2
+GIS LSU / FCLS,Target Indian Physical,N/A,N/A,N/A,0.198,0.0,1.1

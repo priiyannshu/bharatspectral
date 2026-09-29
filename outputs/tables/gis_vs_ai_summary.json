@@ -1,0 +1,117 @@
+{
+  "system_metadata": {
+    "architecture": "aarch64 (Cortex-A76 4-core)",
+    "host": "Raspberry Pi 5",
+    "python_version": "3.14.5",
+    "evaluation_mode": "zero_shot_only (User Directive 2026-09-28T17:53:24Z)",
+    "timestamp": "2026-09-28T20:35:06Z"
+  },
+  "cross_domain_drop_summary": {
+    "random_forest": {
+      "source_oa": 85.4,
+      "target_zero_shot_oa": 57.8,
+      "abs_drop": 27.6,
+      "rel_drop_pct": 32.32,
+      "source_aa": 80.28,
+      "target_aa": 53.18,
+      "source_kappa": 0.832,
+      "target_kappa": 0.521
+    },
+    "svm_rbf": {
+      "source_oa": 84.6,
+      "target_zero_shot_oa": 62.2,
+      "abs_drop": 22.4,
+      "rel_drop_pct": 26.48,
+      "source_aa": 81.368,
+      "target_aa": 41.294,
+      "source_kappa": 0.8245,
+      "target_kappa": 0.5158
+    },
+    "hybridsn_3d_2d_cnn": {
+      "source_oa": 92.4,
+      "target_zero_shot_oa": 55.1,
+      "abs_drop": 37.3,
+      "rel_drop_pct": 40.37,
+      "source_aa": 86.86,
+      "target_aa": 50.69,
+      "source_kappa": 0.912,
+      "target_kappa": 0.495
+    },
+    "3d_cnn_hamida": {
+      "source_oa": 90.8,
+      "target_zero_shot_oa": 56.4,
+      "abs_drop": 34.4,
+      "rel_drop_pct": 37.89,
+      "source_aa": 85.35,
+      "target_aa": 51.89,
+      "source_kappa": 0.895,
+      "target_kappa": 0.51
+    },
+    "spectral_transformer": {
+      "source_oa": 93.5,
+      "target_zero_shot_oa": 60.8,
+      "abs_drop": 32.7,
+      "rel_drop_pct": 34.97,
+      "source_aa": 87.89,
+      "target_aa": 55.94,
+      "source_kappa": 0.924,
+      "target_kappa": 0.562
+    }
+  },
+  "gis_spectroscopic_evaluation": {
+    "sam_baseline": {
+      "nominal_oa": 68.5,
+      "magnitude_invariance_error_rate_pct": 36.4,
+      "mean_spectral_angle_rad": 0.1842
+    },
+    "lsu_fcls_unmixing": {
+      "mean_abundance_rmse": 0.1441,
+      "intercropped_boundary_rmse": 0.2775,
+      "homogeneous_patch_rmse": 0.004,
+      "high_residual_pixel_ratio_pct": 54.19
+    },
+    "diagnostic_absorption_depths": {
+      "endmember_1": {
+        "680": 0.9628,
+        "705": 0.9123,
+        "2200": 0.9687
+      },
+      "endmember_2": {
+        "680": 0.904,
+        "705": 0.7692,
+        "2200": 0.3601
+      },
+      "endmember_3": {
+        "680": 0.817,
+        "705": 0.3197,
+        "2200": 0.0059
+      },
+      "endmember_4": {
+        "680": 0.9284,
+        "705": 0.8944,
+        "2200": 0.9559
+      },
+      "endmember_5": {
+        "680": 0.9685,
+        "705": 0.8597,
+        "2200": 0.5182
+      },
+      "endmember_6": {
+        "680": 0.4079,
+        "705": 0.3321,
+        "2200": 0.6472
+      }
+    }
+  },
+  "hardware_performance_profile": {
+    "training_times_seconds": {
+      "Random Forest": 0.7,
+      "SVM-RBF": 2.1,
+      "HybridSN (3D-2D CNN)": 40.74,
+      "3D-CNN (Hamida et al.)": 101.8,
+      "Spectral Transformer": 67.33
+    },
+    "fastest_inference_model": "Spectral Transformer (0.6 ms)",
+    "lsu_unmixing_throughput_pixels_per_s": 910
+  }
+}

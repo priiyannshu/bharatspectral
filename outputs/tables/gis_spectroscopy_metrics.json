@@ -1,0 +1,56 @@
+{
+  "endmember_extraction": {
+    "vca_endmember_count": 6,
+    "ppi_endmember_count": 6,
+    "bands": 200
+  },
+  "spectral_angle_mapper": {
+    "mean_angle_rad": 0.1842,
+    "mean_angle_deg": 10.55,
+    "nominal_overall_accuracy": 68.5,
+    "magnitude_blindness_max_delta": 0.000488,
+    "magnitude_invariance_error_rate_pct": 36.4
+  },
+  "linear_spectral_unmixing_fcls": {
+    "mean_abundance_rmse": 0.1441,
+    "target_regime_range": [
+      0.15,
+      0.25
+    ],
+    "high_residual_pixel_ratio_pct": 54.19,
+    "intercropped_boundary_rmse": 0.2775,
+    "homogeneous_patch_rmse": 0.004
+  },
+  "diagnostic_continuum_removal": {
+    "endmember_1": {
+      "680": 0.9628,
+      "705": 0.9123,
+      "2200": 0.9687
+    },
+    "endmember_2": {
+      "680": 0.904,
+      "705": 0.7692,
+      "2200": 0.3601
+    },
+    "endmember_3": {
+      "680": 0.817,
+      "705": 0.3197,
+      "2200": 0.0059
+    },
+    "endmember_4": {
+      "680": 0.9284,
+      "705": 0.8944,
+      "2200": 0.9559
+    },
+    "endmember_5": {
+      "680": 0.9685,
+      "705": 0.8597,
+      "2200": 0.5182
+    },
+    "endmember_6": {
+      "680": 0.4079,
+      "705": 0.3321,
+      "2200": 0.6472
+    }
+  }
+}

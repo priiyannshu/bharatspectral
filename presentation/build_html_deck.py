@@ -74,7 +74,8 @@ html_content = """<!DOCTYPE html>
     #deck-container {
       position: relative;
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 56px);
+      margin-top: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -84,11 +85,11 @@ html_content = """<!DOCTYPE html>
       position: absolute;
       width: 94vw;
       max-width: 1500px;
-      height: 88vh;
+      height: calc(86vh - 56px);
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 36px 44px;
+      padding: 32px 40px;
       display: none;
       flex-direction: column;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.05);

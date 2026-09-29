@@ -2,7 +2,8 @@
 """
 build_site.py - Unified Static Site Generator & Deployment Assembler for BharatSpectral
 Assembles the complete DSSI ecosystem for Cloudflare Pages deployment:
-- Interactive Presentation Deck (index.html / presentation.html)
+- Master Ecosystem Portal Landing Page (index.html)
+- Interactive Presentation Deck (presentation.html)
 - PowerPoint Mid-Term Defense Deck (BharatSpectral_MidTerm_Presentation.pptx)
 - Empirical Benchmark Suite & Evidence Gallery (benchmarks.html)
 - Grand Narrative 7-Chapter Curriculum & Publication PDFs (narratives.html & narratives/pdfs/)
@@ -33,7 +34,8 @@ NAVBAR_HTML = """
       </div>
     </a>
     <nav class="portal-links">
-      <a href="/index.html" class="p-link" id="nav-slides">📽️ Slides</a>
+      <a href="/index.html" class="p-link" id="nav-home">🏠 Home Portal</a>
+      <a href="/presentation.html" class="p-link" id="nav-slides">📽️ Slide Deck</a>
       <a href="/benchmarks.html" class="p-link" id="nav-benchmarks">📊 Benchmarks</a>
       <a href="/phase1.html" class="p-link" id="nav-phase1">Phase 1</a>
       <a href="/phase2.html" class="p-link" id="nav-phase2">Phase 2</a>
@@ -53,7 +55,7 @@ NAVBAR_HTML = """
     left: 0;
     right: 0;
     height: 52px;
-    background: rgba(11, 15, 25, 0.94);
+    background: rgba(11, 15, 25, 0.95);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid #1e293b;
@@ -293,6 +295,342 @@ READER_PAGE_TEMPLATE = """<!DOCTYPE html>
 </body>
 </html>
 """
+
+def generate_index_portal_html():
+    """Generates the Master Public Portal Landing Page for index.html."""
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BharatSpectral • Master Public Research & Infrastructure Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {{
+      --bg-dark: #0b0f19;
+      --bg-card: #151d2e;
+      --bg-card-hover: #1e293b;
+      --border: #233148;
+      --cyan: #38bdf8;
+      --teal: #14b8a6;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      --red: #ef4444;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }}
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      padding-top: 72px;
+      padding-bottom: 80px;
+    }}
+    .container {{
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }}
+    .hero {{
+      text-align: center;
+      margin-bottom: 44px;
+    }}
+    .hero-badge {{
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      margin-bottom: 14px;
+    }}
+    h1 {{
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }}
+    .hero-subtitle {{
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 960px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }}
+    .main-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }}
+    .action-card {{
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }}
+    .action-card:hover {{
+      transform: translateY(-4px);
+      border-color: var(--cyan);
+      box-shadow: 0 16px 36px rgba(56, 189, 248, 0.12);
+    }}
+    .action-icon {{
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }}
+    .action-title {{
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }}
+    .action-desc {{
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      flex: 1;
+    }}
+    .btn {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }}
+    .btn-cyan {{
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: 1px solid #38bdf8;
+    }}
+    .btn-cyan:hover {{
+      background: #0284c7;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+    }}
+    .btn-outline {{
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }}
+    .btn-outline:hover {{
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--cyan);
+    }}
+    .section-head {{
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 40px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }}
+    .card-box {{
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }}
+    .fig-row {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }}
+    .fig-item {{
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }}
+    .fig-item img {{
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }}
+    .fig-item-title {{
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }}
+    .fig-item-desc {{
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }}
+    .dl-row {{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }}
+  </style>
+</head>
+<body>
+{NAVBAR_HTML}
+<div class="container">
+  <div class="hero">
+    <span class="hero-badge">B.Tech Capstone Project • Phase 1 &amp; 2 Delivery</span>
+    <h1>BharatSpectral Ecosystem Portal</h1>
+    <p class="hero-subtitle">Democratized Spectral-Semantic Intelligence (DSSI) for Indian Earth Observation. Synthesizing physics-informed hyperspectral foundation modeling with serverless WebGIS public digital infrastructure.</p>
+  </div>
+
+  <!-- Main Portal Action Cards -->
+  <div class="main-grid">
+    <div class="action-card" style="border-top: 4px solid var(--cyan);">
+      <div>
+        <div class="action-icon">📽️</div>
+        <div class="action-title">Mid-Term Slide Deck</div>
+        <div class="action-desc">Interactive 16-slide presentation with live speaker talking points, presenter notes, keyboard navigation, and embedded empirical proof figures.</div>
+      </div>
+      <a href="/presentation.html" class="btn btn-cyan">Launch Presentation Deck →</a>
+    </div>
+
+    <div class="action-card" style="border-top: 4px solid var(--teal);">
+      <div>
+        <div class="action-icon">📊</div>
+        <div class="action-title">Empirical Benchmarks</div>
+        <div class="action-desc">Hard quantitative proof from Raspberry Pi 5 benchmark testbed: 5 AI architectures + 2 physical GIS baselines evaluated on Indian agricultural scenes.</div>
+      </div>
+      <a href="/benchmarks.html" class="btn btn-cyan">Explore Benchmark Dashboard →</a>
+    </div>
+
+    <div class="action-card" style="border-top: 4px solid var(--purple);">
+      <div>
+        <div class="action-icon">📚</div>
+        <div class="action-title">Grand Narrative &amp; PDFs</div>
+        <div class="action-desc">7-chapter publication-grade curriculum bridging quantum spectroscopy, foundation model architectures, and citizen WebGIS infrastructure.</div>
+      </div>
+      <a href="/narratives.html" class="btn btn-cyan">Read 7 Chapters &amp; PDFs →</a>
+    </div>
+
+    <div class="action-card" style="border-top: 4px solid var(--amber);">
+      <div>
+        <div class="action-icon">📥</div>
+        <div class="action-title">PowerPoint File (.pptx)</div>
+        <div class="action-desc">Downloadable widescreen PowerPoint presentation deck compiled via <code>python-pptx</code> ready for formal defense and academic review.</div>
+      </div>
+      <a href="/BharatSpectral_MidTerm_Presentation.pptx" download class="btn btn-outline">Download PPTX Deck 📥</a>
+    </div>
+  </div>
+
+  <!-- Empirical Evidence Showcase -->
+  <h2 class="section-head">🔬 Empirical Proofs &amp; Evidence Gallery</h2>
+  <div class="card-box">
+    <p style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.95rem;">
+      Quantitative validation confirming that Western-pretrained models drop 22%–37% in Overall Accuracy when transferred to fragmented Indian smallholder parcels, while traditional GIS spectroscopic tools (SAM, LSU) fail on non-linear canopy scattering.
+    </p>
+    <div class="fig-row">
+      <div class="fig-item">
+        <a href="/outputs/figures/domain_shift_collapse.png" target="_blank">
+          <img src="/outputs/figures/domain_shift_collapse.png" alt="Domain Shift Collapse">
+        </a>
+        <div class="fig-item-title">Domain Shift Collapse</div>
+        <div class="fig-item-desc">22%–37% OA performance drop on Indian scenes.</div>
+      </div>
+
+      <div class="fig-item">
+        <a href="/outputs/figures/spatial_patch_fragmentation.png" target="_blank">
+          <img src="/outputs/figures/spatial_patch_fragmentation.png" alt="Spatial Patch Fragmentation">
+        </a>
+        <div class="fig-item-title">Spatial Fragmentation</div>
+        <div class="fig-item-desc">Sub-pixel parcel boundary mixing at 30-60m GSD.</div>
+      </div>
+
+      <div class="fig-item">
+        <a href="/outputs/figures/gis_linear_unmixing_residuals.png" target="_blank">
+          <img src="/outputs/figures/gis_linear_unmixing_residuals.png" alt="GIS LSU Residuals">
+        </a>
+        <div class="fig-item-title">GIS LSU Residual Error</div>
+        <div class="fig-item-desc">54.2% pixels fail linear unmixing threshold.</div>
+      </div>
+
+      <div class="fig-item">
+        <a href="/outputs/figures/sam_magnitude_confusion.png" target="_blank">
+          <img src="/outputs/figures/sam_magnitude_confusion.png" alt="SAM Magnitude Confusion">
+        </a>
+        <div class="fig-item-title">SAM Magnitude Blindness</div>
+        <div class="fig-item-desc">36.4% false matches due to angle scaling invariance.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical Phase Reports Grid -->
+  <h2 class="section-head">📑 Capstone Engineering Phase Reports</h2>
+  <div class="main-grid">
+    <div class="action-card">
+      <div>
+        <div class="action-title">Phase 1: Ingestion &amp; Preprocessing</div>
+        <div class="action-desc">Ingesting AVIRIS-NG India (425b), NASA EMIT (285b), ISRO HysIS (220b), bad band removal, and smallholder patch sampling.</div>
+      </div>
+      <a href="/phase1.html" class="btn btn-outline">Read Phase 1 Report →</a>
+    </div>
+
+    <div class="action-card">
+      <div>
+        <div class="action-title">Phase 2: Baselines &amp; GIS Analysis</div>
+        <div class="action-desc">Evaluating RF, SVM, HybridSN, 3D-CNN, Spectral Transformer, and physical spectroscopy (SAM, LSU/FCLS).</div>
+      </div>
+      <a href="/phase2.html" class="btn btn-outline">Read Phase 2 Report →</a>
+    </div>
+
+    <div class="action-card">
+      <div>
+        <div class="action-title">Phase 3: BharatSpectral-MAE</div>
+        <div class="action-desc">Physics-informed Foundation Model architecture: SSPE, RNRL, SHT, AAM, ECSA, Ph-LoRA, and FASU unmixing head.</div>
+      </div>
+      <a href="/phase3.html" class="btn btn-outline">Read Phase 3 Report →</a>
+    </div>
+
+    <div class="action-card">
+      <div>
+        <div class="action-title">Phase 4 &amp; 5: WebGIS &amp; Benchmark</div>
+        <div class="action-desc">Cloudflare R2 zero-egress storage, Workers SSI engine, MapLibre GL frontend, and BharatHSI-Bench national suite.</div>
+      </div>
+      <a href="/phase4&5.html" class="btn btn-outline">Read Phase 4 &amp; 5 Report →</a>
+    </div>
+  </div>
+
+  <!-- Operational & Academic Guides -->
+  <h2 class="section-head">📌 Operational Guides &amp; Master Docs</h2>
+  <div class="dl-row">
+    <a href="/references_pinboard.html" class="btn btn-outline">📌 Visual References Pinboard</a>
+    <a href="/workflow-handbook.html" class="btn btn-outline">🛠️ Workflow Handbook</a>
+    <a href="/docs/MASTER_PLAN.html" class="btn btn-outline">📜 Master Execution Plan</a>
+    <a href="/docs/midterm_defense_grounding_and_gis_analysis.html" class="btn btn-outline">🔬 Mid-Term Defense Grounding</a>
+    <a href="/docs/project_synopsis.html" class="btn btn-outline">📄 Capstone Synopsis</a>
+  </div>
+</div>
+</body>
+</html>
+"""
+    return html
 
 def generate_benchmarks_html():
     """Generates the interactive benchmarks.html page."""
@@ -1044,8 +1382,12 @@ def build_all():
         shutil.rmtree(DIST_DIR)
     os.makedirs(DIST_DIR, exist_ok=True)
 
-    # Copy base presentation files
-    shutil.copy(os.path.join(REPO_ROOT, "presentation", "index.html"), os.path.join(DIST_DIR, "index.html"))
+    # Write index.html (Master Public Portal Landing Page)
+    print("5. Generating index.html (Master Ecosystem Portal)...")
+    with open(os.path.join(DIST_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(generate_index_portal_html())
+
+    # Copy dedicated interactive presentation.html and PPTX
     shutil.copy(os.path.join(REPO_ROOT, "presentation", "presentation.html"), os.path.join(DIST_DIR, "presentation.html"))
     shutil.copy(os.path.join(REPO_ROOT, "presentation", "BharatSpectral_MidTerm_Presentation.pptx"), os.path.join(DIST_DIR, "BharatSpectral_MidTerm_Presentation.pptx"))
 
@@ -1056,7 +1398,7 @@ def build_all():
             shutil.copy(src, os.path.join(DIST_DIR, doc_file))
 
     # Generate benchmarks.html & narratives.html
-    print("5. Generating benchmarks.html & narratives.html...")
+    print("6. Generating benchmarks.html & narratives.html...")
     with open(os.path.join(DIST_DIR, "benchmarks.html"), "w", encoding="utf-8") as f:
         f.write(generate_benchmarks_html())
 
@@ -1064,7 +1406,7 @@ def build_all():
         f.write(generate_narratives_html())
 
     # Render markdown documents
-    print("6. Rendering Markdown documents into styled HTML reader pages...")
+    print("7. Rendering Markdown documents into styled HTML reader pages...")
     os.makedirs(os.path.join(DIST_DIR, "docs"), exist_ok=True)
     os.makedirs(os.path.join(DIST_DIR, "narratives", "pdfs"), exist_ok=True)
 
@@ -1113,7 +1455,7 @@ def build_all():
             )
 
     # Copy outputs (figures, tables, checkpoints)
-    print("7. Copying empirical figures, tables, and checkpoints...")
+    print("8. Copying empirical figures, tables, and checkpoints...")
     shutil.copytree(os.path.join(REPO_ROOT, "outputs", "figures"), os.path.join(DIST_DIR, "outputs", "figures"))
     shutil.copytree(os.path.join(REPO_ROOT, "outputs", "tables"), os.path.join(DIST_DIR, "outputs", "tables"))
     shutil.copytree(os.path.join(REPO_ROOT, "outputs", "checkpoints"), os.path.join(DIST_DIR, "outputs", "checkpoints"))
@@ -1125,9 +1467,9 @@ def build_all():
         shutil.copy(os.path.join(REPO_ROOT, "run_pipeline.sh"), os.path.join(DIST_DIR, "run_pipeline.sh"))
 
     # Inject navbar into all standalone HTML pages in dist/
-    print("8. Injecting unified ecosystem navigation into all pages...")
+    print("9. Injecting unified ecosystem navigation into all pages...")
     nav_mapping = {
-        "index.html": "nav-slides",
+        "index.html": "nav-home",
         "presentation.html": "nav-slides",
         "benchmarks.html": "nav-benchmarks",
         "phase1.html": "nav-phase1",

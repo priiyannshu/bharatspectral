@@ -1,0 +1,2 @@
+/api/* https://bharatspectral-worker.priyanshukh1201.workers.dev/api/:splat 200
+/* /index.html 200

@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 # run_pipeline.sh - BharatSpectral Phase 1 & 2 Benchmark & GIS Baseline Pipeline
 # Executes end-to-end verification of datasets, baselines, GIS spectroscopy, metrics, and figures.
 
@@ -6,6 +6,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
+export PYTHONPATH="${SCRIPT_DIR}:${PYTHONPATH}"
 
 echo "================================================================="
 echo "🛰️  BharatSpectral Phase 1 & 2 Benchmark & GIS Baseline Suite"
@@ -24,11 +25,15 @@ python3 src/baselines/hybrid_sn.py
 python3 src/baselines/cnn3d.py
 python3 src/baselines/spectral_transformer.py
 
-echo "4. Milestone 4: Verifying GIS Physical Spectroscopy (VCA, SAM, LSU/FCLS, Continuum Removal)..."
+echo "4. Milestone 4: Verifying GIS Physical Spectroscopy (Wavelengths, Indices, VCA, SAM, LSU/FCLS, Continuum Removal, Pipeline & Pytest Suite)..."
+python3 src/gis_spectroscopy/wavelength_utils.py
+python3 src/gis_spectroscopy/indices.py
 python3 src/gis_spectroscopy/endmember_vca.py
 python3 src/gis_spectroscopy/sam_classifier.py
 python3 src/gis_spectroscopy/linear_unmixing.py
 python3 src/gis_spectroscopy/continuum_removal.py
+python3 src/gis_spectroscopy/pipeline.py --flightline platform/data_seed/flightlines/vidarbha_wardha_cotton.json --benchmark
+python3 -m pytest tests/test_spectroscopy_engine.py -q
 
 echo "5. Milestone 5: Evaluating Cross-Domain Results & Verifying Figures..."
 python3 src/evaluation/metrics.py

@@ -36,10 +36,15 @@ BharatSpectral is a dual-pillar hyperspectral foundation model and geospatial pu
 
 | Directory | Description | Readme Link |
 |---|---|---|
-| [`docs/`](docs/) | Master capstone synopsis, thesis defense grounding, execution plan, and interactive phase reports | [`docs/README.md`](docs/README.md) |
-| [`presentation/`](presentation/) | 16:9 Widescreen slide deck (PPTX) and interactive Web presentation generators | [`presentation/README.md`](presentation/README.md) |
-| [`narratives/`](narratives/) | "Grand Narrative" 7-chapter foundational primer, physics theory, and compiled PDFs | [`narratives/README.md`](narratives/README.md) |
-| [`outputs/`](outputs/) | Baseline model checkpoints, benchmark tables, cross-scene evaluations, and figure artifacts | [`outputs/README.md`](outputs/README.md) |
+| [`platform/`](platform/) | Cloudflare WebGIS Platform: Cloudflare Pages frontend, Worker spectroscopy engine, R2 seeds | [`platform/README.md`](platform/README.md) |
+| [`data/`](data/) | Boundary GeoJSONs (`data/geo/`), raw HSI data cubes, and processed spatial-spectral patches | — |
+| [`src/`](src/) | GIS spectroscopy (continuum removal, unmixing, SAM), data ingestion, evaluation, and baseline models | — |
+| [`notebooks/`](notebooks/) | Hyperspectral information theory and spectral entropy analysis | — |
+| [`docs/`](docs/) | Master capstone synopsis, VISION, red team audit, thesis defense grounding, and execution plans | [`docs/README.md`](docs/README.md) |
+| [`narratives/`](narratives/) | "Grand Narrative" 7-chapter foundational primer and physics theory | [`narratives/README.md`](narratives/README.md) |
+| [`outputs/`](outputs/) | Empirical benchmark tables, cross-scene evaluations, and figure artifacts | [`outputs/README.md`](outputs/README.md) |
+| [`scripts/`](scripts/) | HPC training and distributed Slurm execution scripts (AIRAWAT DGX A100) | — |
+| [`archive/`](archive/) | Historical session transcripts and early conceptual ideation artifacts | — |
 
 ---
 

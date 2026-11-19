@@ -1,0 +1,231 @@
+{
+  "type": "FeatureCollection",
+  "description": "BharatSpectral Curated Hyperspectral Flightlines Manifest",
+  "total_flightlines": 4,
+  "features": [
+    {
+      "type": "Feature",
+      "id": "vidarbha_wardha_cotton",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.55,
+              20.7
+            ],
+            [
+              78.65,
+              20.7
+            ],
+            [
+              78.65,
+              20.8
+            ],
+            [
+              78.55,
+              20.8
+            ],
+            [
+              78.55,
+              20.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "vidarbha_wardha_cotton",
+        "name": "Vidarbha Wardha Cotton Corridor",
+        "sensor": "AVIRIS-NG India",
+        "platform": "Airborne",
+        "total_bands": 425,
+        "gsd_m": 4.8,
+        "wavelength_range_nm": [
+          380.0,
+          2510.0
+        ],
+        "center": [
+          78.6,
+          20.75
+        ],
+        "bbox": [
+          78.55,
+          20.7,
+          78.65,
+          20.8
+        ],
+        "agro_zone": "Deccan Plateau (Rainfed Cotton-Soybean)",
+        "primary_diagnostic": "Cotton Chlorosis, Vertisol Smectite Clay (2200nm Hydroxyl)",
+        "file": "flightlines/vidarbha_wardha_cotton.json"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "punjab_ludhiana_residue",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.8,
+              30.85
+            ],
+            [
+              75.92,
+              30.85
+            ],
+            [
+              75.92,
+              30.95
+            ],
+            [
+              75.8,
+              30.95
+            ],
+            [
+              75.8,
+              30.85
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "punjab_ludhiana_residue",
+        "name": "Punjab Ludhiana Stubble Corridor",
+        "sensor": "NASA EMIT",
+        "platform": "ISS Orbit",
+        "total_bands": 285,
+        "gsd_m": 60.0,
+        "wavelength_range_nm": [
+          381.0,
+          2493.0
+        ],
+        "center": [
+          75.86,
+          30.9
+        ],
+        "bbox": [
+          75.8,
+          30.85,
+          75.92,
+          30.95
+        ],
+        "agro_zone": "Indo-Gangetic Plain (Intensive Wheat-Rice Stubble Zone)",
+        "primary_diagnostic": "Dry Straw Residue, Lignin-Cellulose (2100nm) Stubble Burn Risk",
+        "file": "flightlines/punjab_ludhiana_residue.json"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "gujarat_anand_canopy",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.88,
+              22.5
+            ],
+            [
+              72.98,
+              22.5
+            ],
+            [
+              72.98,
+              22.62
+            ],
+            [
+              72.88,
+              22.62
+            ],
+            [
+              72.88,
+              22.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "gujarat_anand_canopy",
+        "name": "Gujarat Anand High-Nitrogen Canopy",
+        "sensor": "AVIRIS-NG India",
+        "platform": "Airborne",
+        "total_bands": 425,
+        "gsd_m": 5.0,
+        "wavelength_range_nm": [
+          380.0,
+          2510.0
+        ],
+        "center": [
+          72.93,
+          22.56
+        ],
+        "bbox": [
+          72.88,
+          22.5,
+          72.98,
+          22.62
+        ],
+        "agro_zone": "Charotar Intensive Mixed Canopy & Tobacco Agroecosystem",
+        "primary_diagnostic": "Canopy Nitrogen Density, Chlorophyll-a (680nm), Steep Red-Edge",
+        "file": "flightlines/gujarat_anand_canopy.json"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "godavari_delta_wetland",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              82.15,
+              16.65
+            ],
+            [
+              82.26,
+              16.65
+            ],
+            [
+              82.26,
+              16.78
+            ],
+            [
+              82.15,
+              16.78
+            ],
+            [
+              82.15,
+              16.65
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "godavari_delta_wetland",
+        "name": "Godavari Delta Wetland & Paddy Corridor",
+        "sensor": "NASA EMIT",
+        "platform": "ISS Orbit",
+        "total_bands": 285,
+        "gsd_m": 60.0,
+        "wavelength_range_nm": [
+          381.0,
+          2493.0
+        ],
+        "center": [
+          82.205,
+          16.715
+        ],
+        "bbox": [
+          82.15,
+          16.65,
+          82.26,
+          16.78
+        ],
+        "agro_zone": "Eastern Coastal Deltaic Wetland & Paddy Ecosystem",
+        "primary_diagnostic": "Liquid Water Absorption (970nm & 1200nm), Hydric Soil Unmixing",
+        "file": "flightlines/godavari_delta_wetland.json"
+      }
+    }
+  ]
+}

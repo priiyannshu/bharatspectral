@@ -1,0 +1,19 @@
+{
+  "name": "bharatspectral-worker",
+  "version": "1.0.0",
+  "description": "Serverless Hyperspectral Spectroscopy Engine & Workers AI API",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261023.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.2",
+    "wrangler": "^4.103.0"
+  }
+}
